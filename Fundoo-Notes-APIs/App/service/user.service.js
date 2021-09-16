@@ -1,3 +1,11 @@
+/***********************************************************************************
+ * @module       userService
+ * @file         service.js
+ * @description  UserService class for invoking  the callback method for controller 
+ * @author       Ganesh Gavhad
+ * @since        29/7/2021  
+*************************************************************************************/
+
 const userModel = require("../models/user.model.js");
 
 class userService {

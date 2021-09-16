@@ -1,3 +1,7 @@
+/**
+ * @description   : Controller class is use for taking HTTP request from the client or users and gives the response to client through DB 
+ * @author        : Ganesh 
+*/
 const userService = require("../service/user.service.js");
 
 class userController {
