@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
-
+const bcrypt = require('bcrypt');
+const saltRounds = 10; //  Data processing speed
 const userSchema = new mongoose.Schema(
   {
     firstName: {
@@ -16,13 +17,13 @@ const userSchema = new mongoose.Schema(
       unique: true,
     },
     password: {
-      type: Number,
+      type: String,
       required: true,
     },
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 // now we need to create a collection
@@ -44,14 +45,30 @@ class userModel {
         if (data) {
           return callback("User already exits", null);
         } else {
-          newUser.save();
-          return callback(null, newUser);
+          bcrypt.genSalt(saltRounds, function (err, salt) {
+            if (err) {
+              throw err;
+            }
+            else {
+              // returns salt
+              bcrypt.hash(userDetails.password, salt, function (err, hash) {
+                if (err) {
+                  throw err;
+                } else {
+                    // returns hash
+                  newUser.password = hash;
+                  newUser.save();
+                  return callback(null, newUser);
+                }
+              })
+            }
+          })
         }
-      });
-    } catch (error) {
-      return callback("Internal error !!", null);
+      })
     }
-  };
+    catch (error) {
+      return callback('Internal Error', null)
+    }
+  }
 }
-
 module.exports = new userModel();
