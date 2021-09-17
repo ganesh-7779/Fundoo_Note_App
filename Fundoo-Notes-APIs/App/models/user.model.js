@@ -64,5 +64,20 @@ class userModel {
       return callback("Internal error", null)
     }
   }
+  loginModel =(loginInfo, callback)=>{
+    try{
+      Register.findOne({email:loginInfo.email},(error,data) => {
+        if(error){
+          return callback(error,null)
+        }else if(!data){
+          return callback("Invalid email",null);
+        }else{
+          return callback(null,data);
+        }
+      })
+    }catch(error){
+      callback ("Internal error", null);
+    }
+  }
 }
 module.exports = new userModel();

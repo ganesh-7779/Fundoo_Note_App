@@ -1,9 +1,8 @@
 /**
  * @description   : Controller class is use for taking HTTP request from the client or users and gives the response to client through DB 
  * @author        : Ganesh 
-*/
+ */
 const userService = require("../service/user.service.js");
-
 class userController {
   registration = (req, res) => {
     try {
@@ -35,7 +34,37 @@ class userController {
         data: null,
       });
     }
-  };
+  }
+
+  loginReq = (req, res) => {
+    try {
+      const userLoginInfo = {
+        email: req.body.email,
+        password: req.body.password
+      };
+
+      userService.userLogin(userLoginInfo, (error, data) => {
+        if (error) {
+          return res.status(409).json({
+            success: false,
+            message: "Unable to login. Please enter correct info",
+            error,
+          });
+        } 
+          return res.status(201).json({
+            success: true,
+            message: "User logged in successfully",
+            data: data,
+          });
+      });
+    } catch (error) {
+      return res.status(500).json({
+        success: false,
+        message: "Error while Login",
+        data: null,
+      });
+    }
+  }
 }
 
 module.exports = new userController();
