@@ -1,6 +1,15 @@
+/***********************************************************************************
+ * @module       userModel
+ * @file         user.model.js
+ * @description  user.model is for collection structure of database and fuction regarding DB
+ * @author       Ganesh Gavhad
+ * @since        17/09/2021  
+*************************************************************************************/
+
 const mongoose = require("mongoose");
 const bcrypt = require('bcrypt');
-const saltRounds = 10; //  Data processing speed
+const helper = require("../helper/user.helper.js");
+
 const userSchema = new mongoose.Schema(
   {
     firstName: {
@@ -41,33 +50,18 @@ class userModel {
       password: userDetails.password,
     });
     try {
-      Register.findOne({ email: userDetails.email }, (error, data) => {
-        if (data) {
-          return callback("User already exits", null);
-        } else {
-          bcrypt.genSalt(saltRounds, function (err, salt) {
-            if (err) {
-              throw err;
-            }
-            else {
-              // returns salt
-              bcrypt.hash(userDetails.password, salt, function (err, hash) {
-                if (err) {
-                  throw err;
-                } else {
-                    // returns hash
-                  newUser.password = hash;
-                  newUser.save();
-                  return callback(null, newUser);
-                }
-              })
-            }
-          })
+      helper.hashing(userDetails.password, (err, hash) => {
+        if (hash) {
+          newUser.password = hash;
+          newUser.save();
+          return callback(null, newUser);
+        }else {
+          throw err
         }
-      })
+      });
     }
     catch (error) {
-      return callback('Internal Error', null)
+      return callback("Internal error", null)
     }
   }
 }
