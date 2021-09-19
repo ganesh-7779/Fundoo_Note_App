@@ -3,6 +3,8 @@
  * @author        : Ganesh 
  */
 const userService = require("../service/user.service.js");
+const validateSchema = require('../helper/user.validation.js');
+
 class userController {
   registration = (req, res) => {
     try {
@@ -12,6 +14,13 @@ class userController {
         email: req.body.email,
         password: req.body.password,
       };
+      const validation = validateSchema.validate(user)
+        if(validation.error){
+            res.status(422).send({
+              success:false,
+              message: validation.error.message,
+            })
+        }
 
       userService.registerUser(user, (error, data) => {
         if (error) {
@@ -42,7 +51,7 @@ class userController {
         email: req.body.email,
         password: req.body.password
       };
-
+  
       userService.userLogin(userLoginInfo, (error, data) => {
         if (error) {
           return res.status(409).json({
