@@ -29,8 +29,8 @@ class userService {
           } else {
             return callback(null, data)
           }
-        });
-      }
+      })
+    }
       else {
         return callback(error+'Invalid login Info, Please Enter Valid Login Info')
       }
