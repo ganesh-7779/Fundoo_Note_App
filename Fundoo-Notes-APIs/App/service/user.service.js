@@ -8,6 +8,7 @@
 
 const userModel = require("../models/user.model.js");
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 class userService {
   registerUser = (user, callback) => {
     userModel.registerUser(user, (error, data) => {
@@ -25,14 +26,24 @@ class userService {
       if (data) {
         bcrypt.compare(InfoLogin.password, data.password, (error, validate) => {
           if (!validate) {
-            return callback(error+'Invalid Password', null);
+            return callback(error + 'Invalid Password', null);
           } else {
-            return callback(null, data)
+            //return callback(null, data)
+            const token = jwt.sign(
+              {
+                id: data._id,
+                username: data.firstName,
+                lastname: data.lastName,
+                password: data.password,
+              },
+              process.env.SECRET_KEY
+            );
+            return callback(null, token);
           }
-      })
-    }
+        })
+      }
       else {
-        return callback(error+'Invalid login Info, Please Enter Valid Login Info')
+        return callback(error + 'Invalid login Info, Please Enter Valid Login Info')
       }
     });
   }
