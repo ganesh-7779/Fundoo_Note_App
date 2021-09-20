@@ -7,8 +7,8 @@
 *************************************************************************************/
 
 const userModel = require("../models/user.model.js");
+const helper = require("../helper/user.helper.js");
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
 class userService {
   registerUser = (user, callback) => {
     userModel.registerUser(user, (error, data) => {
@@ -28,17 +28,15 @@ class userService {
           if (!validate) {
             return callback(error + 'Invalid Password', null);
           } else {
-            const token = jwt.sign(
-              {
-                username: data.firstName,
-                lastname: data.lastName,
-                password: data.password,
-              },
-              process.env.SECRET_KEY
-            );
-            return callback(null, token);
+            helper.token(InfoLogin, (err, token) => {
+              if (err) {
+                throw err
+              } else {
+                return callback(null, token);
+              }
+            });
           }
-        })
+        });
       }
       else {
         return callback(error + 'Invalid login Info, Please Enter Valid Login Info')

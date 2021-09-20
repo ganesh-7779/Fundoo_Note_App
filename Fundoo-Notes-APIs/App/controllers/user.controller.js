@@ -3,7 +3,7 @@
  * @author        : Ganesh 
  */
 const userService = require("../service/user.service.js");
-const validateSchema = require('../helper/user.validation.js');
+const validation = require('../helper/user.validation.js');
 
 class userController {
   registration = (req, res) => {
@@ -14,12 +14,12 @@ class userController {
         email: req.body.email,
         password: req.body.password,
       };
-      
-      const validation = validateSchema.validate(user)
-        if(validation.error){
+
+      const validationRegister = validation.validateSchema.validate(user)
+        if(validationRegister.error){
             res.status(422).send({
               success:false,
-              message: validation.error.message,
+              message: validationRegister.error.message,
             })
         }
 
@@ -52,8 +52,7 @@ class userController {
         email: req.body.email,
         password: req.body.password
       };
-      const loginSchema = require("../helper/user.validation")
-      const loginValidation = loginSchema.validate(userLoginInfo)
+      const loginValidation = validation.loginSchema.validate(userLoginInfo)
       if(loginValidation.error){
           res.status(422).send({
             success:false,
