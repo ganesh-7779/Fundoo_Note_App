@@ -14,6 +14,7 @@ class userController {
         email: req.body.email,
         password: req.body.password,
       };
+      
       const validation = validateSchema.validate(user)
         if(validation.error){
             res.status(422).send({
@@ -51,10 +52,17 @@ class userController {
         email: req.body.email,
         password: req.body.password
       };
-  
+      const loginSchema = require("../helper/user.validation")
+      const loginValidation = loginSchema.validate(userLoginInfo)
+      if(loginValidation.error){
+          res.status(422).send({
+            success:false,
+            message: loginValidation.error.message,
+          })
+      }
       userService.userLogin(userLoginInfo, (error, data) => {
         if (error) {
-          return res.status(409).json({
+          return res.status(401).json({
             success: false,
             message: "Unable to login. Please enter correct info",
             error,

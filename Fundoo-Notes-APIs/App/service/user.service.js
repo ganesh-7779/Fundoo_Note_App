@@ -28,10 +28,8 @@ class userService {
           if (!validate) {
             return callback(error + 'Invalid Password', null);
           } else {
-            //return callback(null, data)
             const token = jwt.sign(
               {
-                id: data._id,
                 username: data.firstName,
                 lastname: data.lastName,
                 password: data.password,
