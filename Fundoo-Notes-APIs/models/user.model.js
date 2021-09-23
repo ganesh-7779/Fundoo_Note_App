@@ -7,7 +7,6 @@
 *************************************************************************************/
 
 const mongoose = require("mongoose");
-const bcrypt = require('bcrypt');
 const helper = require("../helper/user.helper.js");
 
 const userSchema = new mongoose.Schema(

@@ -24,6 +24,7 @@ class userService {
 
     userModel.loginModel(InfoLogin, (error, data) => {
       if (data) {
+        //validate will take boolean value true and false
         bcrypt.compare(InfoLogin.password, data.password, (error, validate) => {
           if (!validate) {
             return callback(error + 'Invalid Password', null);

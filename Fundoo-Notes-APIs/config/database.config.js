@@ -7,7 +7,7 @@ const url = process.env.URL;
 
 class DBconnection {
   database = () => {
-    mongoose.Promise = global.Promise;
+   // mongoose.Promise = global.Promise;
     //mongoose connect method help us to connect with DB
     mongoose.connect(url, {
       useNewUrlParser: true,
