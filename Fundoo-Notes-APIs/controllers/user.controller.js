@@ -14,12 +14,12 @@ class userController {
         email: req.body.email,
         password: req.body.password,
       };
-
+       
       const validationRegister = validation.validateSchema.validate(user)
         if(validationRegister.error){
             res.status(422).send({
               success:false,
-              message: validationRegister.error.message,
+              message: validationRegister.error.details[0].message,
             })
         }
 
@@ -59,7 +59,7 @@ class userController {
             message: loginValidation.error.message,
           })
       }
-      userService.userLogin(userLoginInfo, (error, data) => {
+      userService.userLogin(userLoginInfo, (error, token) => {
         if (error) {
           return res.status(401).json({
             success: false,
@@ -70,7 +70,7 @@ class userController {
           return res.status(201).json({
             success: true,
             message: "User logged in successfully",
-            data: data,
+            token: token,
           });
       });
     } catch (error) {
