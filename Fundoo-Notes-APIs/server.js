@@ -26,6 +26,7 @@ app.get("/", (req, res) => {
 });
 
 // Require Notes routes
+
 require("./routes/user.routes.js")(app);
 
 // listen for requests

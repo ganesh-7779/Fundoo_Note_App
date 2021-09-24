@@ -1,42 +1,67 @@
 const server = require("../server");
 const chai = require("chai");
 const chaiHttp = require("chai-http");
+const data = require("./data.json")
 
 chai.should();
-chai.use(chaiHttp);
+chai.use(chaiHttp)
 
 describe('Registration API', () => {
-    it('It should not update/Post without registration Details', (done) => {
-        let registrationDetails = {
-            "firstName": "Ganesh",
-            "lastName": "Ganesh",
-            "email": "ganesh9@gmail.com",
-            "password": "ganefghG@7"
-        }
+     /*
+     test case for successfully registration user, when registration into as per regex pettern and model of shema
+    */
+    it('whenGivenDetailsCorrectUserShuoldRegisterSuccessfully', (done) => {
         chai
             .request(server)
             .post('/register')
-            .send(registrationDetails)
+            .send(data.registration.user)
             .end((err, res) => {
                 res.should.have.status(201);
+                res.body.should.have.property('message').eql('User Registered successfully'),
+                res.body.should.have.property('success').eql(true)
                 done()
+                if (err) {
+                   return done(err)
+                }
             })
-        })
+       })
+   })
+
+describe('Login API', () => {
+    /*
+     test case for successfully looged in, when login info match with registration password and email
+    */
+    it('whenGivenLoginInfoCorrectUserShouldLoggedInSuccessfully', (done) => {
+        chai
+            .request(server)
+            .post('/login')
+            .send(data.userLogin.loginInfo)
+            .end((err, res) => {
+                res.should.have.status(201);
+                res.body.should.have.property('message').eql('User logged in successfully'),
+                res.body.should.have.property('success').eql(true)
+                done()
+                if (err) {
+                    return done(err)
+                }
+            })
     })
-   
-    describe('Login API', () => {
-        it('It should not update/Post without LongIn Details', (done) => {
-            let loninDetails = {
-                "email": "ganesh9@gmail.com",
-                "password": "ganefghG@7"
-            }
-            chai
-                .request(server)
-                .post('/login')
-                .send(loninDetails)
-                .end((err, res) => {
-                    res.should.have.status(201);
-                    done()
-                })
-            })
-        })
+     /*
+     test case for unable to looged in, when login info does not match with registration password.
+    */
+    it('WhenGivenLoginInfoPasswordWrongShouldReturnUnableToLoging', (done) => {
+        chai
+            .request(server)
+            .post('/login')
+            .send(data.userLogin.wrongPassLI)
+            .end((err, res) => {
+                res.should.have.status(401);
+                res.body.should.have.property('success').eql(false),
+                res.body.should.have.property('message').eql('Unable to login. Please enter correct info')
+                done()
+                if (err) {
+                    return done(err)
+                }
+            });
+       })
+    })

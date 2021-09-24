@@ -1,0 +1,20 @@
+{
+    "registration": {
+        "user": {
+            "firstName": "Ganesh",
+            "lastName": "Gavhad",
+            "email": "ganeshgavhad0@gmail.com",
+            "password": "ganesgG@12"
+        }
+    },
+    "userLogin":{
+        "loginInfo":{
+        "email": "ganeshgavhad0@gmail.com",
+        "password": "ganesgG@12"
+        },
+        "wrongPassLI":{
+            "email": "ganeshgavhad0@gmail.com",
+            "password": "ganesgG@10"
+        }
+    }
+}
