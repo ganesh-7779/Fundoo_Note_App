@@ -5,16 +5,47 @@
             "lastName": "Gavhad",
             "email": "ganeshgavhad0@gmail.com",
             "password": "ganesgG@12"
+        },
+        "userDuplicateEmail":{
+            "firstName": "Akash",
+            "lastName": "Pawar",
+            "email": "ganeshgavhad0@gmail.com",
+            "password": "akashG@12"
+        },
+        "withoutEmail":{
+            "firstName": "Akash",
+            "lastName": "Pawar",
+            "password": "akashG@12"
+        },
+        "withoutFn":{
+            "lastName": "Pawar",
+            "email": "ganeshgavhad2@gmail.com",
+            "password": "akashG@12"
+        },
+        "userWrongFn": {
+            "firstName": "Ganesh",
+            "lastName": "Gavhad",
+            "email": "ganeshgavhad0@gmail.com",
+            "password": "ganesgG@12"
         }
     },
     "userLogin":{
+
         "loginInfo":{
-        "email": "ganeshgavhad0@gmail.com",
-        "password": "ganesgG@12"
+            "email": "ganeshgavhad0@gmail.com",
+            "password": "ganesgG@12"
         },
         "wrongPassLI":{
             "email": "ganeshgavhad0@gmail.com",
-            "password": "ganesgG@10"
+            "password": "ganesgG@14"
+        },
+        "wrongPassWithER":{
+            "email": "ganeshgavhad0@gmail.com",
+            "password": "ganesg@14"
+        },
+        "wrongEmailWithER":{
+            "email": "ganeshgavhad0gmail.com",
+            "password": "ganesgG@14"
         }
     }
 }
