@@ -52,8 +52,13 @@ class userModel {
       helper.hashing(userDetails.password, (err, hash) => {
         if (hash) {
           newUser.password = hash;
-          newUser.save();
-          return callback(null, newUser);
+          newUser.save((error, data) => {
+            if (error) {
+              callback(error, null);
+            } else {
+              callback(null, data);
+            }
+          });
         }else {
           throw err
         }
