@@ -1,6 +1,6 @@
 /*****************************************
- * @description   : For Routing the APIs 
- * @author        : Ganesh 
+ * @description   : For Routing the APIs
+ * @author        : Ganesh
 *****************************************/
 const userController = require("../controllers/user.controller.js");
 module.exports = (app) => {

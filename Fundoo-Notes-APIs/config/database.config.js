@@ -1,16 +1,17 @@
+/* eslint-disable quotes */
 /**
- * @description   : DBconnection class is use for connecting to database Through mongoose connect method 
- * @author        : Ganesh 
+ * @description   : DBconnection class is use for connecting to database Through mongoose connect method
+ * @author        : Ganesh
 */
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 const url = process.env.URL;
 
 class DBconnection {
   database = () => {
-   // mongoose.Promise = global.Promise;
-    //mongoose connect method help us to connect with DB
+    // mongoose.Promise = global.Promise;
+    // mongoose connect method help us to connect with DB
     mongoose.connect(url, {
-      useNewUrlParser: true,
+      useNewUrlParser: true
     }).then(() => {
       console.log("sucessfully connected to the database");
     }).catch(err => {
