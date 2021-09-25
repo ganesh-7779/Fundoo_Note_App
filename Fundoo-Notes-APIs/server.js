@@ -1,23 +1,23 @@
 // We import express.
-require('dotenv').config()
+require("dotenv").config();
 const express = require("express");
 const PORT = process.env.PORT;
 // create express app
 const app = express();
 
 // parse requests of content-type - application/x-www-form-urlencoded
-//we can post nested object i.e // Nested Object = { person: { name: cw } }
-//extended true : allow req-body value as a json or string and array or any type
-//extended false : allow req-body value as string or array only
+// we can post nested object i.e // Nested Object = { person: { name: cw } }
+// extended true : allow req-body value as a json or string and array or any type
+// extended false : allow req-body value as string or array only
 
-//app.use take two para 1)path(optional)2) middleware fuction
+// app.use take two para 1)path(optional)2) middleware fuction
 app.use(express.urlencoded({ extended: true }));
 
 // parse requests of content-type - application/json
 app.use(express.json());
 
-//Conneting To the Database
-const connection =require("./config/database.config.js");
+// Conneting To the Database
+const connection = require("./config/database.config.js");
 connection.database();
 
 // define a simple route

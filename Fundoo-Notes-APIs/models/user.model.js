@@ -1,9 +1,11 @@
+/* eslint-disable node/no-callback-literal */
+/* eslint-disable new-cap */
 /***********************************************************************************
  * @module       userModel
  * @file         user.model.js
  * @description  user.model is for collection structure of database and fuction regarding DB
  * @author       Ganesh Gavhad
- * @since        17/09/2021  
+ * @since        17/09/2021
 *************************************************************************************/
 
 const mongoose = require("mongoose");
@@ -13,25 +15,25 @@ const userSchema = new mongoose.Schema(
   {
     firstName: {
       type: String,
-      required: true,
+      required: true
     },
     lastName: {
       type: String,
-      required: true,
+      required: true
     },
     email: {
       type: String,
       required: true,
-      unique: true,
+      unique: true
     },
     password: {
       type: String,
-      required: true,
-    },
+      required: true
+    }
   },
   {
-    timestamps: true,
-  },
+    timestamps: true
+  }
 );
 
 // now we need to create a collection
@@ -40,13 +42,13 @@ const Register = new mongoose.model("Register", userSchema);
 
 module.exports = Register;
 
-class userModel {
+class UserModel {
   registerUser = (userDetails, callback) => {
     const newUser = new Register({
       firstName: userDetails.firstName,
       lastName: userDetails.lastName,
       email: userDetails.email,
-      password: userDetails.password,
+      password: userDetails.password
     });
     try {
       helper.hashing(userDetails.password, (err, hash) => {
@@ -59,29 +61,29 @@ class userModel {
               callback(null, data);
             }
           });
-        }else {
-          throw err
+        } else {
+          throw err;
         }
       });
-    }
-    catch (error) {
-      return callback("Internal error", null)
+    } catch (error) {
+      return callback("Internal error", null);
     }
   }
-  loginModel =(loginInfo, callback)=>{
-    try{
-      Register.findOne({email:loginInfo.email},(error,data) => {
-        if(error){
-          return callback(error,null)
-        }else if(!data){
-          return callback("Invalid email",null);
-        }else{
-          return callback(null,data);
+
+  loginModel = (loginInfo, callback) => {
+    try {
+      Register.findOne({ email: loginInfo.email }, (error, data) => {
+        if (error) {
+          return callback(error, null);
+        } else if (!data) {
+          return callback("Invalid email", null);
+        } else {
+          return callback(null, data);
         }
-      })
-    }catch(error){
-      callback ("Internal error", null);
+      });
+    } catch (error) {
+      callback("Internal error", null);
     }
   }
 }
-module.exports = new userModel();
+module.exports = new UserModel();

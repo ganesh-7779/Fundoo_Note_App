@@ -1,10 +1,10 @@
 {
     "registration": {
         "user": {
-            "firstName": "Ganesh",
-            "lastName": "Gavhad",
-            "email": "ganeshgavhad0@gmail.com",
-            "password": "ganesgG@12"
+            "firstName": "AKash",
+            "lastName": "Gavhadhd",
+            "email": "ganeshgavhad9@gmail.com",
+            "password": "ganesgY@12"
         },
         "userDuplicateEmail":{
             "firstName": "Akash",
@@ -32,19 +32,11 @@
     "userLogin":{
 
         "loginInfo":{
-            "email": "ganeshgavhad0@gmail.com",
-            "password": "ganesgG@12"
+            "email": "ganeshgavhad9@gmail.com",
+            "password": "ganesgY@12"
         },
         "wrongPassLI":{
             "email": "ganeshgavhad0@gmail.com",
-            "password": "ganesgG@14"
-        },
-        "wrongPassWithER":{
-            "email": "ganeshgavhad0@gmail.com",
-            "password": "ganesg@14"
-        },
-        "wrongEmailWithER":{
-            "email": "ganeshgavhad0gmail.com",
             "password": "ganesgG@14"
         }
     }
