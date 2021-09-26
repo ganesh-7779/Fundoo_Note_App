@@ -1,0 +1,84 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "FundooNote App",
+    "description": "This app is build to keep record of notes",
+    "license": {
+      "name": "ISC License",
+      "url": "https://opensource.org/licenses/ISC"
+    }
+  },
+  "host": "localhost:3000",
+  "tags": [
+    {
+      "name": "FundooNotes",
+      "description": "API for user registration"
+    }
+  ],
+  "schemes": ["http"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "paths": {
+    "/register": {
+      "post": {
+        "tags": ["Registration"],
+        "description": "Create a new user in the FundooNotes App",
+        "parameters": [
+          {
+            "name": "User Registration",
+            "in": "body",
+            "description": "User that we wants to create",
+            "schema": {
+              "$ref": "#/definitions/userInfo"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "schema": {
+          "$ref": "#/definitions/userInfo"
+        },
+        "responses": {
+          "201": {
+            "description": "User created successfully"
+          },
+          "409": {
+            "description": "User already exist"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "userInfo": {
+      "type": "object",
+      "properties": {
+        "firstName": {
+          "type": "string",
+          "description": "First Name of user."
+        },
+        "lastName": {
+          "type": "string",
+          "description": "First Name of user."
+        },
+        "email": {
+          "type": "string",
+          "description": "Email ID of user."
+        },
+        "password": {
+          "type": "string",
+          "description": "Password of user."
+        }
+      },
+      "example": {
+        "firstName": "Akash",
+        "lastName": "Pawar",
+        "email": "akashpawar6@gmail.com",
+        "password": "akashG2@7"
+      }
+    }
+  }
+}
