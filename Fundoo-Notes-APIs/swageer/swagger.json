@@ -1,59 +1,7 @@
 {
   "swagger": "2.0",
-  "info": {
-    "version": "1.0.0",
-    "title": "FundooNote App",
-    "description": "This app is build to keep record of notes",
-    "license": {
-      "name": "ISC License",
-      "url": "https://opensource.org/licenses/ISC"
-    }
-  },
-  "host": "localhost:3000",
-  "tags": [
-    {
-      "name": "FundooNotes",
-      "description": "API for user registration"
-    }
-  ],
-  "schemes": ["http"],
-  "consumes": ["application/json"],
-  "produces": ["application/json"],
-  "paths": {
-    "/register": {
-      "post": {
-        "tags": ["Registration"],
-        "description": "Create a new user in the FundooNotes App",
-        "parameters": [
-          {
-            "name": "User Registration",
-            "in": "body",
-            "description": "User that we wants to create",
-            "schema": {
-              "$ref": "#/definitions/userInfo"
-            }
-          }
-        ],
-        "produces": ["application/json"],
-        "schema": {
-          "$ref": "#/definitions/userInfo"
-        },
-        "responses": {
-          "201": {
-            "description": "User created successfully"
-          },
-          "409": {
-            "description": "User already exist"
-          },
-          "500": {
-            "description": "Internal server error"
-          }
-        }
-      }
-    }
-  },
   "definitions": {
-    "userInfo": {
+    "userinfo": {
       "type": "object",
       "properties": {
         "firstName": {
@@ -78,6 +26,107 @@
         "lastName": "Pawar",
         "email": "akashpawar6@gmail.com",
         "password": "akashG2@7"
+      }
+    },
+    "logininfo": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "description": "Email ID of user."
+        },
+        "password": {
+          "type": "string",
+          "description": "Password of user."
+        }
+      },
+      "example": {
+        "email": "akashpawd4@gmail.com",
+        "password": "akashf8@7"
+      }
+    }
+  },
+  "info": {
+    "version": "1.0.0",
+    "title": "FundooNote App",
+    "description": "This app is build to keep record of notes",
+    "license": {
+      "name": "ISC License",
+      "url": "https://opensource.org/licenses/ISC"
+    }
+  },
+  "host": "localhost:3000",
+  "tags": [
+    {
+      "name": "Fundoo Notes",
+      "description": "API for Registration And Login"
+    }
+  ],
+  "schemes": ["http"],
+
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "paths": {
+    "/register": {
+      "post": {
+        "tags": ["Registration"],
+        "description": "Create a new user in the FundooNotes App",
+        "parameters": [
+          {
+            "name": "User Registration",
+            "in": "body",
+            "description": "User that we wants to create",
+            "schema": {
+              "$ref": "#/definitions/userinfo"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "schema": {
+          "$ref": "#/definitions/userinfo"
+        },
+        "responses": {
+          "201": {
+            "description": "User created successfully"
+          },
+          "409": {
+            "description": "User already exist"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "tags": ["User Login"],
+        "description": "Already registered ? Then login using email and password",
+        "parameters": [
+          {
+            "name": "User Login",
+            "in": "body",
+            "description": "login here with login info ",
+            "schema": {
+              "$ref": "#/definitions/logininfo"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "schema": {
+          "$ref": "#/definitions/logininfo"
+        },
+        "responses": {
+          "201": {
+            "description": "User logged in successfully"
+          },
+          "401": {
+            "description": "Unable to login. Please enter correct login info"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
       }
     }
   }
