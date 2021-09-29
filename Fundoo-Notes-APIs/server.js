@@ -3,6 +3,7 @@ require("dotenv").config();
 const express = require("express");
 const swaggerUI = require("swagger-ui-express");
 const swaggerJsDoc = require("./swageer/swagger.json");
+const logger = require("./logger/logger.js");
 const PORT = process.env.PORT;
 
 const option = {
@@ -40,6 +41,7 @@ require("./routes/user.routes.js")(app);
 // listen for requests
 app.listen(PORT, () => {
   console.log(`Server is running at port no ${PORT}`);
+  logger.info(`Server is running at port no ${PORT}`);
 });
 
 module.exports = app;

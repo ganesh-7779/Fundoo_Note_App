@@ -10,7 +10,7 @@
 
 const mongoose = require("mongoose");
 const helper = require("../helper/user.helper.js");
-
+const logger = require("../logger/logger.js");
 const userSchema = new mongoose.Schema(
   {
     firstName: {
@@ -66,6 +66,7 @@ class UserModel {
         }
       });
     } catch (error) {
+      logger.error("Internal error");
       return callback("Internal error", null);
     }
   }
