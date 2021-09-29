@@ -10,13 +10,15 @@
 const userModel = require("../models/user.model.js");
 const helper = require("../helper/user.helper.js");
 const bcrypt = require("bcrypt");
-
+const logger = require("../logger/logger.js");
 class UserService {
   registerUser = (user, callback) => {
     userModel.registerUser(user, (error, data) => {
       if (error) {
+        logger.error("Getting some error in service");
         return callback(error, null);
       } else {
+        logger.info(" data found ");
         return callback(null, data);
       }
     });

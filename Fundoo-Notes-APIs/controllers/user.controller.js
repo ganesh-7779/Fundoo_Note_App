@@ -5,7 +5,7 @@
  */
 const userService = require("../service/user.service.js");
 const validation = require('../helper/user.validation.js');
-
+const logger = require("../logger/logger.js");
 class UserController {
   registration = (req, res) => {
     try {
@@ -17,6 +17,7 @@ class UserController {
       };
       const validationRegister = validation.validateSchema.validate(user);
       if (validationRegister.error) {
+        logger.error("Invalid registration data");
         res.status(422).send({
           success: false,
           message: validationRegister.error.details[0].message
@@ -25,11 +26,13 @@ class UserController {
 
       userService.registerUser(user, (error, data) => {
         if (error) {
+          logger.info("user already exist");
           return res.status(409).json({
             success: false,
             message: "User already exits"
           });
         } else {
+          logger.info("User Registered successfully");
           return res.status(201).json({
             success: true,
             message: "User Registered successfully",
@@ -38,6 +41,7 @@ class UserController {
         }
       });
     } catch (error) {
+      logger.error("Error while registering");
       return res.status(500).json({
         success: false,
         message: "Error while registering",
