@@ -11,6 +11,7 @@ const userModel = require("../models/user.model.js");
 const helper = require("../helper/user.helper.js");
 const bcrypt = require("bcrypt");
 const logger = require("../logger/logger.js");
+const nodemailer = require("../helper/nodemailer");
 class UserService {
   registerUser = (user, callback) => {
     userModel.registerUser(user, (error, data) => {
@@ -43,6 +44,17 @@ class UserService {
         });
       } else {
         return callback(error + "Invalid login Info, Please Enter Valid Login Info");
+      }
+    });
+  }
+
+  forgotPass = (email, callback) => {
+    userModel.forgotPass(email, (error, data) => {
+      if (error || !data) {
+        logger.error(error);
+        return callback(error, null);
+      } else {
+        return callback(null, nodemailer.sendEmail(data));
       }
     });
   }

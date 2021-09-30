@@ -85,6 +85,29 @@ class UserController {
       });
     }
   }
-}
 
+  // forgot password
+  forgotPass=(req, res) => {
+    try {
+      const email = req.body;
+      userService.forgotPass(email, (error, data) => {
+        if (error) {
+          return res.status(400).send({ error });
+        } else {
+          return res.status(200).json({
+            success: true,
+            message: "Email reset link sent succesfully"
+          });
+        }
+      });
+    } catch (error) {
+      logger.error("Internal server error");
+      return res.status(500).send({
+        success: false,
+        message: "Internal server error",
+        data: null
+      });
+    }
+  }
+}
 module.exports = new UserController();
