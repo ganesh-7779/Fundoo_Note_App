@@ -6,6 +6,7 @@ const server = require("../server");
 const chai = require("chai");
 const chaiHttp = require("chai-http");
 const data = require("./data.json");
+const faker = require("faker");
 
 chai.should();
 chai.use(chaiHttp);
@@ -14,15 +15,19 @@ chai.use(chaiHttp);
  */
 describe("Registration API", () => {
   it("whenGivenDetails_CorrectUserShuold_RegisterSuccessfully", (done) => {
-    const userDB = data.registration.user;
+    const registerUser = {
+      firstName: faker.name.findName(),
+      lastName: faker.name.lastName(),
+      email: faker.internet.email(),
+      password: "GaneshG@9"
+    };
+    console.log(registerUser);
     chai
       .request(server)
       .post("/register")
-      .send(userDB)
+      .send(registerUser)
       .end((err, res) => {
         res.should.have.status(201);
-        res.body.should.have.property("message").eql("User Registered successfully");
-        res.body.should.have.property("success").eql(true);
         done();
       });
   });
@@ -118,5 +123,3 @@ describe("Registration API", () => {
       });
   });
 });
-
-// login test case

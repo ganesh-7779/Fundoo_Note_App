@@ -20,7 +20,8 @@ class UserController {
         logger.error("Invalid registration data");
         res.status(422).send({
           success: false,
-          message: validationRegister.error.details[0].message
+          message: "Wrong input Validation",
+          data: validationRegister
         });
       };
 
