@@ -13,7 +13,7 @@ chai.use(chaiHttp);
  * Test case for Registration APIs
  */
 describe("Registration API", () => {
-  it("whenGivenDetailsCorrectUserShuoldRegisterSuccessfully", (done) => {
+  it("whenGivenDetails_CorrectUserShuold_RegisterSuccessfully", (done) => {
     const userDB = data.registration.user;
     chai
       .request(server)
@@ -27,7 +27,7 @@ describe("Registration API", () => {
       });
   });
 
-  it("whenGivenDetailsHaveDuplicateUserShuoldReturnUserExist", (done) => {
+  it("whenGivenDetails_HaveDuplicateUser_ShuoldReturnUserExist", (done) => {
     const userDB = data.registration.user;
     chai
       .request(server)
@@ -41,7 +41,7 @@ describe("Registration API", () => {
       });
   });
 
-  it("whenGivenDetailWithoutEmailShouldReturnEmailRequired", (done) => {
+  it("whenGivenDetail_WithoutEmail_ShouldReturn_EmailRequired", (done) => {
     chai
       .request(server)
       .post("/register")
@@ -52,7 +52,7 @@ describe("Registration API", () => {
       });
   });
 
-  it("whenGivenDetailWithoutFirstNameShouldReturnFirstNameRequired", (done) => {
+  it("whenGivenDetail_WithoutFirstName_ShouldReturn_FirstNameRequired", (done) => {
     chai
       .request(server)
       .post("/register")
@@ -62,12 +62,55 @@ describe("Registration API", () => {
         done();
       });
   });
-
-  it("WhenGivenEmailDoesNotMatchwithRegexShouldReturnStatus(422)", (done) => {
+  it("whenGivenDetail_WithoutLastName_ShouldReturn_LastNameRequired", (done) => {
     chai
       .request(server)
       .post("/register")
-      .send(data.registration.withoutEmail)
+      .send(data.registration.withoutLn)
+      .end((err, res) => {
+        res.body.should.have.property("success").eql(false);
+        done();
+      });
+  });
+  it("WhenGivenEmail_DoesNotMatch_withRegex_ShouldReturnStatus(422)", (done) => {
+    chai
+      .request(server)
+      .post("/register")
+      .send(data.registration.WrongEmail)
+      .end((err, res) => {
+        res.should.have.status(422);
+        res.body.should.have.property("success").eql(false);
+        done();
+      });
+  });
+
+  it("WhenGivenFirstName_DoesNotMatch_withRegex_ShouldReturnStatus(422)", (done) => {
+    chai
+      .request(server)
+      .post("/register")
+      .send(data.registration.WrongFn)
+      .end((err, res) => {
+        res.should.have.status(422);
+        res.body.should.have.property("success").eql(false);
+        done();
+      });
+  });
+  it("WhenGivenLastName_DoesNotMatch_withRegex_ShouldReturnStatus(422)", (done) => {
+    chai
+      .request(server)
+      .post("/register")
+      .send(data.registration.WrongLn)
+      .end((err, res) => {
+        res.should.have.status(422);
+        res.body.should.have.property("success").eql(false);
+        done();
+      });
+  });
+  it("WhenGivenPassword_DoesNotMatch_withRegex_ShouldReturnStatus(422)", (done) => {
+    chai
+      .request(server)
+      .post("/register")
+      .send(data.registration.WrongPass)
       .end((err, res) => {
         res.should.have.status(422);
         res.body.should.have.property("success").eql(false);
@@ -75,3 +118,5 @@ describe("Registration API", () => {
       });
   });
 });
+
+// login test case
