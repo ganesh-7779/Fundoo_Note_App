@@ -1,17 +1,12 @@
 {
     "registration": {
         "user": {
-            "firstName": "AKash",
-            "lastName": "Gavhadhd",
-            "email": "ganeshgavhad9@gmail.com",
-            "password": "ganesgY@12"
+            "firstName":"Gordon Osinski",
+            "lastName":"Stracke",
+            "email":"Helena.Marks@hotmail.com",
+            "password": "GaneshG@9"
         },
-        "userDuplicateEmail":{
-            "firstName": "Akash",
-            "lastName": "Pawar",
-            "email": "ganeshgavhad0@gmail.com",
-            "password": "akashG@12"
-        },
+        
         "withoutEmail":{
             "firstName": "Akash",
             "lastName": "Pawar",
@@ -39,22 +34,22 @@
             "email": "ganeshgavhad2@gmail.com"
         },
         "WrongFn": {
-            "firstName": "ganesh",
-            "lastName": "Gavhad",
-            "email": "ganeshgavhad0@gmail.com",
-            "password": "ganesgG@12"
+            "firstName":"rdon osinski",
+            "lastName":"Stracke",
+            "email":"Helena.Markhotmail.com",
+            "password": "GaneshG@9"
         },
         "WrongLn": {
-            "firstName": "Ganesh",
-            "lastName": "gavhad",
-            "email": "ganeshgavhad0@gmail.com",
-            "password": "ganesgG@12"
+            "firstName":"Gordon Osinski",
+            "lastName":"t",
+            "email":"Helena.Marks@hotmail.com",
+            "password": "GaneshG@9"
         },
         "WrongPass": {
-            "firstName": "Ganesh",
-            "lastName": "gavhad",
-            "email": "ganeshgavhad0@gmail.com",
-            "password": "ganesgG12"
+            "firstName":"Gordon Osinski",
+            "lastName":"t",
+            "email":"Helena.Marks@hotmail.com",
+            "password": "GaneshG9"
         }
     },
     "userLogin":{
