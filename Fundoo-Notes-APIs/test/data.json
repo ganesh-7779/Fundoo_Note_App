@@ -17,16 +17,44 @@
             "lastName": "Pawar",
             "password": "akashG@12"
         },
+        "WrongEmail":{
+            "firstName": "Akash",
+            "lastName": "Pawar",
+            "email": "ganeshgavhad2gmail.com",
+            "password": "akashG@12"
+        },
         "withoutFn":{
             "lastName": "Pawar",
             "email": "ganeshgavhad2@gmail.com",
             "password": "akashG@12"
         },
-        "userWrongFn": {
-            "firstName": "Ganesh",
+        "withoutLn":{
+            "firstName": "Akash",
+            "email": "ganeshgavhad2@gmail.com",
+            "password": "akashG@12"
+        },
+        "withoutPass":{
+            "firstName": "Akash",
+            "lastName": "Pawar",
+            "email": "ganeshgavhad2@gmail.com"
+        },
+        "WrongFn": {
+            "firstName": "ganesh",
             "lastName": "Gavhad",
             "email": "ganeshgavhad0@gmail.com",
             "password": "ganesgG@12"
+        },
+        "WrongLn": {
+            "firstName": "Ganesh",
+            "lastName": "gavhad",
+            "email": "ganeshgavhad0@gmail.com",
+            "password": "ganesgG@12"
+        },
+        "WrongPass": {
+            "firstName": "Ganesh",
+            "lastName": "gavhad",
+            "email": "ganeshgavhad0@gmail.com",
+            "password": "ganesgG12"
         }
     },
     "userLogin":{
@@ -36,8 +64,20 @@
             "password": "ganesgY@12"
         },
         "wrongPassLI":{
-            "email": "ganeshgavhad0@gmail.com",
+            "email": "ganeshgavhad9@gmail.com",
             "password": "ganesgG@14"
+        },
+        "wrongEmail":{
+            "email": "ganeshgavhad0@gmail.com",
+            "password": "ganesgY@12"
+        },
+        "wrongEmailER":{
+            "email": "GaneshGavhad0gmail.com",
+            "password": "ganesgY@12"
+        },
+        "wrongPassER":{
+            "email": "ganeshgavhad9@gmail.com",
+            "password": "ganesgG14"
         }
     }
 }
