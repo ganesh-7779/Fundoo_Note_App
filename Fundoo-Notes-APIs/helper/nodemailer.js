@@ -19,7 +19,7 @@ exports.sendEmail = (data) => {
     to: data.email,
     subject: "Password change link",
     html: `
-              <h2>please click on the link to change password</h2>
+              <h2>Please click on below link to Update your new password</h2>
               <p>${process.env.CLIENT_URL}/resetpassword/${token}</p>    `
   };
   transporter.sendMail(mailOptions, (error, info) => {

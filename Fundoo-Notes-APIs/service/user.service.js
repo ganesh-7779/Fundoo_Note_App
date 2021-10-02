@@ -33,13 +33,8 @@ class UserService {
           if (!validate) {
             return callback(error + "Invalid Password", null);
           } else {
-            helper.token(InfoLogin, (err, token) => {
-              if (err) {
-                throw err;
-              } else {
-                return callback(null, token);
-              }
-            });
+            const token = helper.token(InfoLogin);
+            return callback(null, token);
           }
         });
       } else {
