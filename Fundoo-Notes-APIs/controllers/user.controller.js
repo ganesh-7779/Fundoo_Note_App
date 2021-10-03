@@ -33,7 +33,7 @@ class UserController {
             message: "User already exits"
           });
         } else {
-          console.log(data);
+          // console.log(data);
           //  logger.info("User Registered successfully");
           return res.status(201).json({
             success: true,
@@ -135,7 +135,7 @@ class UserController {
         }
       });
     } catch (error) {
-      logger.error("Internal server error");
+      // logger.error("Internal server error");
       return res.status(500).send({
         success: false,
         message: "Internal server error",

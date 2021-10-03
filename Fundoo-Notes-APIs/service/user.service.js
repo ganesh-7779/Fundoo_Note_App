@@ -57,7 +57,6 @@ class UserService {
   resetPass = (req, callback) => {
     const token = req.token;
     const userdata = helper.verifyToken(token);
-
     const credentials = {
       id: userdata.dataForToken.id,
       password: req.password

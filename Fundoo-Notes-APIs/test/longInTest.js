@@ -62,17 +62,30 @@ describe("Login API", () => {
         done();
       });
   });
+});
+
+describe("Forget Password API Test Case", () => {
   it("ForgetPassword_WithValidEmail_ShouldReturn_EmailSent", (done) => {
-    const user = { email: "dattagavhad121@gmail.com" };
+    const user = data.userLogin.validEmail;
     chai
       .request(server)
-      .put("/forgetPassword")
+      .put("/forgotPassword")
       .send(user)
-      // { email: "process.env.USEREMAIL" }
       .end((err, res) => {
         res.should.have.status(200);
-        res.body.should.have.property("success").eql(false);
+        res.body.should.have.property("success").eql(true);
         res.body.should.have.property("message").eql("Email reset link sent succesfully");
+        done();
+      });
+  });
+  it("ForgetPassword_WithValidEmail_ShouldReturn_EmailSent", (done) => {
+    const user = data.userLogin.invalidEmail;
+    chai
+      .request(server)
+      .put("/forgotPassword")
+      .send(user)
+      .end((err, res) => {
+        res.should.have.status(400);
         done();
       });
   });
