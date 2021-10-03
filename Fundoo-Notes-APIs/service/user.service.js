@@ -53,5 +53,30 @@ class UserService {
       }
     });
   }
+
+  resetPass = (req, callback) => {
+    const token = req.token;
+    const userdata = helper.verifyToken(token);
+
+    const credentials = {
+      id: userdata.dataForToken.id,
+      password: req.password
+    };
+    userModel.resetPass(credentials, (error, data) => {
+      if (error) {
+        logger.error(error);
+        return callback(error, null);
+      } else {
+        console.log("service" + data);
+        return callback(null, data);
+      }
+    });
+  }
+
+  // const userCredentials = {
+  //   email: email,
+  //   password: req.password
+  // };
 }
+
 module.exports = new UserService();

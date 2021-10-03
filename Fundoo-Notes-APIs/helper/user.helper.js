@@ -1,3 +1,4 @@
+/* eslint-disable node/no-callback-literal */
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
@@ -18,23 +19,22 @@ class Helper {
           lastName: data.lastName,
           email: data.email
         };
-        return jwt.sign({ dataForToken }, process.env.SECRET_KEY, { expiresIn: "1H" });
+        return jwt.sign({ dataForToken }, process.env.SECRET_KEY);
+      } //, { expiresIn: "1H" }
+
+      // verifyToken =(token, callback) => {
+      //   jwt.verify(token, process.env.SECRET_KEY, (error, data) => {
+      //     if (data) {
+      //       console.log("helper" + data);
+      //       return callback(null, data);
+      //     } else {
+      //       return callback(error, null);
+      //     }
+      //   });
+      // }
+      verifyToken = (token, callback) => {
+        const data = jwt.verify(token, process.env.ACCESS_TOKEN_KEY);
+        return data;
       }
-  //  token = (data, callback) => {
-  //    jwt.sign(
-  //      {
-  //        username: data.firstName,
-  //        lastname: data.lastName,
-  //        password: data.password
-  //      },
-  //      process.env.SECRET_KEY, (err, token) => {
-  //        if (err) {
-  //          return callback(err, null);
-  //        } else {
-  //          return callback(null, token);
-  //        }
-  //      }
-  //    );
-  //  }
 }
 module.exports = new Helper();

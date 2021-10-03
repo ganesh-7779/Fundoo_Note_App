@@ -17,7 +17,7 @@ class UserController {
       };
       const validationRegister = validation.validateSchema.validate(user);
       if (validationRegister.error) {
-        logger.error("Invalid registration data");
+      //  logger.error("Invalid registration data");
         res.status(422).send({
           success: false,
           message: "Wrong input Validation",
@@ -27,13 +27,14 @@ class UserController {
 
       userService.registerUser(user, (error, data) => {
         if (error) {
-          logger.info("user already exist");
+        //  logger.info("user already exist");
           return res.status(409).json({
             success: false,
             message: "User already exits"
           });
         } else {
-          logger.info("User Registered successfully");
+          console.log(data);
+          //  logger.info("User Registered successfully");
           return res.status(201).json({
             success: true,
             message: "User Registered successfully",
@@ -42,7 +43,7 @@ class UserController {
         }
       });
     } catch (error) {
-      logger.error("Error while registering");
+    //  logger.error("Error while registering");
       return res.status(500).json({
         success: false,
         message: "Error while registering",
@@ -98,6 +99,38 @@ class UserController {
           return res.status(200).json({
             success: true,
             message: "Email reset link sent succesfully"
+          });
+        }
+      });
+    } catch (error) {
+      // logger.error("Internal server error");
+      return res.status(500).send({
+        success: false,
+        message: "Internal server error",
+        data: null
+      });
+    }
+  }
+
+  // reset password
+  resetPass=(req, res) => {
+    try {
+      const userData = {
+        token: req.body.token,
+        password: req.body.password
+      };
+      userService.resetPass(userData, (error, userData) => {
+        if (error) {
+          return res.status(400).send({
+            message: error,
+            success: false
+          });
+        } else {
+          console.log("Controller" + userData);
+          return res.status(200).json({
+            success: true,
+            message: "Password reset succesfully",
+            data: userData
           });
         }
       });
