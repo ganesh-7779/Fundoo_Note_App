@@ -11,6 +11,8 @@
 const mongoose = require("mongoose");
 const helper = require("../helper/user.helper.js");
 const logger = require("../logger/logger.js");
+const bcrypt = require("bcrypt");
+
 const userSchema = new mongoose.Schema(
   {
     firstName: {
@@ -29,10 +31,6 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true
-    },
-    resetLink: {
-      data: String,
-      default: ""
     }
   },
   {
@@ -70,7 +68,7 @@ class UserModel {
         }
       });
     } catch (error) {
-      logger.error("Internal error");
+      // logger.error("Internal error");
       return callback("Internal error", null);
     }
   }
@@ -101,5 +99,19 @@ class UserModel {
       }
     });
   };
+
+  resetPass = (userData, callback) => {
+    // const data = Register.findOne({ email: userData.email });
+    const hashPass = bcrypt.hashSync(userData.password, 10);
+    Register.findByIdAndUpdate(userData.id, { $set: { password: hashPass } }, { new: true }, (error, message) => {
+      if (error) {
+        logger.error(error);
+        return callback(error, null);
+      } else {
+        return callback(null, "Password Reset successfully");
+      }
+    });
+  };
 }
+
 module.exports = new UserModel();

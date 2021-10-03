@@ -17,10 +17,10 @@ exports.sendEmail = (data) => {
   const mailOptions = {
     from: process.env.EMAIL,
     to: data.email,
-    subject: "Password change link",
+    subject: "Password Reset link",
     html: `
-              <h2>please click on the link to change password</h2>
-              <p>${process.env.CLIENT_URL}/resetpassword/${token}</p>    `
+        <h2>Please click on below link to Update your new password</h2>
+        <p>${process.env.CLIENT_URL}/resetpassword/${token}</p>`
   };
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
