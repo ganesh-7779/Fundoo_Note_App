@@ -62,4 +62,18 @@ describe("Login API", () => {
         done();
       });
   });
+  it("ForgetPassword_WithValidEmail_ShouldReturn_EmailSent", (done) => {
+    const user = { email: "dattagavhad121@gmail.com" };
+    chai
+      .request(server)
+      .put("/forgetPassword")
+      .send(user)
+      // { email: "process.env.USEREMAIL" }
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.have.property("success").eql(false);
+        res.body.should.have.property("message").eql("Email reset link sent succesfully");
+        done();
+      });
+  });
 });
