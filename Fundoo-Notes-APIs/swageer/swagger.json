@@ -44,7 +44,18 @@
         "email": "akashpawd4@gmail.com",
         "password": "akashf8@7"
       }
-    }
+    },
+    "forgetPass":{
+      "type":"object",
+      "properties":{
+        "email": {
+          "type": "string",
+          "description": "Email ID of user."
+        }
+      }, "example": {
+           "email": "dattagavhad121@gmail.com"
+        }
+      }
   },
   "info": {
     "version": "1.0.0",
@@ -122,6 +133,36 @@
           },
           "401": {
             "description": "Unable to login. Please enter correct login info"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },"/forgotPassword":{
+      "put": {
+        "tags": ["forget Password"],
+        "description": "forget Password? you will get link to reset your password",
+        "parameters": [
+          {
+            "name": "forget password",
+            "in": "body",
+            "description": "user will get link to reset password ",
+            "schema": {
+              "$ref": "#/definitions/forgetPass"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "schema": {
+          "$ref": "#/definitions/forgetPass"
+        },
+        "responses": {
+          "200": {
+            "description": "Email reset link send successfully"
+          },
+          "400": {
+            "description": "Please enter your valid email"
           },
           "500": {
             "description": "Internal server error"
