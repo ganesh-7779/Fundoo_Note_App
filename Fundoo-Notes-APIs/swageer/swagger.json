@@ -55,7 +55,23 @@
       }, "example": {
            "email": "dattagavhad121@gmail.com"
         }
-      }
+      },"resetPass":{
+        "type":"object",
+        "properties":{
+          "token": {
+            "type": "string",
+            "description": "token that sent through email."
+          },
+          "password":{
+            "type": "string",
+            "description": "New Password of user"
+
+          }
+        }, "example": {
+             "token": " ",
+             "password":"Gaesh@7779"
+          }
+        }
   },
   "info": {
     "version": "1.0.0",
@@ -140,7 +156,7 @@
         }
       }
     },"/forgotPassword":{
-      "put": {
+      "post": {
         "tags": ["forget Password"],
         "description": "forget Password? you will get link to reset your password",
         "parameters": [
@@ -163,6 +179,36 @@
           },
           "400": {
             "description": "Please enter your valid email"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },"/resetPassword":{
+      "put": {
+        "tags": ["Reset Password"],
+        "description": "User will submit user token and new password",
+        "parameters": [
+          {
+            "name": "Reset password",
+            "in": "body",
+            "description": "Please submit token and new password ",
+            "schema": {
+              "$ref": "#/definitions/resetPass"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "schema": {
+          "$ref": "#/definitions/resetPass"
+        },
+        "responses": {
+          "200": {
+            "description": "Password reset successfully"
+          },
+          "400": {
+            "description": "Please enter your valid info"
           },
           "500": {
             "description": "Internal server error"
