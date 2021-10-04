@@ -2,6 +2,7 @@
 /* eslint-disable no-unused-expressions */
 const nodemailer = require("nodemailer");
 const helper = require("../helper/user.helper");
+const logger = require("../logger/logger.js");
 require("dotenv").config();
 
 exports.sendEmail = (data) => {
@@ -24,9 +25,8 @@ exports.sendEmail = (data) => {
   };
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
-      console.log(error);
+      logger.error(error);
     } else {
-      console.log(info.response);
       return info.response;
     }
   });

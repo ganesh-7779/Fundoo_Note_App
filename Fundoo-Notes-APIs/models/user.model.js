@@ -64,11 +64,12 @@ class UserModel {
             }
           });
         } else {
+          logger.error("password not converted into hash");
           throw err;
         }
       });
     } catch (error) {
-      // logger.error("Internal error");
+      logger.error("Internal error");
       return callback("Internal error", null);
     }
   }

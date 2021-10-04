@@ -31,14 +31,17 @@ class UserService {
         // validate will take boolean value true and false
         bcrypt.compare(InfoLogin.password, data.password, (error, validate) => {
           if (!validate) {
+            logger.error("Password not match");
             return callback(error + "Invalid Password", null);
           } else {
+            logger.info(" token generated ");
             const token = helper.token(InfoLogin);
             return callback(null, token);
           }
         });
       } else {
-        return callback(error + "Invalid login Info, Please Enter Valid Login Info");
+        logger.error("Invalid login Info, Please Enter Valid Login Info");
+        return callback(error);
       }
     });
   }
@@ -57,6 +60,7 @@ class UserService {
   resetPass = (userData, callback) => {
     helper.getEmailFromToken(userData.token, (error, data) => {
       if (error) {
+        logger.error("not getting decoded data");
         return callback(error, null);
       } else {
         const inputData = {
@@ -65,55 +69,16 @@ class UserService {
         };
         userModel.resetPass(inputData, (error, data) => {
           if (error) {
-            logger.error(error);
+            logger.error("password not update in model");
             return callback(error, null);
           } else {
+            logger.info("getting upadated password in data");
             return callback(null, data);
           }
         });
       }
     });
-
-    // const email = data.dataForToken.email;
-    // console.log(data);
-    // const inputData = {
-    //   email: email,
-    //   password: userData.password
-    // };
-    // console.log(inputData);
-    // userModel.resetPass(inputData, (error, data) => {
-    //   if (error) {
-    //     logger.error(error);
-    //     callback(error, null);
-    //   } else {
-    //     console.log("service" + data);
-    //     callback(null, data);
   }
-
-  // helper.verifyToken(token, (error, data) => {
-  //   if (error) {
-  //     return error;
-  //   } else {
-  //     const credentials = {
-  //       email: data.email,
-  //       password: userData.password
-  //     };
-  //     userModel.resetPass(credentials, (error, data) => {
-  //       if (error) {
-  //         logger.error(error);
-  //         return callback(error, null);
-  //       } else {
-  //         console.log("service" + data);
-  //         return callback(null, data);
-  //       }
-  //     });
-  //   }
-  // });
-
-  // const userCredentials = {
-  //   email: email,
-  //   password: req.password
-  // };
 }
 
 module.exports = new UserService();
