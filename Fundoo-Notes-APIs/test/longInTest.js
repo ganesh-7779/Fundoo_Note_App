@@ -64,6 +64,10 @@ describe("Login API", () => {
   });
 });
 
+/*
+ * Tase case for forget password APIs
+ */
+
 describe("Forget Password API Test Case", () => {
   it("ForgetPassword_WithValidEmail_ShouldReturn_EmailSent", (done) => {
     const user = data.userLogin.validEmail;
@@ -86,6 +90,21 @@ describe("Forget Password API Test Case", () => {
       .send(user)
       .end((err, res) => {
         res.should.have.status(422);
+        done();
+      });
+  });
+});
+
+describe("Reset Password API", () => {
+  it("givenResetDetails_whenproper_shouldReturn_ResetPasswordSuccessfully", (done) => {
+    const resetPassword = data.userLogin.validDetails;
+    console.log(resetPassword);
+    chai
+      .request(server)
+      .put("/resetPassword")
+      .send(resetPassword)
+      .end((error, res) => {
+        res.should.have.status(200);
         done();
       });
   });

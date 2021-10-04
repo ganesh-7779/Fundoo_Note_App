@@ -79,6 +79,9 @@
         },
         "invalidEmail":{
             "email":"vivek.iitdgmail.com"
+        },"validDetails": {
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhRm9yVG9rZW4iOnsiZmlyc3ROYW1lIjoiRGF0dGEiLCJsYXN0TmFtZSI6IkdhdmhhZCIsImVtYWlsIjoiZGF0dGFnYXZoYWQxMjFAZ21haWwuY29tIn0sImlhdCI6MTYzMzMzODA3OH0.1TisiCbpkm4msJ5TXP1MLHp6oNtZKKDl8KrHJELFMu4",
+            "password": "Ganesg@7779"
         }
     }
    
