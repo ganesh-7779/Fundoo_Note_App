@@ -17,7 +17,7 @@ class UserController {
       };
       const validationRegister = validation.validateSchema.validate(user);
       if (validationRegister.error) {
-      //  logger.error("Invalid registration data");
+        logger.error("Invalid registration data");
         res.status(422).send({
           success: false,
           message: "Wrong input Validation",
@@ -27,14 +27,13 @@ class UserController {
 
       userService.registerUser(user, (error, data) => {
         if (error) {
-        //  logger.info("user already exist");
+          logger.info("user already exist");
           return res.status(409).json({
             success: false,
             message: "User already exits"
           });
         } else {
-          // console.log(data);
-          //  logger.info("User Registered successfully");
+          logger.info("User Registered successfully");
           return res.status(201).json({
             success: true,
             message: "User Registered successfully",
@@ -43,7 +42,7 @@ class UserController {
         }
       });
     } catch (error) {
-    //  logger.error("Error while registering");
+      logger.error("Error while registering");
       return res.status(500).json({
         success: false,
         message: "Error while registering",
@@ -60,6 +59,7 @@ class UserController {
       };
       const loginValidation = validation.loginSchema.validate(userLoginInfo);
       if (loginValidation.error) {
+        logger.error("Invalid login info");
         res.status(422).send({
           success: false,
           message: loginValidation.error.message
@@ -67,12 +67,14 @@ class UserController {
       }
       userService.userLogin(userLoginInfo, (error, token) => {
         if (error) {
+          logger.error("Unable to login. Please enter correct info");
           return res.status(401).json({
             success: false,
             message: "Unable to login. Please enter correct info",
             error
           });
         }
+        logger.info("User logged in successfully");
         return res.status(201).json({
           success: true,
           message: "User logged in successfully",
@@ -94,8 +96,10 @@ class UserController {
       const email = req.body;
       userService.forgotPass(email, (error, data) => {
         if (error) {
+          logger.error("Email reset link not sent");
           return res.status(400).send({ error });
         } else {
+          logger.info("Email reset link sent succesfully");
           return res.status(200).json({
             success: true,
             message: "Email reset link sent succesfully"
@@ -103,7 +107,7 @@ class UserController {
         }
       });
     } catch (error) {
-      // logger.error("Internal server error");
+      logger.error("Internal server error");
       return res.status(500).send({
         success: false,
         message: "Internal server error",
@@ -121,11 +125,13 @@ class UserController {
       };
       userService.resetPass(userData, (error, userData) => {
         if (error) {
+          logger.error("did not data from service to controller");
           return res.status(400).send({
             message: error,
             success: false
           });
         } else {
+          logger.info("Password reset succesfully");
           return res.status(200).json({
             success: true,
             message: "Password reset succesfully",
@@ -134,7 +140,7 @@ class UserController {
         }
       });
     } catch (error) {
-      // logger.error("Internal server error");
+      logger.error("Internal server error");
       return res.status(500).send({
         success: false,
         message: "Internal server error",
