@@ -45,7 +45,7 @@ class UserService {
 
   forgotPass = (email, callback) => {
     userModel.forgotPass(email, (error, data) => {
-      if (error || !data) {
+      if (error) {
         logger.error(error);
         return callback(error, null);
       } else {
@@ -54,24 +54,61 @@ class UserService {
     });
   }
 
-  resetPass = (req, callback) => {
-    const token = req.token;
-    const userdata = helper.verifyToken(token);
-
-    const credentials = {
-      id: userdata.dataForToken.id,
-      password: req.password
-    };
-    userModel.resetPass(credentials, (error, data) => {
+  resetPass = (userData, callback) => {
+    helper.getEmailFromToken(userData.token, (error, data) => {
       if (error) {
-        logger.error(error);
         return callback(error, null);
       } else {
-        console.log("service" + data);
-        return callback(null, data);
+        const inputData = {
+          email: data.dataForToken.email,
+          password: userData.password
+        };
+        userModel.resetPass(inputData, (error, data) => {
+          if (error) {
+            logger.error(error);
+            return callback(error, null);
+          } else {
+            return callback(null, data);
+          }
+        });
       }
     });
+
+    // const email = data.dataForToken.email;
+    // console.log(data);
+    // const inputData = {
+    //   email: email,
+    //   password: userData.password
+    // };
+    // console.log(inputData);
+    // userModel.resetPass(inputData, (error, data) => {
+    //   if (error) {
+    //     logger.error(error);
+    //     callback(error, null);
+    //   } else {
+    //     console.log("service" + data);
+    //     callback(null, data);
   }
+
+  // helper.verifyToken(token, (error, data) => {
+  //   if (error) {
+  //     return error;
+  //   } else {
+  //     const credentials = {
+  //       email: data.email,
+  //       password: userData.password
+  //     };
+  //     userModel.resetPass(credentials, (error, data) => {
+  //       if (error) {
+  //         logger.error(error);
+  //         return callback(error, null);
+  //       } else {
+  //         console.log("service" + data);
+  //         return callback(null, data);
+  //       }
+  //     });
+  //   }
+  // });
 
   // const userCredentials = {
   //   email: email,
