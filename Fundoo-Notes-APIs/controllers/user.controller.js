@@ -94,6 +94,14 @@ class UserController {
   forgotPass=(req, res) => {
     try {
       const email = req.body;
+      const loginValidation = validation.forgetScema.validate(email);
+      if (loginValidation.error) {
+        logger.error("validation error for email");
+        res.status(422).send({
+          success: false,
+          message: loginValidation.error.message
+        });
+      }
       userService.forgotPass(email, (error, data) => {
         if (error) {
           logger.error("Email reset link not sent");
