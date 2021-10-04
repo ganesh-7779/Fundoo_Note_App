@@ -69,7 +69,7 @@ describe("Forget Password API Test Case", () => {
     const user = data.userLogin.validEmail;
     chai
       .request(server)
-      .put("/forgotPassword")
+      .post("/forgotPassword")
       .send(user)
       .end((err, res) => {
         res.should.have.status(200);
@@ -78,14 +78,14 @@ describe("Forget Password API Test Case", () => {
         done();
       });
   });
-  it("ForgetPassword_WithValidEmail_ShouldReturn_EmailSent", (done) => {
+  it("ForgetPassword_WithInValidEmail_ShouldReturn_error", (done) => {
     const user = data.userLogin.invalidEmail;
     chai
       .request(server)
-      .put("/forgotPassword")
+      .post("/forgotPassword")
       .send(user)
       .end((err, res) => {
-        res.should.have.status(400);
+        res.should.have.status(422);
         done();
       });
   });
