@@ -4,7 +4,7 @@
  * @author        : Ganesh
  */
 const userService = require("../service/user.service.js");
-const validation = require('../helper/user.validation.js');
+const validation = require("../helper/user.validation.js");
 const logger = require("../logger/logger.js");
 class UserController {
   registration = (req, res) => {
@@ -23,7 +23,7 @@ class UserController {
           message: "Wrong input Validation",
           data: validationRegister
         });
-      };
+      }
 
       userService.registerUser(user, (error, data) => {
         if (error) {
@@ -49,7 +49,7 @@ class UserController {
         data: null
       });
     }
-  }
+  };
 
   loginReq = (req, res) => {
     try {
@@ -88,13 +88,13 @@ class UserController {
         data: null
       });
     }
-  }
+  };
 
   // forgot password
-  forgotPass=(req, res) => {
+  forgotPass = (req, res) => {
     try {
       const email = req.body;
-      const loginValidation = validation.forgetScema.validate(email);
+      const loginValidation = validation.forgetSchema.validate(email);
       if (loginValidation.error) {
         logger.error("validation error for email");
         res.status(422).send({
@@ -122,10 +122,10 @@ class UserController {
         data: null
       });
     }
-  }
+  };
 
   // reset password
-  resetPass=(req, res) => {
+  resetPass = (req, res) => {
     try {
       const userData = {
         token: req.body.token,
@@ -155,6 +155,6 @@ class UserController {
         data: null
       });
     }
-  }
+  };
 }
 module.exports = new UserController();
