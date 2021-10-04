@@ -91,7 +91,7 @@ class UserModel {
 
   forgotPass = (data, callback) => {
     Register.findOne({ email: data.email }, (err, data) => {
-      if (err || !data) {
+      if (err) {
         logger.error("User with email id doesnt exists");
         return callback("User with email id doesnt exists", null);
       } else {
@@ -100,18 +100,17 @@ class UserModel {
     });
   };
 
-  resetPass = (userData, callback) => {
-    // const data = Register.findOne({ email: userData.email });
+  resetPass = async (userData, callback) => {
     const hashPass = bcrypt.hashSync(userData.password, 10);
-    Register.findByIdAndUpdate(userData.id, { $set: { password: hashPass } }, { new: true }, (error, message) => {
+    const data = await Register.findOne({ email: userData.email });
+    Register.findByIdAndUpdate(data.id, { firstName: data.firstName, lastName: data.lastName, password: hashPass }, { new: true }, (error, data) => {
       if (error) {
         logger.error(error);
         return callback(error, null);
       } else {
-        return callback(null, "Password Reset successfully");
+        return callback(null, data);
       }
     });
   };
 }
-
 module.exports = new UserModel();

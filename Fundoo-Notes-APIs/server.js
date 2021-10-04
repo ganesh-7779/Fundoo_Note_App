@@ -5,17 +5,18 @@ const swaggerUI = require("swagger-ui-express");
 const swaggerJsDoc = require("./swageer/swagger.json");
 const logger = require("./logger/logger.js");
 const PORT = process.env.PORT;
-
+const cors = require("cors");
 const option = {
   explorer: true
 };
 // create express app
 const app = express();
+
 // parse requests of content-type - application/x-www-form-urlencoded
 // we can post nested object i.e // Nested Object = { person: { name: cw } }
 // extended true : allow req-body value as a json or string and array or any type
 // extended false : allow req-body value as string or array only
-
+// app.use(cors);
 // app.use take two para 1)path(optional)2) middleware fuction
 app.use(express.urlencoded({ extended: true }));
 

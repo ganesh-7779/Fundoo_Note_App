@@ -20,21 +20,16 @@ class Helper {
           email: data.email
         };
         return jwt.sign({ dataForToken }, process.env.SECRET_KEY);
-      } //, { expiresIn: "1H" }
+      }
 
-      // verifyToken =(token, callback) => {
-      //   jwt.verify(token, process.env.SECRET_KEY, (error, data) => {
-      //     if (data) {
-      //       console.log("helper" + data);
-      //       return callback(null, data);
-      //     } else {
-      //       return callback(error, null);
-      //     }
-      //   });
-      // }
-      verifyToken = (token, callback) => {
-        const data = jwt.verify(token, process.env.ACCESS_TOKEN_KEY);
-        return data;
+      getEmailFromToken (token, callback) {
+        jwt.verify(token, process.env.SECRET_KEY, (error, data) => {
+          if (error) {
+            return callback(error, null);
+          } else {
+            return callback(null, data);
+          }
+        });
       }
 }
 module.exports = new Helper();

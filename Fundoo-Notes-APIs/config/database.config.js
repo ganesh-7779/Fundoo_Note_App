@@ -11,7 +11,8 @@ class DBconnection {
     // mongoose.Promise = global.Promise;
     // mongoose connect method help us to connect with DB
     mongoose.connect(url, {
-      useNewUrlParser: true
+      useNewUrlParser: true,
+      useUnifiedTopology: true
     }).then(() => {
       console.log("sucessfully connected to the database");
     }).catch(err => {
