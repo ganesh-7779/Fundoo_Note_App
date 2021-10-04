@@ -131,6 +131,15 @@ class UserController {
         token: req.body.token,
         password: req.body.password
       };
+      const loginValidation = validation.resetSchema.validate(userData);
+      if (loginValidation.error) {
+        logger.error("Invalid password");
+        res.status(422).send({
+          success: false,
+          message: "Invalid password"
+        });
+        return;
+      }
       userService.resetPass(userData, (error, userData) => {
         if (error) {
           logger.error("did not data from service to controller");

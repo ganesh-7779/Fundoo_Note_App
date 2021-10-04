@@ -64,12 +64,16 @@ describe("Login API", () => {
   });
 });
 
+/*
+ * Tase case for forget password APIs
+ */
+
 describe("Forget Password API Test Case", () => {
   it("ForgetPassword_WithValidEmail_ShouldReturn_EmailSent", (done) => {
     const user = data.userLogin.validEmail;
     chai
       .request(server)
-      .put("/forgotPassword")
+      .post("/forgotPassword")
       .send(user)
       .end((err, res) => {
         res.should.have.status(200);
@@ -78,14 +82,29 @@ describe("Forget Password API Test Case", () => {
         done();
       });
   });
-  it("ForgetPassword_WithValidEmail_ShouldReturn_EmailSent", (done) => {
+  it("ForgetPassword_WithInValidEmail_ShouldReturn_error", (done) => {
     const user = data.userLogin.invalidEmail;
     chai
       .request(server)
-      .put("/forgotPassword")
+      .post("/forgotPassword")
       .send(user)
       .end((err, res) => {
-        res.should.have.status(400);
+        res.should.have.status(422);
+        done();
+      });
+  });
+});
+
+describe("Reset Password API", () => {
+  it("givenResetDetails_whenproper_shouldReturn_ResetPasswordSuccessfully", (done) => {
+    const resetPassword = data.userLogin.validDetails;
+    console.log(resetPassword);
+    chai
+      .request(server)
+      .put("/resetPassword")
+      .send(resetPassword)
+      .end((error, res) => {
+        res.should.have.status(200);
         done();
       });
   });
