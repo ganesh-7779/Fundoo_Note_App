@@ -62,15 +62,5 @@ class Validation {
         )
       )
   });
-
-  resetSchema = Joi.object({
-    token: Joi.string().required(),
-    password: Joi.string().min(8)
-      .pattern(
-        new RegExp(
-          "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
-        )
-      ).required()
-  })
 }
 module.exports = new Validation();

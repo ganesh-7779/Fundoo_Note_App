@@ -101,9 +101,9 @@ class UserModel {
     });
   };
 
-  resetPass = async (userData, callback) => {
-    const hashPass = bcrypt.hashSync(userData.password, 10);
-    const data = await Register.findOne({ email: userData.email });
+  resetPass = async (inputData, callback) => {
+    const hashPass = bcrypt.hashSync(inputData.password, 10);
+    const data = await Register.findOne({ email: inputData.email });
     Register.findByIdAndUpdate(data.id, { firstName: data.firstName, lastName: data.lastName, password: hashPass }, { new: true }, (error, data) => {
       if (error) {
         logger.error(error);

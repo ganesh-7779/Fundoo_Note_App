@@ -6,6 +6,8 @@
 const userService = require("../service/user.service.js");
 const validation = require("../helper/user.validation.js");
 const logger = require("../logger/logger.js");
+const helper = require("../helper/user.helper.js");
+
 class UserController {
   registration = (req, res) => {
     try {
@@ -96,7 +98,7 @@ class UserController {
       const email = req.body;
       const loginValidation = validation.forgetSchema.validate(email);
       if (loginValidation.error) {
-        logger.error("validation error for email");
+        // logger.error("validation error for email");
         res.status(422).send({
           success: false,
           message: loginValidation.error.message
@@ -104,7 +106,7 @@ class UserController {
       }
       userService.forgotPass(email, (error, data) => {
         if (error) {
-          logger.error("Email reset link not sent");
+          logger.error(error);
           return res.status(400).send({ error });
         } else {
           logger.info("Email reset link sent succesfully");
@@ -127,20 +129,16 @@ class UserController {
   // reset password
   resetPass = (req, res) => {
     try {
-      const userData = {
-        token: req.body.token,
+      const header = req.headers.authorization;
+      const myArr = header.split(" ");
+      const token = myArr[1];
+      const tokenData = helper.verifyToken(token);
+      const inputData = {
+        email: tokenData.dataForToken.email,
         password: req.body.password
       };
-      const loginValidation = validation.resetSchema.validate(userData);
-      if (loginValidation.error) {
-        logger.error("Invalid password");
-        res.status(422).send({
-          success: false,
-          message: "Invalid password"
-        });
-        return;
-      }
-      userService.resetPass(userData, (error, userData) => {
+
+      userService.resetPass(inputData, (error, userData) => {
         if (error) {
           logger.error("did not data from service to controller");
           return res.status(400).send({

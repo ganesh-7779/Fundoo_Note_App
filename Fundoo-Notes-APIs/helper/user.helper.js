@@ -22,14 +22,36 @@ class Helper {
         return jwt.sign({ dataForToken }, process.env.SECRET_KEY);
       }
 
-      getEmailFromToken (token, callback) {
-        jwt.verify(token, process.env.SECRET_KEY, (error, data) => {
-          if (error) {
-            return callback(error, null);
+      verifyToken = (token) => {
+        const data = jwt.verify(token, process.env.SECRET_KEY);
+        if (data) {
+          return data;
+        } else {
+          return "couldnt verify";
+        }
+      }
+
+      validateToken = (req, res, next) => {
+        try {
+          const header = req.headers.authorization;
+          const myArr = header.split(" ");
+          const token = myArr[1];
+          const verify = jwt.verify(token, process.env.SECRET_KEY);
+          if (verify) {
+            console.log("middle ware running");
+            next();
           } else {
-            return callback(null, data);
+            return res.status(400).send({
+              message: "Invalid Token",
+              success: false
+            });
           }
-        });
+        } catch {
+          return res.status(401).send({
+            message: "Invalid Token",
+            success: false
+          });
+        }
       }
 }
 module.exports = new Helper();

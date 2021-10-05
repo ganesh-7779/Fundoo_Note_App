@@ -57,25 +57,14 @@ class UserService {
     });
   }
 
-  resetPass = (userData, callback) => {
-    helper.getEmailFromToken(userData.token, (error, data) => {
+  resetPass = (inputData, callback) => {
+    userModel.resetPass(inputData, (error, data) => {
       if (error) {
-        logger.error("not getting decoded data");
+        logger.error("password not update in model");
         return callback(error, null);
       } else {
-        const inputData = {
-          email: data.dataForToken.email,
-          password: userData.password
-        };
-        userModel.resetPass(inputData, (error, data) => {
-          if (error) {
-            logger.error("password not update in model");
-            return callback(error, null);
-          } else {
-            logger.info("getting upadated password in data");
-            return callback(null, data);
-          }
-        });
+        logger.info("getting upadated password in data");
+        return callback(null, data);
       }
     });
   }
