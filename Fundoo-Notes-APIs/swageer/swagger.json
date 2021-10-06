@@ -58,17 +58,12 @@
       },"resetPass":{
         "type":"object",
         "properties":{
-          "token": {
-            "type": "string",
-            "description": "token that sent through email."
-          },
           "password":{
             "type": "string",
             "description": "New Password of user"
 
           }
         }, "example": {
-             "token": " ",
              "password":"Gaesh@7779"
           }
         }
@@ -185,36 +180,43 @@
           }
         }
       }
-    },"/resetPassword":{
+    }, 
+    "/resetPassword": {
       "put": {
-        "tags": ["Reset Password"],
-        "description": "User will submit user token and new password",
-        "parameters": [
-          {
-            "name": "Reset password",
-            "in": "body",
-            "description": "Please submit token and new password ",
-            "schema": {
-              "$ref": "#/definitions/resetPass"
-            }
-          }
-        ],
-        "produces": ["application/json"],
-        "schema": {
-          "$ref": "#/definitions/resetPass"
-        },
-        "responses": {
-          "200": {
-            "description": "Password reset successfully"
+          "tags": [
+              " resetPassword"
+          ],
+          "Summarry": "reset password",
+          "parameters": [
+            {
+              "name": "Authorization",
+              "in": "header",
+              "description": "token for validation",
+              "schema": {
+                  "type": "string"
+              }
           },
-          "400": {
-            "description": "Please enter your valid info"
-          },
-          "500": {
-            "description": "Internal server error"
+            {
+                  "name": "resetPassword",
+                  "in": "body",
+                  "schema": {
+                      "$ref": "#/definitions/resetPass"
+                  }
+              }
+             
+          ],
+          "responses": {
+              "200": {
+                  "description": "Successful"
+              },
+              "401": {
+                  "description": "Unauthorized User"
+              },
+              "500": {
+                  "description": "Internal Error"
+              }
           }
-        }
       }
-    }
+  }
   }
 }

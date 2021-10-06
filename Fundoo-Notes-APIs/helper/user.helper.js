@@ -15,6 +15,7 @@ class Helper {
 
       token = (data) => {
         const dataForToken = {
+          id: data._id,
           firstName: data.firstName,
           lastName: data.lastName,
           email: data.email
@@ -40,6 +41,7 @@ class Helper {
           if (verify) {
             console.log("middle ware running");
             next();
+            // return verify;
           } else {
             return res.status(400).send({
               message: "Invalid Token",

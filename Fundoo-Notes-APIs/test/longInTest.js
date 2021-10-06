@@ -82,17 +82,17 @@ describe("Forget Password API Test Case", () => {
         done();
       });
   });
-//   it("ForgetPassword_WithInValidEmail_ShouldReturn_error", (done) => {
-//     const user = data.userLogin.invalidEmail;
-//     chai
-//       .request(server)
-//       .post("/forgotPassword")
-//       .send(user)
-//       .end((err, res) => {
-//         res.should.have.status(422);
-//         done();
-//       });
-//   });
+  it("ForgetPassword_WithInValidEmail_ShouldReturn_error", (done) => {
+    const user = data.userLogin.invalidEmail;
+    chai
+      .request(server)
+      .post("/forgotPassword")
+      .send(user)
+      .end((err, res) => {
+        res.should.have.status(422);
+        done();
+      });
+  });
 });
 
 describe("Reset Password API", () => {

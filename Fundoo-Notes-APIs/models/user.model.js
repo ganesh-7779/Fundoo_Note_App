@@ -64,12 +64,12 @@ class UserModel {
             }
           });
         } else {
-          logger.error("password not converted into hash");
+          logger.error(err);
           throw err;
         }
       });
     } catch (error) {
-      logger.error("Internal error");
+      logger.error(error);
       return callback("Internal error", null);
     }
   }
@@ -93,7 +93,7 @@ class UserModel {
   forgotPass = (data, callback) => {
     Register.findOne({ email: data.email }, (err, data) => {
       if (err) {
-        logger.error("User with email id doesnt exists");
+        logger.error(err);
         return callback("User with email id doesnt exists", null);
       } else {
         return callback(null, data);

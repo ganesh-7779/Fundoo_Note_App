@@ -19,7 +19,7 @@ class UserController {
       };
       const validationRegister = validation.validateSchema.validate(user);
       if (validationRegister.error) {
-        logger.error("Invalid registration data");
+        logger.error(validationRegister.error);
         res.status(422).send({
           success: false,
           message: "Wrong input Validation",
@@ -44,7 +44,7 @@ class UserController {
         }
       });
     } catch (error) {
-      logger.error("Error while registering");
+      logger.error(error);
       return res.status(500).json({
         success: false,
         message: "Error while registering",
@@ -61,7 +61,7 @@ class UserController {
       };
       const loginValidation = validation.loginSchema.validate(userLoginInfo);
       if (loginValidation.error) {
-        logger.error("Invalid login info");
+        logger.error(loginValidation.error);
         res.status(422).send({
           success: false,
           message: loginValidation.error.message
@@ -69,7 +69,7 @@ class UserController {
       }
       userService.userLogin(userLoginInfo, (error, token) => {
         if (error) {
-          logger.error("Unable to login. Please enter correct info");
+          logger.error(error);
           return res.status(401).json({
             success: false,
             message: "Unable to login. Please enter correct info",
@@ -131,7 +131,7 @@ class UserController {
     try {
       const loginValidation = validation.resetSchema.validate(req.body.inputData);
       if (loginValidation.error) {
-        logger.error("Invalid password");
+        logger.error(loginValidation.erro);
         res.status(422).send({
           success: false,
           message: "Invalid password"
@@ -139,6 +139,7 @@ class UserController {
         return;
       }
       const header = req.headers.authorization;
+
       const myArr = header.split(" ");
       const token = myArr[1];
       const tokenData = helper.verifyToken(token);
@@ -149,7 +150,7 @@ class UserController {
 
       userService.resetPass(inputData, (error, userData) => {
         if (error) {
-          logger.error("did not data from service to controller");
+          logger.error(error);
           return res.status(400).send({
             message: error,
             success: false
@@ -164,7 +165,7 @@ class UserController {
         }
       });
     } catch (error) {
-      logger.error("Internal server error");
+      logger.error(error);
       return res.status(500).send({
         success: false,
         message: "Internal server error",
