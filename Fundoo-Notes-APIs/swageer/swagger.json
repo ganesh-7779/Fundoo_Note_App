@@ -45,28 +45,44 @@
         "password": "akashf8@7"
       }
     },
-    "forgetPass":{
-      "type":"object",
-      "properties":{
+    "forgetPass": {
+      "type": "object",
+      "properties": {
         "email": {
           "type": "string",
           "description": "Email ID of user."
         }
-      }, "example": {
-           "email": "dattagavhad121@gmail.com"
+      },
+      "example": {
+        "email": "dattagavhad121@gmail.com"
+      }
+    },
+    "ResetPass": {
+      "type": "object",
+      "properties": {
+        "password": {
+          "type": "string",
+          "description": "New Password of user"
         }
-      },"resetPass":{
-        "type":"object",
-        "properties":{
-          "password":{
-            "type": "string",
-            "description": "New Password of user"
-
+      },
+      "example": {
+        "password": "Gaesh@7779"
+      }
+    },"notes": {
+      "type": "object",
+      "properties": {
+          "title": {
+              "type": "string"
+          },
+          "description": {
+              "type": "string"
           }
-        }, "example": {
-             "password":"Gaesh@7779"
-          }
-        }
+      },
+      "example": {
+          "title": "What whould you like for tittle ?.....",
+          "description": "Hey enter here description of notes....."
+      }
+  }
   },
   "info": {
     "version": "1.0.0",
@@ -109,13 +125,13 @@
         },
         "responses": {
           "201": {
-            "description": "User created successfully"
+            "description": "User created successfully🤞🤩"
           },
           "409": {
-            "description": "User already exist"
+            "description": "User already exist😒"
           },
           "500": {
-            "description": "Internal server error"
+            "description": "Internal server error🌍"
           }
         }
       }
@@ -140,23 +156,24 @@
         },
         "responses": {
           "201": {
-            "description": "User logged in successfully"
+            "description": "User logged in successfully🤩🤞"
           },
           "401": {
-            "description": "Unable to login. Please enter correct login info"
+            "description": "Unable to login. Please enter correct login info😒"
           },
           "500": {
-            "description": "Internal server error"
+            "description": "Internal server error🌍"
           }
         }
       }
-    },"/forgotPassword":{
+    },
+    "/forgotPassword": {
       "post": {
-        "tags": ["forget Password"],
+        "tags": ["Forget Password"],
         "description": "forget Password? you will get link to reset your password",
         "parameters": [
           {
-            "name": "forget password",
+            "name": "Forget password",
             "in": "body",
             "description": "user will get link to reset password ",
             "schema": {
@@ -170,53 +187,93 @@
         },
         "responses": {
           "200": {
-            "description": "Email reset link send successfully"
+            "description": "Email reset link send successfully🤞🤩"
           },
           "400": {
-            "description": "Please enter your valid email"
+            "description": "Please enter your valid email😒"
           },
           "500": {
-            "description": "Internal server error"
+            "description": "Internal server error🌍"
           }
         }
       }
-    }, 
+    },
     "/resetPassword": {
       "put": {
-          "tags": [
-              " resetPassword"
-          ],
-          "Summarry": "reset password",
-          "parameters": [
-            {
-              "name": "Authorization",
-              "in": "header",
-              "description": "token for validation",
-              "schema": {
-                  "type": "string"
-              }
+        "tags": [" Reset Password"],
+        "Summarry": "reset password",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "token for validation",
+            "schema": {
+              "type": "string"
+            },
+            "example": {
+              "Notification": "please enter a string before pasting token"
+            }
           },
-            {
-                  "name": "resetPassword",
-                  "in": "body",
-                  "schema": {
-                      "$ref": "#/definitions/resetPass"
-                  }
-              }
-             
-          ],
-          "responses": {
-              "200": {
-                  "description": "Successful"
-              },
-              "401": {
-                  "description": "Unauthorized User"
-              },
-              "500": {
-                  "description": "Internal Error"
-              }
+          {
+            "name": "resetPassword",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/resetPass"
+            }
           }
+        ],
+        "responses": {
+          "200": {
+            "description": "Password Reset Successful🤩🤞"
+          },
+          "401": {
+            "description": "Unauthorized User😒"
+          },
+          "500": {
+            "description": "Internal Error🌍"
+          }
+        }
       }
-  }
+    },
+    "/createnotes": {
+      "post": {
+        "tags": ["Create Notes"],
+        "description": "Create note !!",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Token for vaidation",
+            "schema": {
+              "type": "string",
+              "required": true
+            }
+          },
+          {
+            "name": "create note",
+            "in": "body",
+            "description": "Note's body",
+            "schema": {
+              "$ref": "#/definitions/notes"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "schema": {
+          "$ref": "#/definitions/notes"
+        },
+        "responses": {
+          "201": {
+            "description": "Note Created Succesfully 🤞😉!!"
+          },
+          "400": {
+            "description": "Please enter Valid Token🤪"
+          },
+          "500": {
+            "description": "Internal server error🌍"
+          }
+        }
+      }
+    }
   }
 }

@@ -96,27 +96,44 @@ describe("Forget Password API Test Case", () => {
 });
 
 describe("Reset Password API", () => {
-  it("givenResetDetails_whenproper_shouldReturn_ResetPasswordSuccessfully", (done) => {
-    const resetPassword = data.userLogin.validDetails;
-    console.log(resetPassword);
+  it("givenresetdetails_whenproper_shouldberesetlinkSent", (done) => {
+    const token = data.userLogin.userResetPasswordToken;
+    const reset = data.userLogin.validDetailss;
     chai
       .request(server)
       .put("/resetPassword")
-      .send(resetPassword)
+      .set({ authorization: token })
+      .send(reset)
       .end((error, res) => {
         res.should.have.status(200);
         done();
       });
   });
-  it("givenResetDetails_whenproper_shouldReturn_ResetPasswordSuccessfully", (done) => {
-    const resetPassword = data.userLogin.InvalidDetails;
-    console.log(resetPassword);
+
+  it("givenresetdetails_whenproper_shouldberesetlinkSent", (done) => {
+    const token = data.userLogin.userResetPasswordToken;
+    const reset = data.userLogin.invalidDetailss;
     chai
       .request(server)
       .put("/resetPassword")
-      .send(resetPassword)
+      .set({ authorization: token })
+      .send(reset)
       .end((error, res) => {
         res.should.have.status(422);
+        done();
+      });
+  });
+
+  it("givenresetdetails_whenNotProper_shouldberesetlinkNotSent", (done) => {
+    const token = data.userLogin.userResetPasswordInvalidToken;
+    const reset = data.userLogin.validDetailss;
+    chai
+      .request(server)
+      .put("/resetPassword")
+      .set({ authorization: token })
+      .send(reset)
+      .end((error, res) => {
+        res.should.have.status(400);
         done();
       });
   });
