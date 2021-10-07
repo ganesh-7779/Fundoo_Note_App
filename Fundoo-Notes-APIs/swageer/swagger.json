@@ -194,7 +194,9 @@
               "description": "token for validation",
               "schema": {
                   "type": "string"
-              }
+              }, "example": {
+                "Notification":"please enter a string before pasting token"
+             }
           },
             {
                   "name": "resetPassword",
