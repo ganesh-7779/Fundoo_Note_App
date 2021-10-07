@@ -2,8 +2,6 @@ const mongoose = require("mongoose");
 
 const noteSchema = mongoose.Schema({
 
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: "userRegister" },
-
   title: {
     type: String
   },

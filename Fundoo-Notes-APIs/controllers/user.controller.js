@@ -6,7 +6,6 @@
 const userService = require("../service/user.service.js");
 const validation = require("../helper/user.validation.js");
 const logger = require("../logger/logger.js");
-const helper = require("../helper/user.helper.js");
 
 class UserController {
   registration = (req, res) => {
@@ -129,25 +128,16 @@ class UserController {
   // reset password
   resetPass = (req, res) => {
     try {
-      const loginValidation = validation.resetSchema.validate(req.body.inputData);
-      if (loginValidation.error) {
-        logger.error(loginValidation.erro);
-        res.status(422).send({
-          success: false,
-          message: "Invalid password"
-        });
-        return;
-      }
-      const header = req.headers.authorization;
-
-      const myArr = header.split(" ");
-      const token = myArr[1];
-      const tokenData = helper.verifyToken(token);
       const inputData = {
-        email: tokenData.dataForToken.email,
+        email: req.user.dataForToken.email,
         password: req.body.password
       };
-
+      const resetValidation = validation.resetSchema.validate(inputData);
+      if (resetValidation.error) {
+        logger.error("Invalid password");
+        res.status(422).send({ success: false, message: "Invalid password" });
+        return;
+      }
       userService.resetPass(inputData, (error, userData) => {
         if (error) {
           logger.error(error);
@@ -168,8 +158,7 @@ class UserController {
       logger.error(error);
       return res.status(500).send({
         success: false,
-        message: "Internal server error",
-        data: null
+        message: "Internal server error"
       });
     }
   };

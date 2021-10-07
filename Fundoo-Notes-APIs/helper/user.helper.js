@@ -23,36 +23,27 @@ class Helper {
         return jwt.sign({ dataForToken }, process.env.SECRET_KEY);
       }
 
-      verifyToken = (token) => {
-        const data = jwt.verify(token, process.env.SECRET_KEY);
-        if (data) {
-          return data;
-        } else {
-          return "couldnt verify";
-        }
-      }
-
       validateToken = (req, res, next) => {
+        const header = req.headers.authorization;
+        const myArr = header.split(" ");
+        const token = myArr[1];
+        // console.log(token);
         try {
-          const header = req.headers.authorization;
-          const myArr = header.split(" ");
-          const token = myArr[1];
-          const verify = jwt.verify(token, process.env.SECRET_KEY);
-          if (verify) {
-            console.log("middle ware running");
-            next();
-            // return verify;
-          } else {
-            return res.status(400).send({
-              message: "Invalid Token",
-              success: false
+          if (token) {
+            jwt.verify(token, process.env.SECRET_KEY, (error, decoded) => {
+              if (error) {
+                return res.status(400).send({ success: false, message: "Invalid Token" });
+              } else {
+                req.user = decoded;
+                // console.log(req.user);
+                next();
+              }
             });
+          } else {
+            return res.status(401).send({ success: false, message: "Authorisation failed! Invalid user" });
           }
-        } catch {
-          return res.status(401).send({
-            message: "Invalid Token",
-            success: false
-          });
+        } catch (error) {
+          return res.status(500).send({ success: false, message: "Something went wrong!" });
         }
       }
 }

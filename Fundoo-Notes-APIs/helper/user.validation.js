@@ -65,7 +65,16 @@ class Validation {
 
   resetSchema = Joi.object({
     email: Joi.string().required(),
-    password: Joi.string().required()
-  })
+    password: Joi.string()
+      .min(8)
+      .max(20)
+      .pattern(
+        new RegExp(
+          "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
+        )
+      )
+      .required()
+  });
 }
+
 module.exports = new Validation();
