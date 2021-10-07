@@ -1,7 +1,7 @@
-/*****************************************
+/*******************************************************************
  * @description   : For Routing the APIs
  * @author        : Ganesh
-*****************************************/
+********************************************************************/
 const userController = require("../controllers/user.controller.js");
 const middleware = require("../helper/user.helper");
 const Note = require("../controllers/notes.controller.js");
