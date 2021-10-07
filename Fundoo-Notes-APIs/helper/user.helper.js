@@ -15,6 +15,7 @@ class Helper {
 
       token = (data) => {
         const dataForToken = {
+          id: data._id,
           firstName: data.firstName,
           lastName: data.lastName,
           email: data.email
@@ -22,14 +23,28 @@ class Helper {
         return jwt.sign({ dataForToken }, process.env.SECRET_KEY);
       }
 
-      getEmailFromToken (token, callback) {
-        jwt.verify(token, process.env.SECRET_KEY, (error, data) => {
-          if (error) {
-            return callback(error, null);
+      validateToken = (req, res, next) => {
+        const header = req.headers.authorization;
+        const myArr = header.split(" ");
+        const token = myArr[1];
+        // console.log(token);
+        try {
+          if (token) {
+            jwt.verify(token, process.env.SECRET_KEY, (error, decoded) => {
+              if (error) {
+                return res.status(400).send({ success: false, message: "Invalid Token" });
+              } else {
+                req.user = decoded;
+                // console.log(req.user);
+                next();
+              }
+            });
           } else {
-            return callback(null, data);
+            return res.status(401).send({ success: false, message: "Authorisation failed! Invalid user" });
           }
-        });
+        } catch (error) {
+          return res.status(500).send({ success: false, message: "Something went wrong!" });
+        }
       }
 }
 module.exports = new Helper();

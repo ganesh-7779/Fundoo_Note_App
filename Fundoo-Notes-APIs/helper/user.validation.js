@@ -64,13 +64,17 @@ class Validation {
   });
 
   resetSchema = Joi.object({
-    token: Joi.string().required(),
-    password: Joi.string().min(8)
+    email: Joi.string().required(),
+    password: Joi.string()
+      .min(8)
+      .max(20)
       .pattern(
         new RegExp(
           "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
         )
-      ).required()
-  })
+      )
+      .required()
+  });
 }
+
 module.exports = new Validation();

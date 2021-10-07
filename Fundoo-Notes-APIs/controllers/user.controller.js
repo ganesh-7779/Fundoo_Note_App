@@ -6,6 +6,7 @@
 const userService = require("../service/user.service.js");
 const validation = require("../helper/user.validation.js");
 const logger = require("../logger/logger.js");
+
 class UserController {
   registration = (req, res) => {
     try {
@@ -17,7 +18,7 @@ class UserController {
       };
       const validationRegister = validation.validateSchema.validate(user);
       if (validationRegister.error) {
-        logger.error("Invalid registration data");
+        logger.error(validationRegister.error);
         res.status(422).send({
           success: false,
           message: "Wrong input Validation",
@@ -42,7 +43,7 @@ class UserController {
         }
       });
     } catch (error) {
-      logger.error("Error while registering");
+      logger.error(error);
       return res.status(500).json({
         success: false,
         message: "Error while registering",
@@ -59,7 +60,7 @@ class UserController {
       };
       const loginValidation = validation.loginSchema.validate(userLoginInfo);
       if (loginValidation.error) {
-        logger.error("Invalid login info");
+        logger.error(loginValidation.error);
         res.status(422).send({
           success: false,
           message: loginValidation.error.message
@@ -67,7 +68,7 @@ class UserController {
       }
       userService.userLogin(userLoginInfo, (error, token) => {
         if (error) {
-          logger.error("Unable to login. Please enter correct info");
+          logger.error(error);
           return res.status(401).json({
             success: false,
             message: "Unable to login. Please enter correct info",
@@ -96,7 +97,7 @@ class UserController {
       const email = req.body;
       const loginValidation = validation.forgetSchema.validate(email);
       if (loginValidation.error) {
-        logger.error("validation error for email");
+        // logger.error("validation error for email");
         res.status(422).send({
           success: false,
           message: loginValidation.error.message
@@ -104,7 +105,7 @@ class UserController {
       }
       userService.forgotPass(email, (error, data) => {
         if (error) {
-          logger.error("Email reset link not sent");
+          logger.error(error);
           return res.status(400).send({ error });
         } else {
           logger.info("Email reset link sent succesfully");
@@ -127,22 +128,19 @@ class UserController {
   // reset password
   resetPass = (req, res) => {
     try {
-      const userData = {
-        token: req.body.token,
+      const inputData = {
+        email: req.user.dataForToken.email,
         password: req.body.password
       };
-      const loginValidation = validation.resetSchema.validate(userData);
-      if (loginValidation.error) {
+      const resetValidation = validation.resetSchema.validate(inputData);
+      if (resetValidation.error) {
         logger.error("Invalid password");
-        res.status(422).send({
-          success: false,
-          message: "Invalid password"
-        });
+        res.status(422).send({ success: false, message: "Invalid password" });
         return;
       }
-      userService.resetPass(userData, (error, userData) => {
+      userService.resetPass(inputData, (error, userData) => {
         if (error) {
-          logger.error("did not data from service to controller");
+          logger.error(error);
           return res.status(400).send({
             message: error,
             success: false
@@ -157,11 +155,10 @@ class UserController {
         }
       });
     } catch (error) {
-      logger.error("Internal server error");
+      logger.error(error);
       return res.status(500).send({
         success: false,
-        message: "Internal server error",
-        data: null
+        message: "Internal server error"
       });
     }
   };

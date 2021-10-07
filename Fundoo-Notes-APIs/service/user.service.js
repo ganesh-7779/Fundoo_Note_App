@@ -16,7 +16,7 @@ class UserService {
   registerUser = (user, callback) => {
     userModel.registerUser(user, (error, data) => {
       if (error) {
-        logger.error("Getting some error in service");
+        logger.error(error);
         return callback(error, null);
       } else {
         logger.info(" data found ");
@@ -31,7 +31,7 @@ class UserService {
         // validate will take boolean value true and false
         bcrypt.compare(InfoLogin.password, data.password, (error, validate) => {
           if (!validate) {
-            logger.error("Password not match");
+            logger.error(error);
             return callback(error + "Invalid Password", null);
           } else {
             logger.info(" token generated ");
@@ -40,7 +40,7 @@ class UserService {
           }
         });
       } else {
-        logger.error("Invalid login Info, Please Enter Valid Login Info");
+        logger.error(error);
         return callback(error);
       }
     });
@@ -57,25 +57,14 @@ class UserService {
     });
   }
 
-  resetPass = (userData, callback) => {
-    helper.getEmailFromToken(userData.token, (error, data) => {
+  resetPass = (inputData, callback) => {
+    userModel.resetPass(inputData, (error, data) => {
       if (error) {
-        logger.error("not getting decoded data");
+        logger.error(error);
         return callback(error, null);
       } else {
-        const inputData = {
-          email: data.dataForToken.email,
-          password: userData.password
-        };
-        userModel.resetPass(inputData, (error, data) => {
-          if (error) {
-            logger.error("password not update in model");
-            return callback(error, null);
-          } else {
-            logger.info("getting upadated password in data");
-            return callback(null, data);
-          }
-        });
+        logger.info("getting upadated password in data");
+        return callback(null, data);
       }
     });
   }

@@ -64,12 +64,12 @@ class UserModel {
             }
           });
         } else {
-          logger.error("password not converted into hash");
+          logger.error(err);
           throw err;
         }
       });
     } catch (error) {
-      logger.error("Internal error");
+      logger.error(error);
       return callback("Internal error", null);
     }
   }
@@ -93,7 +93,7 @@ class UserModel {
   forgotPass = (data, callback) => {
     Register.findOne({ email: data.email }, (err, data) => {
       if (err) {
-        logger.error("User with email id doesnt exists");
+        logger.error(err);
         return callback("User with email id doesnt exists", null);
       } else {
         return callback(null, data);
@@ -101,9 +101,9 @@ class UserModel {
     });
   };
 
-  resetPass = async (userData, callback) => {
-    const hashPass = bcrypt.hashSync(userData.password, 10);
-    const data = await Register.findOne({ email: userData.email });
+  resetPass = async (inputData, callback) => {
+    const hashPass = bcrypt.hashSync(inputData.password, 10);
+    const data = await Register.findOne({ email: inputData.email });
     Register.findByIdAndUpdate(data.id, { firstName: data.firstName, lastName: data.lastName, password: hashPass }, { new: true }, (error, data) => {
       if (error) {
         logger.error(error);

@@ -108,4 +108,16 @@ describe("Reset Password API", () => {
         done();
       });
   });
+  it("givenResetDetails_whenproper_shouldReturn_ResetPasswordSuccessfully", (done) => {
+    const resetPassword = data.userLogin.InvalidDetails;
+    console.log(resetPassword);
+    chai
+      .request(server)
+      .put("/resetPassword")
+      .send(resetPassword)
+      .end((error, res) => {
+        res.should.have.status(422);
+        done();
+      });
+  });
 });
