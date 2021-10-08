@@ -274,6 +274,35 @@
           }
         }
       }
+    },"/getAllNotes": {
+      "get": {
+        "tags": ["Get All Notes"],
+        "description": "You will get your all Notes !!",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Token for vaidation..! Please Enter a string before puting token..!",
+            "schema": {
+              "type": "string",
+              "required": true
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        
+        "responses": {
+          "200": {
+            "description": "Here is your all Notes 🤞😉!!"
+          },
+          "400": {
+            "description": "Please enter Valid Token🤪"
+          },
+          "500": {
+            "description": "Some error occurred while retrieving notes🌍"
+          }
+        }
+      }
     }
   }
 }
