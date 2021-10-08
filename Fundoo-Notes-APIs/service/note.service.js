@@ -22,5 +22,19 @@ class Service {
       )
       ;
     }
+
+    /**
+     * @description this function is written to trigger or call the models function
+     * @returns error if it has error else data
+     */
+    serGetAllNotes = (callback) => {
+      noteModel.getAllNotesDB((error, notes) => {
+        if (error) {
+          return callback(error, null);
+        } else {
+          return callback(null, notes);
+        }
+      });
+    }
 }
 module.exports = new Service();

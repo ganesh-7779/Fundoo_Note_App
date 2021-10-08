@@ -40,6 +40,32 @@ class Note {
       });
     }
   };
+
+  /**
+  * @description function written to get all the notes from the database
+  * @param {*} req nothing to pass in req.body
+  * @param {*} res should be success true
+  * @returns response status 200
+  */
+  getAllNotes = (req, res) => {
+    try {
+      noteService.serGetAllNotes((error, userNotes) => {
+        if (error) {
+          res.status(500).send({
+            message: error.message || "Some error occurred while retrieving notes."
+          });
+        } else {
+          res.status(200).send({
+            success: true,
+            message: "Here is your all Notes",
+            notes: userNotes
+          });
+        }
+      });
+    } catch (error) {
+      return error;
+    }
+  }
 }
 
 module.exports = new Note();
