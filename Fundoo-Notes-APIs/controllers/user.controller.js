@@ -132,6 +132,7 @@ class UserController {
         email: req.user.dataForToken.email,
         password: req.body.password
       };
+      console.log(inputData);
       const resetValidation = validation.resetSchema.validate(inputData);
       if (resetValidation.error) {
         logger.error("Invalid password");
