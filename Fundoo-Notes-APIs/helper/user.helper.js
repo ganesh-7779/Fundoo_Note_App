@@ -20,6 +20,7 @@ class Helper {
           lastName: data.lastName,
           email: data.email
         };
+        console.log(dataForToken);
         return jwt.sign({ dataForToken }, process.env.SECRET_KEY);
       }
 
@@ -27,7 +28,7 @@ class Helper {
         const header = req.headers.authorization;
         const myArr = header.split(" ");
         const token = myArr[1];
-        // console.log(token);
+        console.log(token);
         try {
           if (token) {
             jwt.verify(token, process.env.SECRET_KEY, (error, decoded) => {
@@ -35,7 +36,7 @@ class Helper {
                 return res.status(400).send({ success: false, message: "Invalid Token" });
               } else {
                 req.user = decoded;
-                // console.log(req.user);
+                console.log(req.user);
                 next();
               }
             });

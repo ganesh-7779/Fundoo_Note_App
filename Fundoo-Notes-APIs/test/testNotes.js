@@ -16,7 +16,7 @@ const server = require("../server");
 chai.should();
 chai.use(chaiHttp);
 
-describe("create notes api", () => {
+describe("Create Notes API", () => {
   it("when_Token_Is_valid", (done) => {
     const token = noteDB.notes.validToken;
     const createNotes = {
@@ -47,6 +47,33 @@ describe("create notes api", () => {
       .post("/createnotes")
       .set({ authorization: token })
       .send(createNotes)
+      .end((err, res) => {
+        res.should.have.status(400);
+        done();
+      });
+  });
+});
+
+// get all notes API test case
+describe("Create Notes API", () => {
+  it("when_Token_Is_valid", (done) => {
+    const token = noteDB.notes.validToken;
+    chai
+      .request(server)
+      .get("/getAllNotes")
+      .set({ authorization: token })
+      .end((err, res) => {
+        res.should.have.status(200);
+        done();
+      });
+  });
+
+  it("when_Token_Is_Invalid", (done) => {
+    const token = noteDB.notes.invalidToken;
+    chai
+      .request(server)
+      .get("/getAllNotes")
+      .set({ authorization: token })
       .end((err, res) => {
         res.should.have.status(400);
         done();

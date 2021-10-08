@@ -14,11 +14,18 @@ class Note {
      */
   createNote = (req, res) => {
     try {
+      if ((!req.body.title) || (!req.body.description)) {
+        return res.status(400).send({
+          success: false,
+          message: "Please fill details..! Note can not be empty"
+        });
+      };
       const note = {
         userId: req.user.dataForToken.id,
         title: req.body.title,
         description: req.body.description
       };
+      console.log(note);
       noteService.createNote(note, (err, data) => {
         if (err) {
           return res.status(500).json({
@@ -49,7 +56,9 @@ class Note {
   */
   getAllNotes = (req, res) => {
     try {
-      noteService.serGetAllNotes((error, userNotes) => {
+      const userId = { id: req.user.dataForToken.id };
+      console.log((userId) + "  controller");
+      noteService.serGetAllNotes((userId), (error, userNotes) => {
         if (error) {
           res.status(500).send({
             message: error.message || "Some error occurred while retrieving notes."

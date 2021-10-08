@@ -82,6 +82,7 @@ class UserModel {
         } else if (!data) {
           return callback("Invalid email", null);
         } else {
+          console.log(data + "model");
           return callback(null, data);
         }
       });

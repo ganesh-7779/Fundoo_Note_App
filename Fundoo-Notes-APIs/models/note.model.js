@@ -5,8 +5,8 @@
  * @author          :Ganesh
 *************************************************************************/
 const mongoose = require("mongoose");
-
 const noteSchema = mongoose.Schema({
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: "Register" },
 
   title: {
     type: String
@@ -15,8 +15,7 @@ const noteSchema = mongoose.Schema({
     type: String,
     required: true,
     minlength: 2
-  },
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: "Register" }
+  }
 }, {
   timestamps: true
 }
@@ -48,8 +47,8 @@ class Model {
      * @description getAllNotes function written to get all notes from database
      * @returns retrieved notes or if error returns error
      */
-    getAllNotesDB = async (callback) => {
-      await NoteRegister.find({}, (error, notes) => {
+    getAllNotesDB = async (userId, callback) => {
+      await NoteRegister.find({ userId: userId.id }, (error, notes) => {
         if (error) {
           return callback(error, null);
         } else {
