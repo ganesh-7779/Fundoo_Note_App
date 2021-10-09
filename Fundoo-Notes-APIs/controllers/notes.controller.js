@@ -4,6 +4,7 @@
  *               gives the response and validating whether the input is correct or not.
  * @author       Ganesh
  * ***************************************************************/
+// const { error } = require("../logger/logger");
 const noteService = require("../service/note.service");
 class Note {
   /**
@@ -68,6 +69,31 @@ class Note {
             success: true,
             message: "Here is your all Notes",
             notes: userNotes
+          });
+        }
+      });
+    } catch (error) {
+      return error;
+    }
+  }
+
+  getById = (req, res) => {
+    const note = req.params.noteID;
+    console.log(note);
+    try {
+      const id = { userId: req.user.dataForToken.id, noteID: req.params.noteID };
+      console.log(id);
+
+      noteService.getById((id), (error, note) => {
+        if (error) {
+          res.status(500).send({
+            message: error.message || "Some error occurred while retrieving note."
+          });
+        } else {
+          res.status(200).send({
+            success: true,
+            message: "Here is your Note",
+            notes: note
           });
         }
       });

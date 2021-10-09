@@ -56,6 +56,17 @@ class Model {
         }
       }).clone().catch(function (err) { console.log(err); });
     }
+
+    getById = async (id, callback) => {
+      // NoteRegister.find({ $and: [{ _id: id.noteId }, { userId: id.userId }] });
+      await NoteRegister.find({ $and: [{ _id: id.noteID }, { userId: id.userId }] }, (error, note) => {
+        if (error) {
+          return callback(error, null);
+        } else {
+          return callback(null, note);
+        }
+      }).clone().catch(function (err) { console.log(err); });
+    }
 }
 
 module.exports = new Model();

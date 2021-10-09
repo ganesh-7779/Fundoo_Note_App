@@ -18,4 +18,5 @@ module.exports = (app) => {
   app.post("/createnotes", middleware.validateToken, Note.createNote);
   // Get all note API
   app.get("/getAllNotes", middleware.validateToken, Note.getAllNotes);
+  app.get("/getByID/:noteID", middleware.validateToken, Note.getById);
 };

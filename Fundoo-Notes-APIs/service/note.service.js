@@ -3,6 +3,7 @@
 * @file          : note.service.js
 * @author        : Ganesh
 *************************************************************************************************/
+// const { error } = require("../logger/logger");
 const noteModel = require("../models/note.model");
 
 class Service {
@@ -33,6 +34,16 @@ class Service {
           return callback(error, null);
         } else {
           return callback(null, notes);
+        }
+      });
+    }
+
+    getById = (noteId, callback) => {
+      noteModel.getById(noteId, (error, note) => {
+        if (error) {
+          return callback(error, null);
+        } else {
+          return callback(null, note);
         }
       });
     }
