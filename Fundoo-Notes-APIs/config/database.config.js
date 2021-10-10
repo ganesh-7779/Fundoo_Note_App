@@ -2,7 +2,7 @@
 /**
  * @description   : DBconnection class is use for connecting to database Through mongoose connect method
  * @author        : Ganesh
-*/
+ */
 const mongoose = require('mongoose');
 const url = process.env.URL;
 

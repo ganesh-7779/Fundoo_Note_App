@@ -39,7 +39,19 @@ class Service {
     }
 
     getById = (noteId, callback) => {
+      console.log(noteId);
       noteModel.getById(noteId, (error, note) => {
+        if (error) {
+          return callback(error, null);
+        } else {
+          return callback(null, note);
+        }
+      });
+    }
+
+    serUpdateNote = (noteId, callback) => {
+    //  console.log(noteId);
+      noteModel.modUpdateNote(noteId, (error, note) => {
         if (error) {
           return callback(error, null);
         } else {

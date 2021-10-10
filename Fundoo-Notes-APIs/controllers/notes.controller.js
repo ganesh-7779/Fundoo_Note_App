@@ -101,6 +101,35 @@ class Note {
       return error;
     }
   }
+
+  updateNote = (req, res) => {
+    try {
+      const id = { userId: req.user.dataForToken.id, noteID: req.params.noteID, title: req.body.title, description: req.body.description };
+
+      noteService.serUpdateNote((id), (error, data) => {
+        if (error) {
+          // logger.error("failed to update note");
+          return res.status(400).json({
+            message: "failed to update note",
+            success: false
+          });
+        } else {
+          // logger.info("Successfully inserted note");
+          return res.status(201).send({
+            message: "Successfully update note",
+            success: true,
+            data: data
+          });
+        }
+      });
+    } catch {
+    //  logger.error("Internal server error");
+      return res.status(500).json({
+        message: "Error occured",
+        success: false
+      });
+    }
+  }
 }
 
 module.exports = new Note();
