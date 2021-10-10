@@ -19,9 +19,7 @@ class Service {
         } else {
           return callback(null, data);
         }
-      }
-      )
-      ;
+      });
     }
 
     /**
@@ -38,6 +36,12 @@ class Service {
       });
     }
 
+    /**
+     * @description @getById this function written for get notes using note id and userid
+     * @param {*} req shoild contain note id and userID
+     * @param {*} res
+     * @returns response
+     */
     getById = (noteId, callback) => {
       console.log(noteId);
       noteModel.getById(noteId, (error, note) => {
@@ -49,6 +53,12 @@ class Service {
       });
     }
 
+    /**
+     * @description serUpdateNote this function written for update notes using ID note id
+     * @param {*} req shoild contain note id and title an description of note
+     * @param {*} res
+     * @returns response
+     */
     serUpdateNote = (noteId, callback) => {
     //  console.log(noteId);
       noteModel.modUpdateNote(noteId, (error, note) => {
@@ -60,6 +70,12 @@ class Service {
       });
     }
 
+    /**
+     * @description serDeleteById this function written for Delete notes using note id
+     * @param {*} req params shoild contain note id
+     * @param {*} res
+     * @returns response
+     */
     serDeleteById = (noteId, callback) => {
       console.log(noteId);
       noteModel.modDeleteByID(noteId, (error, note) => {
