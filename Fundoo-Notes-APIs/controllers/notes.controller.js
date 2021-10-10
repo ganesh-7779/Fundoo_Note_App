@@ -105,7 +105,6 @@ class Note {
   updateNote = (req, res) => {
     try {
       const id = { userId: req.user.dataForToken.id, noteID: req.params.noteID, title: req.body.title, description: req.body.description };
-
       noteService.serUpdateNote((id), (error, data) => {
         if (error) {
           // logger.error("failed to update note");
@@ -116,7 +115,7 @@ class Note {
         } else {
           // logger.info("Successfully inserted note");
           return res.status(201).send({
-            message: "Successfully update note",
+            message: " Note is upadated Successfully",
             success: true,
             data: data
           });
@@ -130,6 +129,31 @@ class Note {
       });
     }
   }
+
+ deleteById = (req, res) => {
+   const note = req.params.noteID;
+   console.log(note);
+   try {
+     const id = { userId: req.user.dataForToken.id, noteID: req.params.noteID };
+     console.log(id);
+
+     noteService.serDeleteById((id), (error, note) => {
+       if (error) {
+         res.status(500).send({
+           message: error.message || "Some error occurred while retrieving note."
+         });
+       } else {
+         res.status(200).send({
+           success: true,
+           message: "Note Deleted successfully",
+           notes: note
+         });
+       }
+     });
+   } catch (error) {
+     return error;
+   }
+ }
 }
 
 module.exports = new Note();

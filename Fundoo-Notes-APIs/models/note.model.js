@@ -78,6 +78,16 @@ class Model {
         }
       }).clone().catch(function (err) { console.log(err); });
     }
+
+    modDeleteByID = async (id, callback) => {
+      await NoteRegister.findByIdAndDelete({ _id: id.noteID }, (error, note) => {
+        if (error) {
+          return callback(error, null);
+        } else {
+          return callback(null, note);
+        }
+      }).clone().catch(function (err) { console.log(err); });
+    }
 }
 
 module.exports = new Model();

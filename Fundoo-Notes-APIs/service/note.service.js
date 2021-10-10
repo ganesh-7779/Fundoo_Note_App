@@ -59,5 +59,16 @@ class Service {
         }
       });
     }
+
+    serDeleteById = (noteId, callback) => {
+      console.log(noteId);
+      noteModel.modDeleteByID(noteId, (error, note) => {
+        if (error) {
+          return callback(error, null);
+        } else {
+          return callback(null, note);
+        }
+      });
+    }
 }
 module.exports = new Service();
