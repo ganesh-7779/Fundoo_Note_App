@@ -2,7 +2,7 @@
 /******************************************************************
  * @module       Model
  * @file         testNotes.js
- * @description  Test cases for create notes APIs
+ * @description  Test cases for CRUD operation APIs
  * @author       Ganesh
 ********************************************************************/
 /* eslint-disable node/handle-callback-err */
@@ -168,6 +168,45 @@ describe("Update Note By ID API", (done) => {
         res.should.have.status(400);
         res.body.should.have.property("success").eql(false);
         res.body.should.have.property("message").eql("failed to update note");
+        done();
+      });
+  });
+});
+
+// test cases for delete note by id
+describe("Delete Note By ID API", () => {
+  it("when_TokenAndID_isValid_Should_return_DeleteNote_Sucessfully", (done) => {
+    const token = noteDB.getById.token;
+    chai.request(server)
+      .delete("/deleteByID/6162dea5f7dd09d189ffdf4e")
+      .set({ authorization: token })
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.have.property("success").eql(true);
+        res.body.should.have.property("message").eql("Note Deleted successfully");
+        done();
+      });
+  });
+  it("when_ID_isInValid_ShouldNot_DeleteNote", (done) => {
+    const token = noteDB.getById.token;
+    chai.request(server)
+      .delete("/deleteByID/6162daed1efba999528a4")
+      .set({ authorization: token })
+      .end((err, res) => {
+        res.should.have.status(400);
+        res.body.should.have.property("message").eql("Some error occurred while retrieving note.");
+        done();
+      });
+  });
+  it("when_Token_isInValid_Should_returnInvalidToken", (done) => {
+    const token = noteDB.getById.Intoken;
+    chai.request(server)
+      .delete("/deleteByID/6162daed1efba999528a46f2")
+      .set({ authorization: token })
+      .end((err, res) => {
+        res.should.have.status(400);
+        res.body.should.have.property("success").eql(false);
+        res.body.should.have.property("message").eql("Invalid Token");
         done();
       });
   });

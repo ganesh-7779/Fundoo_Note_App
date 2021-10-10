@@ -180,9 +180,7 @@ class Note {
       noteService.serDeleteById(id, (error, note) => {
         if (error) {
           logger.error(error);
-          res.status(500).send({
-            message: error.message || "Some error occurred while retrieving note.",
-          });
+          res.status(400).send({ message: "Some error occurred while retrieving note." });
         } else {
           logger.info("Note Deleted successfully");
           res.status(200).send({
