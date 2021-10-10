@@ -15,7 +15,7 @@ const server = require("../server");
 
 chai.should();
 chai.use(chaiHttp);
-
+// test case for create Note API
 describe("Create Notes API", () => {
   it("when_Token_Is_valid", (done) => {
     const token = noteDB.notes.validToken;
@@ -54,8 +54,8 @@ describe("Create Notes API", () => {
   });
 });
 
-// get all notes API test case
-describe("Create Notes API", () => {
+// test case for get all Note API
+describe("Get All Notes API", () => {
   it("when_Token_Is_valid", (done) => {
     const token = noteDB.notes.validToken;
     chai
@@ -79,4 +79,40 @@ describe("Create Notes API", () => {
         done();
       });
   });
+});
+
+// test case for get Note by id API
+describe("Get Note By ID API", () => {
+  it("when_TokenAndID_isValid_Should_returnNote", (done) => {
+    const token = noteDB.getById.token;
+    chai.request(server)
+      .get("/getByID/6162daed1efba999528a46f2")
+      .set({ authorization: token })
+      .end((err, res) => {
+        res.should.have.status(200);
+        done();
+      });
+  });
+  it("when_ID_isInValid_ShouldNot_returnNote", (done) => {
+    const token = noteDB.getById.token;
+    chai.request(server)
+      .get("/getByID/6162daed1efba999528a462")
+      .set({ authorization: token })
+      .end((err, res) => {
+        res.should.have.status(500);
+        done();
+      });
+  });
+  it("when_Token_isInValid_ShouldNot_returnNote", (done) => {
+    const token = noteDB.getById.Intoken;
+    chai.request(server)
+      .get("/getByID/6162daed1efba999528a46f2")
+      .set({ authorization: token })
+      .end((err, res) => {
+        res.should.have.status(400);
+        done();
+      });
+  });
+});
+describe("Get Note By ID API", () => {
 });

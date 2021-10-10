@@ -101,13 +101,15 @@ class Note {
 
       noteService.getById(id, (error, note) => {
         if (error) {
-          logger.error(error);
+          // logger.error(error);
+          // error.message ||
           res.status(500).send({
             message:
-              error.message || "Some error occurred while retrieving note.",
+              "Some error occurred while retrieving note.",
           });
         } else {
           logger.info("Here is your Note");
+          console.log(note);
           res.status(200).send({
             success: true,
             message: "Here is your Note",
@@ -179,8 +181,7 @@ class Note {
         if (error) {
           logger.error(error);
           res.status(500).send({
-            message:
-              error.message || "Some error occurred while retrieving note.",
+            message: error.message || "Some error occurred while retrieving note.",
           });
         } else {
           logger.info("Note Deleted successfully");
