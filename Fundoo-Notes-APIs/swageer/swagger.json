@@ -341,7 +341,8 @@
           }
         }
       }
-    },"/updateNoteById/{noteID}": {
+    },
+    "/updateNoteById/{noteID}": {
       "put": {
         "tags": ["Update Note By ID"],
         "description": "Update Note That You Want..! !!",
@@ -377,7 +378,46 @@
 
         "responses": {
           "200": {
-            "description": "Here is your Notes 🤞😉!!"
+            "description": "Here is your Updated Note 🤞😉!!"
+          },
+          "400": {
+            "description": "Please enter Valid Token🤪"
+          },
+          "500": {
+            "description": "Some error occurred while retrieving notes🌍"
+          }
+        }
+      }
+    },
+    "/deleteById/{noteID}": {
+      "delete": {
+        "tags": ["Delete Note By ID"],
+        "description": "You will able to delete your note !!",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Token for vaidation..! Please Enter a string before puting token..!",
+            "schema": {
+              "type": "string",
+              "required": true
+            }
+          },
+          {
+            "in": "path",
+            "name": "noteID",
+            "description": "Enter ID of note to delete",
+            "schema": {
+              "type": "string",
+              "required": true
+            }
+          }
+        ],
+        "produces": ["application/json"],
+
+        "responses": {
+          "200": {
+            "description": "Note successfully Deleted 🤞😉!!"
           },
           "400": {
             "description": "Please enter Valid Token🤪"
