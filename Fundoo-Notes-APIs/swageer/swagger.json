@@ -341,6 +341,52 @@
           }
         }
       }
+    },"/updateNoteById/{noteID}": {
+      "put": {
+        "tags": ["Update Note By ID"],
+        "description": "Update Note That You Want..! !!",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Token for vaidation..! Please Enter a string before puting token..!",
+            "schema": {
+              "type": "string",
+              "required": true
+            }
+          },
+          {
+            "in": "path",
+            "name": "noteID",
+            "description": "Enter note ID",
+            "schema": {
+              "type": "string",
+              "required": true
+            }
+          },
+          {
+            "name": "Update Note",
+            "in": "body",
+            "description": "Note's body",
+            "schema": {
+              "$ref": "#/definitions/notes"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+
+        "responses": {
+          "200": {
+            "description": "Here is your Notes 🤞😉!!"
+          },
+          "400": {
+            "description": "Please enter Valid Token🤪"
+          },
+          "500": {
+            "description": "Some error occurred while retrieving notes🌍"
+          }
+        }
+      }
     }
   }
 }
