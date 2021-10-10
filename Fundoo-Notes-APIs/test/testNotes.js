@@ -99,20 +99,76 @@ describe("Get Note By ID API", () => {
       .get("/getByID/6162daed1efba999528a462")
       .set({ authorization: token })
       .end((err, res) => {
-        res.should.have.status(500);
+        res.should.have.status(400);
+        res.body.should.have.property("success").eql(false);
+        res.body.should.have.property("message").eql("Some error occurred while retrieving note.");
         done();
       });
   });
-  it("when_Token_isInValid_ShouldNot_returnNote", (done) => {
+  it("when_Token_isInValid_Should_returnInvalidToken", (done) => {
     const token = noteDB.getById.Intoken;
     chai.request(server)
       .get("/getByID/6162daed1efba999528a46f2")
       .set({ authorization: token })
       .end((err, res) => {
         res.should.have.status(400);
+        res.body.should.have.property("success").eql(false);
+        res.body.should.have.property("message").eql("Invalid Token");
         done();
       });
   });
 });
-describe("Get Note By ID API", () => {
+
+// test cases for update note by id
+
+describe("Update Note By ID API", (done) => {
+  it("when_givenDetails_isValid_Should_returnUpadatedNote", (done) => {
+    const token = noteDB.getById.token;
+    const UpdatedNotes = {
+      title: faker.lorem.word(),
+      description: faker.lorem.sentence()
+    };
+    chai.request(server)
+      .put("/updateNoteById/6162daed1efba999528a46f2")
+      .set({ authorization: token })
+      .send(UpdatedNotes)
+      .end((err, res) => {
+        res.should.have.status(201);
+        done();
+      });
+  });
+  it("when_givenToken_isInValid_Should_return_InvalidToken", (done) => {
+    const token = noteDB.getById.Intoken;
+    const UpdatedNotes = {
+      title: faker.lorem.word(),
+      description: faker.lorem.sentence()
+    };
+    chai.request(server)
+      .put("/updateNoteById/6162daed1efba999528a46f2")
+      .set({ authorization: token })
+      .send(UpdatedNotes)
+      .end((err, res) => {
+        res.should.have.status(400);
+        res.body.should.have.property("success").eql(false);
+        res.body.should.have.property("message").eql("Invalid Token");
+        done();
+      });
+  });
+  it("when_givenNoteID_isInValid_Should_return_failedTo_UpadateNote", (done) => {
+    const token = noteDB.getById.token;
+    const UpdatedNotes = {
+      title: faker.lorem.word(),
+      description: faker.lorem.sentence()
+    };
+    chai.request(server)
+      .put("/updateNoteById/6162daed1efba999528a46f")
+      .set({ authorization: token })
+      .send(UpdatedNotes)
+      .end((err, res) => {
+        res.should.have.status(400);
+        res.body.should.have.property("success").eql(false);
+        res.body.should.have.property("message").eql("failed to update note");
+        done();
+      });
+  });
 });

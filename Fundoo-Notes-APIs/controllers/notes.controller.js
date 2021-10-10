@@ -103,9 +103,9 @@ class Note {
         if (error) {
           // logger.error(error);
           // error.message ||
-          res.status(500).send({
-            message:
-              "Some error occurred while retrieving note.",
+          res.status(400).send({
+            success: false,
+            message: "Some error occurred while retrieving note.",
           });
         } else {
           logger.info("Here is your Note");
@@ -144,7 +144,7 @@ class Note {
             success: false,
           });
         } else {
-          logger.info("Successfully inserted note");
+          logger.info("Note is upadated Successfully");
           return res.status(201).send({
             message: " Note is upadated Successfully",
             success: true,
