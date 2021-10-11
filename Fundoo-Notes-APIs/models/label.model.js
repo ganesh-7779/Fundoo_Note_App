@@ -49,8 +49,16 @@ class LabelModel {
         const lebel = await ModelForLabel.find({ $and: [{ _id: labelInfo.labelID }, { userId: labelInfo.userId }] });
         if (!lebel) { return error; }
         return lebel;
-      } catch (error) {
-      }
+      } catch (error) { return error; }
+    }
+
+    updateLabel = async (labelInput, error) => {
+      try {
+        const updatedLabel = await ModelForLabel.findByIdAndUpdate(labelInput.labelID, { labelName: labelInput.labelName }, { new: true });
+        if (!updatedLabel) { return error; }
+        // console.log(updatedLabel);
+        return updatedLabel;
+      } catch (error) { return error; }
     }
 }
 module.exports = new LabelModel();

@@ -29,6 +29,17 @@ class LabelService {
         return label;
       } catch { return error; }
     }
+
+    updateLabel = async (labelInput, error) => {
+      try {
+        const updatedlabel = await labelModel.updateLabel(labelInput);
+        if (!updatedlabel) { return error; }
+        // console.log(label);
+        return updatedlabel;
+      } catch (error) {
+        return error;
+      }
+    }
 }
 
 module.exports = new LabelService();

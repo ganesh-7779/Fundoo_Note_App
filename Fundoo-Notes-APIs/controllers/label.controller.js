@@ -64,6 +64,30 @@ class LabelController {
     } catch (error) {
       res.status(500).send({ success: false, message: "error occorred" });
     }
+  }
+
+  updateLabel = async (req, res) => {
+    try {
+      const labelInput = {
+        userId: req.user.dataForToken.id,
+        labelName: req.body.labelName,
+        labelID: req.params.labelID
+      };
+      // console.log(labelInput);
+      const label = await labelService.updateLabel(labelInput);
+      // console.log(label);
+      if (!label) {
+        return res
+          .status(400)
+          .send({ success: false, message: "Unable to Update label" });
+      }
+      logger.info("label Updated Successfully");
+      return res
+        .status(200)
+        .send({ success: true, message: "Label Updated..!", data: label });
+    } catch (error) {
+      res.status(500).send({ success: false, message: "error occorred" });
+    }
   };
 }
 module.exports = new LabelController();
