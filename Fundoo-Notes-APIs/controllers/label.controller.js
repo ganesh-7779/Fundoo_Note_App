@@ -54,13 +54,13 @@ class LabelController {
       };
       const label = await labelService.getLabelById(labelInfo);
       if (!label) {
-        return res.status(400).send({
+        res.status(400).send({
           success: false,
           message: "Unable to retrieve label"
         });
       }
       logger.info("Label Retrieved..!");
-      return res.status(200).send({ success: true, message: "Label Retrieved..!", data: label });
+      res.status(200).send({ success: true, message: "Label Retrieved..!", data: label });
     } catch (error) {
       res.status(500).send({ success: false, message: "error occorred" });
     }
@@ -88,6 +88,28 @@ class LabelController {
     } catch (error) {
       res.status(500).send({ success: false, message: "error occorred" });
     }
-  };
+  }
+
+  deleteById = async (req, res) => {
+    try {
+      const labelInfo = {
+        userId: req.user.dataForToken.id,
+        labelID: req.params.labelID
+      };
+      const label = await labelService.deleteById(labelInfo);
+      if (!label) {
+        return res
+          .status(400)
+          .send({ success: false, message: "Unable to Update label" });
+      }
+      console.log(label);
+      logger.info("Label Deleted successfully..!");
+      return res.status(200).send({ success: true, message: "Label Deleted..!", data: label });
+
+      // return res.status(204).send({ success: true, message: "Label Deleted..!", data: label });
+    } catch (error) {
+      res.status(500).send({ success: false, message: "error occorred" });
+    }
+  }
 }
 module.exports = new LabelController();

@@ -60,5 +60,18 @@ class LabelModel {
         return updatedLabel;
       } catch (error) { return error; }
     }
+
+    deleteById = async (labelInfo) => {
+      try {
+        // console.log(labelInfo.labelID);
+        await ModelForLabel.findByIdAndDelete({ _id: labelInfo.labelID }, { new: true }, (error, label) => {
+          if (error) {
+            return error;
+          }
+          console.log(label + " model");
+          return label;
+        }).clone().catch(function (err) { console.log(err); });
+      } catch (error) { return error; }
+    }
 }
 module.exports = new LabelModel();

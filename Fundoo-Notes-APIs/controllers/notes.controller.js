@@ -183,7 +183,7 @@ class Note {
           res.status(400).send({ message: "Some error occurred while retrieving note." });
         } else {
           logger.info("Note Deleted successfully");
-          res.status(204).send({
+          res.status(200).json({
             success: true,
             message: "Note Deleted successfully",
             notes: note,
