@@ -31,7 +31,7 @@ class Note {
       noteService.createNote(note, (err, data) => {
         if (err) {
           logger.error(err);
-          return res.status(500).json({
+          return res.status(401).json({
             message: "failed to post note",
             success: false,
           });
@@ -65,7 +65,7 @@ class Note {
       noteService.serGetAllNotes(userId, (error, userNotes) => {
         if (error) {
           logger.error(error);
-          res.status(500).send({
+          res.status(401).send({
             message:
               error.message || "Some error occurred while retrieving notes.",
           });
@@ -103,7 +103,7 @@ class Note {
         if (error) {
           // logger.error(error);
           // error.message ||
-          res.status(400).send({
+          res.status(401).send({
             success: false,
             message: "Some error occurred while retrieving note.",
           });
@@ -183,7 +183,7 @@ class Note {
           res.status(400).send({ message: "Some error occurred while retrieving note." });
         } else {
           logger.info("Note Deleted successfully");
-          res.status(200).send({
+          res.status(204).send({
             success: true,
             message: "Note Deleted successfully",
             notes: note,
