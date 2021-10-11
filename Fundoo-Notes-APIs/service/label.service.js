@@ -1,4 +1,5 @@
 
+// const { error } = require("winston");
 const labelModel = require("../models/label.model");
 
 class LabelService {
@@ -20,5 +21,14 @@ class LabelService {
         return allLabel;
       } catch { return error; }
     }
+
+    getLabelById = async (labelInfo, error) => {
+      try {
+        const label = await labelModel.getLabelById(labelInfo, error);
+        if (!label) { return error; }
+        return label;
+      } catch { return error; }
+    }
 }
+
 module.exports = new LabelService();

@@ -40,4 +40,5 @@ module.exports = (app) => {
   // Create label APIs
   app.post("/createLabel", middleware.validateToken, labelController.createLabel);
   app.get("/getAllLabel", middleware.validateToken, labelController.getAllLabel);
+  app.get("/getLabelbyID/:labelID", middleware.validateToken, labelController.getLabelById);
 };

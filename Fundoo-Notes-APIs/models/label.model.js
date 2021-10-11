@@ -37,9 +37,18 @@ class LabelModel {
 
     getAllLabel = async (userId, error) => {
       try {
-        const allLebel = ModelForLabel.find({ userId: userId.id });
+        const allLebel = await ModelForLabel.find({ userId: userId.id });
         if (!allLebel) { return error; }
         return allLebel;
+      } catch (error) {
+      }
+    }
+
+    getLabelById = async (labelInfo, error) => {
+      try {
+        const lebel = await ModelForLabel.find({ $and: [{ _id: labelInfo.labelID }, { userId: labelInfo.userId }] });
+        if (!lebel) { return error; }
+        return lebel;
       } catch (error) {
       }
     }
