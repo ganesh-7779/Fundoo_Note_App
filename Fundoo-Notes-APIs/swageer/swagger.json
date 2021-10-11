@@ -72,18 +72,18 @@
     "notes": {
       "type": "object",
       "properties": {
-          "title": {
-              "type": "string"
-          },
-          "description": {
-              "type": "string"
-          }
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
       },
       "example": {
-          "title": "What whould you like for tittle ?.....",
-          "description": "Hey enter here description of notes....."
+        "title": "What whould you like for tittle ?.....",
+        "description": "Hey enter here description of notes....."
       }
-  }
+    }
   },
   "info": {
     "version": "1.0.0",
@@ -97,8 +97,8 @@
   "host": "localhost:3000",
   "tags": [
     {
-      "name": "Fundoo Notes",
-      "description": "API for Registration And Login"
+      "name": "FUNDOO NOTES KEEPING APP",
+      "description": "Keep your all IMP notes safe"
     }
   ],
   "schemes": ["http"],
@@ -108,7 +108,7 @@
   "paths": {
     "/register": {
       "post": {
-        "tags": ["Registration"],
+        "tags": ["User Registration"],
         "description": "Create a new user in the FundooNotes App",
         "parameters": [
           {
@@ -272,7 +272,8 @@
           }
         }
       }
-    },"/getAllNotes": {
+    },
+    "/getAllNotes": {
       "get": {
         "tags": ["Get All Notes"],
         "description": "You will get your all Notes !!",
@@ -288,10 +289,135 @@
           }
         ],
         "produces": ["application/json"],
-        
+
         "responses": {
           "200": {
             "description": "Here is your all Notes 🤞😉!!"
+          },
+          "400": {
+            "description": "Please enter Valid Token🤪"
+          },
+          "500": {
+            "description": "Some error occurred while retrieving notes🌍"
+          }
+        }
+      }
+    },
+    "/getByID/{noteID}": {
+      "get": {
+        "tags": ["Get Note By ID"],
+        "description": "You will get your all Notes !!",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Token for vaidation..! Please Enter a string before puting token..!",
+            "schema": {
+              "type": "string",
+              "required": true
+            }
+          },
+          {
+            "in": "path",
+            "name": "noteID",
+            "description": "Enter note ID",
+            "schema": {
+              "type": "string",
+              "required": true
+            }
+          }
+        ],
+        "produces": ["application/json"],
+
+        "responses": {
+          "200": {
+            "description": "Here is your Notes 🤞😉!!"
+          },
+          "400": {
+            "description": "Please enter Valid Token🤪"
+          },
+          "500": {
+            "description": "Some error occurred while retrieving notes🌍"
+          }
+        }
+      }
+    },
+    "/updateNoteById/{noteID}": {
+      "put": {
+        "tags": ["Update Note By ID"],
+        "description": "Update Note That You Want..! !!",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Token for vaidation..! Please Enter a string before puting token..!",
+            "schema": {
+              "type": "string",
+              "required": true
+            }
+          },
+          {
+            "in": "path",
+            "name": "noteID",
+            "description": "Enter note ID",
+            "schema": {
+              "type": "string",
+              "required": true
+            }
+          },
+          {
+            "name": "Update Note",
+            "in": "body",
+            "description": "Note's body",
+            "schema": {
+              "$ref": "#/definitions/notes"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+
+        "responses": {
+          "200": {
+            "description": "Here is your Updated Note 🤞😉!!"
+          },
+          "400": {
+            "description": "Please enter Valid Token🤪"
+          },
+          "500": {
+            "description": "Some error occurred while retrieving notes🌍"
+          }
+        }
+      }
+    },
+    "/deleteById/{noteID}": {
+      "delete": {
+        "tags": ["Delete Note By ID"],
+        "description": "You will able to delete your note !!",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Token for vaidation..! Please Enter a string before puting token..!",
+            "schema": {
+              "type": "string",
+              "required": true
+            }
+          },
+          {
+            "in": "path",
+            "name": "noteID",
+            "description": "Enter ID of note to delete",
+            "schema": {
+              "type": "string",
+              "required": true
+            }
+          }
+        ],
+        "produces": ["application/json"],
+
+        "responses": {
+          "200": {
+            "description": "Note successfully Deleted 🤞😉!!"
           },
           "400": {
             "description": "Please enter Valid Token🤪"
