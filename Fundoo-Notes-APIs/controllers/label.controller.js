@@ -90,25 +90,28 @@ class LabelController {
     }
   }
 
-  deleteById = async (req, res) => {
+  deleteById= async (req, res) => {
     try {
-      const labelInfo = {
-        userId: req.user.dataForToken.id,
-        labelID: req.params.labelID
-      };
-      const label = await labelService.deleteById(labelInfo);
-      if (!label) {
-        return res
-          .status(400)
-          .send({ success: false, message: "Unable to Update label" });
+      const id = { userId: req.user.dataForToken.id, labelID: req.params.labelID };
+      console.log(id);
+      const data = await labelService.deleteById(id);
+      console.log(data);
+      if (!data) {
+        return res.status(404).json({
+          message: "label not found",
+          success: true
+        });
       }
-      console.log(label);
-      logger.info("Label Deleted successfully..!");
-      return res.status(200).send({ success: true, message: "Label Deleted..!", data: label });
-
-      // return res.status(204).send({ success: true, message: "Label Deleted..!", data: label });
-    } catch (error) {
-      res.status(500).send({ success: false, message: "error occorred" });
+      return res.status(200).json({
+        message: "label Delete succesfully",
+        success: true
+      });
+    } catch (err) {
+      return res.status(500).json({
+        message: "label not Delete",
+        success: false,
+        data: err
+      });
     }
   }
 }

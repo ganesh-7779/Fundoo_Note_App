@@ -41,14 +41,21 @@ class LabelService {
       }
     }
 
-    deleteById = async (labelInfo) => {
+    deleteById = async (id) => {
       try {
-        const label = await labelModel.deleteById(labelInfo);
-        // if (label) { return label; }
-        console.log(label + " service");
-        return label;
-      } catch (error) { return error; }
+        return await labelModel.deleteById(id);
+      } catch (err) {
+        return err;
+      }
     }
+    // deleteById = async (labelInfo) => {
+    //   try {
+    //     return await labelModel.deleteById(labelInfo);
+    //     // if (label) { return label; }
+    //     // console.log(label + " service");
+    //     // return label;
+    //   } catch (error) { return error; }
+    // }
 }
 
 module.exports = new LabelService();
