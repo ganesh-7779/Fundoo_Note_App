@@ -19,7 +19,7 @@ class LabelController {
       // console.log(label);
       if (!label) {
         return res
-          .status(400)
+          .status(404)
           .send({ success: false, message: "Unable to create label" });
       }
       logger.info("label Created Successfully");
@@ -35,7 +35,7 @@ class LabelController {
     const userId = { id: req.user.dataForToken.id };
     const label = await labelService.getAllLabel(userId);
     if (!label) {
-      return res.status(400).send({
+      return res.status(404).send({
         success: false,
         message: "Unable to retrieve all label"
       });
@@ -54,7 +54,7 @@ class LabelController {
       };
       const label = await labelService.getLabelById(labelInfo);
       if (!label) {
-        res.status(400).send({
+        res.status(404).send({
           success: false,
           message: "Unable to retrieve label"
         });
@@ -78,7 +78,7 @@ class LabelController {
       // console.log(label);
       if (!label) {
         return res
-          .status(400)
+          .status(404)
           .send({ success: false, message: "Unable to Update label" });
       }
       logger.info("label Updated Successfully");

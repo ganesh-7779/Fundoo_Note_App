@@ -447,7 +447,7 @@
           {
             "in": "header",
             "name": "Authorization",
-            "description": "Token for vaidation",
+            "description": "Token for vaidation..! Please Enter a string before puting token..!",
             "schema": {
               "type": "string",
               "required": true
@@ -478,6 +478,39 @@
           },
           "500": {
             "description": "Internal server error🌍"
+          }
+        }
+      }
+    },
+    "/getAllLabel": {
+      "get": {
+        "tags": ["Get All Label"],
+        "description": "You will get your all Label !!",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Token for vaidation..! Please Enter a string before puting token..!",
+            "schema": {
+              "type": "string",
+              "required": true
+            }
+          }
+        ],
+        "produces": ["application/json"],
+
+        "responses": {
+          "200": {
+            "description": "Here is your all Label 🤞😉!!"
+          },
+          "400": {
+            "description": "Please enter Valid Token🤪"
+          },
+          "404": {
+            "description": "Unable to retrieve all label😒"
+          },
+          "500": {
+            "description": "Some error occurred while retrieving notes🌍"
           }
         }
       }
