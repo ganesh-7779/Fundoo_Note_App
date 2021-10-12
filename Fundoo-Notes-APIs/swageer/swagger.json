@@ -606,6 +606,48 @@
           }
         }
       }
+    },
+    "//deleteLabelById/{labelID}": {
+      "delete": {
+        "tags": ["Delete Label By ID"],
+        "description": "You will able to delete your Label !!",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Token for vaidation..! Please Enter a string before puting token..!",
+            "schema": {
+              "type": "string",
+              "required": true
+            }
+          },
+          {
+            "in": "path",
+            "name": "labelID",
+            "description": "Enter ID of label to delete",
+            "schema": {
+              "type": "string",
+              "required": true
+            }
+          }
+        ],
+        "produces": ["application/json"],
+
+        "responses": {
+          "200": {
+            "description": "Label successfully Deleted 🤞😉!!"
+          },
+          "400": {
+            "description": "Please enter Valid Token🤪"
+          },
+          "404": {
+            "description": "Unable to Delete label😒"
+          },
+          "500": {
+            "description": "Some internal error occurred 🌍"
+          }
+        }
+      }
     }
   }
 }
