@@ -447,7 +447,7 @@
           {
             "in": "header",
             "name": "Authorization",
-            "description": "Token for vaidation",
+            "description": "Token for vaidation..! Please Enter a string before puting token..!",
             "schema": {
               "type": "string",
               "required": true
@@ -477,7 +477,174 @@
             "description": "Unable to create Note😒"
           },
           "500": {
-            "description": "Internal server error🌍"
+            "description": "Some internal error occurred 🌍"
+          }
+        }
+      }
+    },
+    "/getAllLabel": {
+      "get": {
+        "tags": ["Get All Label"],
+        "description": "You will get your all Label !!",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Token for vaidation..! Please Enter a string before puting token..!",
+            "schema": {
+              "type": "string",
+              "required": true
+            }
+          }
+        ],
+        "produces": ["application/json"],
+
+        "responses": {
+          "200": {
+            "description": "Here is your all Label 🤞😉!!"
+          },
+          "400": {
+            "description": "Please enter Valid Token🤪"
+          },
+          "404": {
+            "description": "Unable to retrieve all label😒"
+          },
+          "500": {
+            "description": "Some internal error occurred 🌍"
+          }
+        }
+      }
+    },
+    "/getLabelbyID/{labelID}": {
+      "get": {
+        "tags": ["Get Label By ID"],
+        "description": "You will get your Label By ID !!",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Token for vaidation..! Please Enter a string before puting token..!",
+            "schema": {
+              "type": "string",
+              "required": true
+            }
+          },
+          {
+            "in": "path",
+            "name": "labelID",
+            "description": "Enter label ID",
+            "schema": {
+              "type": "string",
+              "required": true
+            }
+          }
+        ],
+        "produces": ["application/json"],
+
+        "responses": {
+          "200": {
+            "description": "Here is your label 🤞😉!!"
+          },
+          "400": {
+            "description": "Please enter Valid Token🤪"
+          },
+          "404": {
+            "description": "Unable to retrieve label😒"
+          },
+          "500": {
+            "description": "Some internal error occurred 🌍"
+          }
+        }
+      }
+    },
+    "/updateLabelById/{labelID}": {
+      "put": {
+        "tags": ["Update label By ID"],
+        "description": "Update label That You Want..! !!",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Token for vaidation..! Please Enter a string before puting token..!",
+            "schema": {
+              "type": "string",
+              "required": true
+            }
+          },
+          {
+            "in": "path",
+            "name": "labelID",
+            "description": "Enter Label ID",
+            "schema": {
+              "type": "string",
+              "required": true
+            }
+          },
+          {
+            "name": "Update Note",
+            "in": "body",
+            "description": "Label body",
+            "schema": {
+              "$ref": "#/definitions/label"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+
+        "responses": {
+          "200": {
+            "description": "Here is your Updated Label 🤞😉!!"
+          },
+          "400": {
+            "description": "Please enter Valid Token🤪"
+          },
+          "404": {
+            "description": "Unable to update label😒"
+          },
+          "500": {
+            "description": "Some internal error occurred 🌍"
+          }
+        }
+      }
+    },
+    "//deleteLabelById/{labelID}": {
+      "delete": {
+        "tags": ["Delete Label By ID"],
+        "description": "You will able to delete your Label !!",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Token for vaidation..! Please Enter a string before puting token..!",
+            "schema": {
+              "type": "string",
+              "required": true
+            }
+          },
+          {
+            "in": "path",
+            "name": "labelID",
+            "description": "Enter ID of label to delete",
+            "schema": {
+              "type": "string",
+              "required": true
+            }
+          }
+        ],
+        "produces": ["application/json"],
+
+        "responses": {
+          "200": {
+            "description": "Label successfully Deleted 🤞😉!!"
+          },
+          "400": {
+            "description": "Please enter Valid Token🤪"
+          },
+          "404": {
+            "description": "Unable to Delete label😒"
+          },
+          "500": {
+            "description": "Some internal error occurred 🌍"
           }
         }
       }

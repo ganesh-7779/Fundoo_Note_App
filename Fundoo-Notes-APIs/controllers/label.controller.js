@@ -19,7 +19,7 @@ class LabelController {
       // console.log(label);
       if (!label) {
         return res
-          .status(400)
+          .status(404)
           .send({ success: false, message: "Unable to create label" });
       }
       logger.info("label Created Successfully");
@@ -35,7 +35,7 @@ class LabelController {
     const userId = { id: req.user.dataForToken.id };
     const label = await labelService.getAllLabel(userId);
     if (!label) {
-      return res.status(400).send({
+      return res.status(404).send({
         success: false,
         message: "Unable to retrieve all label"
       });
@@ -48,21 +48,16 @@ class LabelController {
 
   getLabelById = async (req, res) => {
     try {
-      const labelInfo = {
+      const labelInput = {
         userId: req.user.dataForToken.id,
         labelID: req.params.labelID
       };
-      const label = await labelService.getLabelById(labelInfo);
-      if (!label) {
-        res.status(400).send({
-          success: false,
-          message: "Unable to retrieve label"
-        });
-      }
-      logger.info("Label Retrieved..!");
-      res.status(200).send({ success: true, message: "Label Retrieved..!", data: label });
+      const label = await labelService.getLabelById(labelInput);
+      return res
+        .status(200)
+        .send({ success: true, message: "Label Got..!", data: label });
     } catch (error) {
-      res.status(500).send({ success: false, message: "error occorred" });
+      return res.status(500).send({ success: false, message: "error occorred" });
     }
   }
 
@@ -78,8 +73,8 @@ class LabelController {
       // console.log(label);
       if (!label) {
         return res
-          .status(400)
-          .send({ success: false, message: "Unable to Update label" });
+          .status(404)
+          .send({ success: false, message: "label Not Found" });
       }
       logger.info("label Updated Successfully");
       return res
