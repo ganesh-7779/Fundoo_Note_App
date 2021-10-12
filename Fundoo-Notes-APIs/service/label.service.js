@@ -24,38 +24,44 @@ class LabelService {
 
     getLabelById = async (labelInfo) => {
       try {
-        const label = await labelModel.getLabelById(labelInfo);
-        if (!label) { return null; }
-        return label;
-      } catch (error) { return error; }
-    }
-
-    updateLabel = async (labelInput) => {
-      try {
-        const updatedlabel = await labelModel.updateLabel(labelInput);
-        if (!updatedlabel) { return null; }
+        const getlabel = await labelModel.getLabelById(labelInfo);
+        if (!getlabel) { return null + " label not found"; }
         // console.log(label);
-        return updatedlabel;
+        return getlabel;
       } catch (error) {
         return error;
       }
+      // return await labelModel.getLabelById(labelInfo);
+      // // if (!label) { return null; }
+      // // return label;
     }
 
-    deleteById = async (id) => {
-      try {
-        return await labelModel.deleteById(id);
-      } catch (err) {
-        return err;
-      }
-    }
-    // deleteById = async (labelInfo) => {
-    //   try {
-    //     return await labelModel.deleteById(labelInfo);
-    //     // if (label) { return label; }
-    //     // console.log(label + " service");
-    //     // return label;
-    //   } catch (error) { return error; }
-    // }
+updateLabel = async (labelInput) => {
+  try {
+    const updatedlabel = await labelModel.updateLabel(labelInput);
+    if (!updatedlabel) { return null; }
+    // console.log(label);
+    return updatedlabel;
+  } catch (error) {
+    return error;
+  }
+};
+
+deleteById = async (id) => {
+  try {
+    return await labelModel.deleteById(id);
+  } catch (err) {
+    return err;
+  }
 }
+}
+// deleteById = async (labelInfo) => {
+//   try {
+//     return await labelModel.deleteById(labelInfo);
+//     // if (label) { return label; }
+//     // console.log(label + " service");
+//     // return label;
+//   } catch (error) { return error; }
+// }
 
 module.exports = new LabelService();

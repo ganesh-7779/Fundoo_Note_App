@@ -44,11 +44,15 @@ class LabelModel {
       }
     }
 
-    getLabelById = async (labelInfo, error) => {
+    getLabelById = async (id) => {
       try {
-        const lebel = await ModelForLabel.find({ $and: [{ _id: labelInfo.labelID }, { userId: labelInfo.userId }] });
-        if (!lebel) { return error; }
-        return lebel;
+        const label = await ModelForLabel.find({ _id: id.labelID });
+        if (typeof label !== "undefined" && label != null && label.length > 0) {
+          console.log("items is not empty array.");
+          return label;
+        } else {
+          return "label not found";
+        }
       } catch (error) { return error; }
     }
 
@@ -68,11 +72,5 @@ class LabelModel {
         return error;
       }
     }
-    // deleteById = async (labelInfo) => {
-    //   try {
-    //     // console.log(labelInfo.labelID);
-    //     return await ModelForLabel.findOneAndDelete({ $and: [{ _id: labelInfo.labelID }, { userId: labelInfo.userId }] }, { new: true });
-    //   } catch (error) { return error; }
-    // }
 }
 module.exports = new LabelModel();
