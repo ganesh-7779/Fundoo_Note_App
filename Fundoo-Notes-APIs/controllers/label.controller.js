@@ -6,10 +6,20 @@
  * ************************************************************************************/
 const labelService = require("../service/label.service");
 const logger = require("../logger/logger");
+const validation = require("../helper/user.validation.js");
 
 class LabelController {
   createLabel = async (req, res) => {
     try {
+      const loginValidation = validation.labelValidation.validate(req.body);
+      if (loginValidation.error) {
+        logger.error(loginValidation.error);
+        res.status(422).send({
+          success: false,
+          message: "invalid label input"
+        });
+        return;
+      }
       const labelInput = {
         userId: req.user.dataForToken.id,
         labelName: req.body.labelName

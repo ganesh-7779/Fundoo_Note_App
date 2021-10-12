@@ -75,6 +75,19 @@ class Validation {
       )
       .required()
   });
+
+   labelValidation = Joi.object({
+     labelName: Joi.string().min(2)
+       .required()
+   });
+
+   noteValidation = Joi.object({
+     title: Joi.string().min(2)
+       .required(),
+     description: Joi.string().min(2)
+       .required(),
+     userId: Joi.string().required()
+   });
 }
 
 module.exports = new Validation();

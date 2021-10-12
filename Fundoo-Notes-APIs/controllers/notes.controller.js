@@ -7,6 +7,8 @@
  * ***************************************************************/
 const noteService = require("../service/note.service");
 const logger = require("../logger/logger");
+const validation = require("../helper/user.validation");
+
 class Note {
   /**
    * @description createNote function is for create notes into the database
@@ -27,6 +29,15 @@ class Note {
         title: req.body.title,
         description: req.body.description,
       };
+      const loginValidation = validation.noteValidation.validate(note);
+      if (loginValidation.error) {
+        logger.error(loginValidation.error);
+        res.status(422).send({
+          success: false,
+          message: "invalid label input"
+        });
+        return;
+      }
       console.log(note);
       noteService.createNote(note, (err, data) => {
         if (err) {
