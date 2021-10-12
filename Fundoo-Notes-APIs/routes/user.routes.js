@@ -41,4 +41,6 @@ module.exports = (app) => {
   app.post("/createLabel", middleware.validateToken, labelController.createLabel);
   app.get("/getAllLabel", middleware.validateToken, labelController.getAllLabel);
   app.get("/getLabelbyID/:labelID", middleware.validateToken, labelController.getLabelById);
+  app.put("/updateLabelById/:labelID", middleware.validateToken, labelController.updateLabel);
+  app.delete("/deleteLabelById/:labelID", middleware.validateToken, labelController.deleteById);
 };

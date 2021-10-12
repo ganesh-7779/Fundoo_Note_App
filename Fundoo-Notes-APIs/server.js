@@ -5,7 +5,7 @@ const swaggerUI = require("swagger-ui-express");
 const swaggerJsDoc = require("./swageer/swagger.json");
 const logger = require("./logger/logger.js");
 const PORT = process.env.PORT;
-const cors = require("cors");
+// const cors = require("cors");
 const option = {
   explorer: true
 };

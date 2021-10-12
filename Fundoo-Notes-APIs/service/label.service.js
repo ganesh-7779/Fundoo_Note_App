@@ -14,21 +14,48 @@ class LabelService {
       }
     }
 
-    getAllLabel = async (userID, error) => {
+    getAllLabel = async (userID) => {
       try {
-        const allLabel = await labelModel.getAllLabel(userID, error);
-        if (!allLabel) { return error; }
+        const allLabel = await labelModel.getAllLabel(userID);
+        if (!allLabel) { return null; }
         return allLabel;
-      } catch { return error; }
+      } catch (error) { return error; }
     }
 
-    getLabelById = async (labelInfo, error) => {
+    getLabelById = async (labelInfo) => {
       try {
-        const label = await labelModel.getLabelById(labelInfo, error);
-        if (!label) { return error; }
+        const label = await labelModel.getLabelById(labelInfo);
+        if (!label) { return null; }
         return label;
-      } catch { return error; }
+      } catch (error) { return error; }
     }
+
+    updateLabel = async (labelInput) => {
+      try {
+        const updatedlabel = await labelModel.updateLabel(labelInput);
+        if (!updatedlabel) { return null; }
+        // console.log(label);
+        return updatedlabel;
+      } catch (error) {
+        return error;
+      }
+    }
+
+    deleteById = async (id) => {
+      try {
+        return await labelModel.deleteById(id);
+      } catch (err) {
+        return err;
+      }
+    }
+    // deleteById = async (labelInfo) => {
+    //   try {
+    //     return await labelModel.deleteById(labelInfo);
+    //     // if (label) { return label; }
+    //     // console.log(label + " service");
+    //     // return label;
+    //   } catch (error) { return error; }
+    // }
 }
 
 module.exports = new LabelService();

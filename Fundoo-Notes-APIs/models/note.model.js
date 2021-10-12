@@ -101,6 +101,7 @@ class Model {
         if (error) {
           return callback(error, null);
         } else {
+          console.log(note);
           return callback(null, note);
         }
       }).clone().catch(function (err) { console.log(err); });

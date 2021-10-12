@@ -54,16 +54,65 @@ class LabelController {
       };
       const label = await labelService.getLabelById(labelInfo);
       if (!label) {
-        return res.status(400).send({
+        res.status(400).send({
           success: false,
           message: "Unable to retrieve label"
         });
       }
       logger.info("Label Retrieved..!");
-      return res.status(200).send({ success: true, message: "Label Retrieved..!", data: label });
+      res.status(200).send({ success: true, message: "Label Retrieved..!", data: label });
     } catch (error) {
       res.status(500).send({ success: false, message: "error occorred" });
     }
-  };
+  }
+
+  updateLabel = async (req, res) => {
+    try {
+      const labelInput = {
+        userId: req.user.dataForToken.id,
+        labelName: req.body.labelName,
+        labelID: req.params.labelID
+      };
+      // console.log(labelInput);
+      const label = await labelService.updateLabel(labelInput);
+      // console.log(label);
+      if (!label) {
+        return res
+          .status(400)
+          .send({ success: false, message: "Unable to Update label" });
+      }
+      logger.info("label Updated Successfully");
+      return res
+        .status(200)
+        .send({ success: true, message: "Label Updated..!", data: label });
+    } catch (error) {
+      res.status(500).send({ success: false, message: "error occorred" });
+    }
+  }
+
+  deleteById= async (req, res) => {
+    try {
+      const id = { userId: req.user.dataForToken.id, labelID: req.params.labelID };
+      console.log(id);
+      const data = await labelService.deleteById(id);
+      console.log(data);
+      if (!data) {
+        return res.status(404).json({
+          message: "label not found",
+          success: true
+        });
+      }
+      return res.status(200).json({
+        message: "label Delete succesfully",
+        success: true
+      });
+    } catch (err) {
+      return res.status(500).json({
+        message: "label not Delete",
+        success: false,
+        data: err
+      });
+    }
+  }
 }
 module.exports = new LabelController();

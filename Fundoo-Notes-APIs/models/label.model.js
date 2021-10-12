@@ -49,8 +49,30 @@ class LabelModel {
         const lebel = await ModelForLabel.find({ $and: [{ _id: labelInfo.labelID }, { userId: labelInfo.userId }] });
         if (!lebel) { return error; }
         return lebel;
+      } catch (error) { return error; }
+    }
+
+    updateLabel = async (labelInput, error) => {
+      try {
+        const updatedLabel = await ModelForLabel.findByIdAndUpdate(labelInput.labelID, { labelName: labelInput.labelName }, { new: true });
+        if (!updatedLabel) { return error; }
+        // console.log(updatedLabel);
+        return updatedLabel;
+      } catch (error) { return error; }
+    }
+
+    deleteById = async (id) => {
+      try {
+        return await ModelForLabel.findOneAndDelete({ $and: [{ _id: id.labelID }, { userId: id.userId }] }, { new: true });
       } catch (error) {
+        return error;
       }
     }
+    // deleteById = async (labelInfo) => {
+    //   try {
+    //     // console.log(labelInfo.labelID);
+    //     return await ModelForLabel.findOneAndDelete({ $and: [{ _id: labelInfo.labelID }, { userId: labelInfo.userId }] }, { new: true });
+    //   } catch (error) { return error; }
+    // }
 }
 module.exports = new LabelModel();

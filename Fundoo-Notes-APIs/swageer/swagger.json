@@ -83,6 +83,17 @@
         "title": "What whould you like for tittle ?.....",
         "description": "Hey enter here description of notes....."
       }
+    },
+    "label": {
+      "type": "object",
+      "properties": {
+        "labelName": {
+          "type": "string"
+        }
+      },
+      "example": {
+        "labelName": "What whould you like for label Name ?....."
+      }
     }
   },
   "info": {
@@ -424,6 +435,49 @@
           },
           "500": {
             "description": "Some error occurred while retrieving notes🌍"
+          }
+        }
+      }
+    },
+    "/createLabel": {
+      "post": {
+        "tags": ["Create Label"],
+        "description": "Create Label !!",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Token for vaidation",
+            "schema": {
+              "type": "string",
+              "required": true
+            }
+          },
+          {
+            "name": "Create Label",
+            "in": "body",
+            "description": "Note's body",
+            "schema": {
+              "$ref": "#/definitions/label"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "schema": {
+          "$ref": "#/definitions/label"
+        },
+        "responses": {
+          "201": {
+            "description": "Label Created Succesfully 🤞😉!!"
+          },
+          "400": {
+            "description": "Please enter Valid Token🤪"
+          },
+          "404": {
+            "description": "Unable to create Note😒"
+          },
+          "500": {
+            "description": "Internal server error🌍"
           }
         }
       }
