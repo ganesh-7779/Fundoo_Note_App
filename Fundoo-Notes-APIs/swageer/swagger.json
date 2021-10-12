@@ -477,7 +477,7 @@
             "description": "Unable to create Note😒"
           },
           "500": {
-            "description": "Internal server error🌍"
+            "description": "Some internal error occurred 🌍"
           }
         }
       }
@@ -510,7 +510,7 @@
             "description": "Unable to retrieve all label😒"
           },
           "500": {
-            "description": "Some error occurred while retrieving notes🌍"
+            "description": "Some internal error occurred 🌍"
           }
         }
       }
@@ -552,7 +552,57 @@
             "description": "Unable to retrieve label😒"
           },
           "500": {
-            "description": "Some error occurred while retrieving notes🌍"
+            "description": "Some internal error occurred 🌍"
+          }
+        }
+      }
+    },
+    "/updateLabelById/{labelID}": {
+      "put": {
+        "tags": ["Update label By ID"],
+        "description": "Update label That You Want..! !!",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Token for vaidation..! Please Enter a string before puting token..!",
+            "schema": {
+              "type": "string",
+              "required": true
+            }
+          },
+          {
+            "in": "path",
+            "name": "labelID",
+            "description": "Enter Label ID",
+            "schema": {
+              "type": "string",
+              "required": true
+            }
+          },
+          {
+            "name": "Update Note",
+            "in": "body",
+            "description": "Label body",
+            "schema": {
+              "$ref": "#/definitions/label"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+
+        "responses": {
+          "200": {
+            "description": "Here is your Updated Label 🤞😉!!"
+          },
+          "400": {
+            "description": "Please enter Valid Token🤪"
+          },
+          "404": {
+            "description": "Unable to update label😒"
+          },
+          "500": {
+            "description": "Some internal error occurred 🌍"
           }
         }
       }
