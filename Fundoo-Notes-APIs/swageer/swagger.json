@@ -709,6 +709,53 @@
           }
         }
       }
+    },
+    "/deleteLabelFromNote/{noteID}": {
+      "delete": {
+        "tags": [" Delete label From Note "],
+        "description": "Delete label From Note That You Want..! !!",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Token for vaidation..! Please Enter a string before puting token..!",
+            "schema": {
+              "type": "string",
+              "required": true
+            }
+          },
+          {
+            "in": "path",
+            "name": "noteID",
+            "description": "Enter Note ID",
+            "schema": {
+              "type": "string",
+              "required": true
+            }
+          },
+          {
+            "name": "Update Label to note",
+            "in": "body",
+            "description": "Label ID body",
+            "schema": {
+              "$ref": "#/definitions/labelId"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+
+        "responses": {
+          "200": {
+            "description": "Label Deleted succesfully 🤞😉!!"
+          },
+          "400": {
+            "description": "Please enter Valid Token🤪"
+          },
+          "500": {
+            "description": "Some internal error occurred 🌍"
+          }
+        }
+      }
     }
   }
 }
