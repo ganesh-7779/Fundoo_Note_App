@@ -119,5 +119,13 @@ class LabelController {
       });
     }
   }
+
+  addNoteIdTolabel = async (noteInfo) => {
+    try {
+      return await labelService.addNoteIdTolabel(noteInfo);
+    } catch (err) {
+      return err;
+    }
+  }
 }
 module.exports = new LabelController();

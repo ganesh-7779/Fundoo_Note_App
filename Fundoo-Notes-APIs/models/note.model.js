@@ -7,7 +7,9 @@
 const mongoose = require("mongoose");
 const noteSchema = mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: "Register" },
-
+  labelId: {
+    type: [{ type: mongoose.Schema.Types.ObjectId, ref: "ModelForLabel" }]
+  },
   title: {
     type: String
   },
@@ -16,6 +18,9 @@ const noteSchema = mongoose.Schema({
     required: true,
     minlength: 2
   }
+  // labels: {
+  //   type: [String]
+  // }
 }, {
   timestamps: true
 }
@@ -105,6 +110,11 @@ class Model {
           return callback(null, note);
         }
       }).clone().catch(function (err) { console.log(err); });
+    }
+
+    addLabeltoNote = async (noteInfo, id) => {
+      const data = await NoteRegister.findOneAndUpdate({ $and: [{ _id: noteInfo.noteId }, { userId: noteInfo.userId }] }, { $push: { labelId: { $each: id.labelId } } }, { new: true });
+      console.log(data);
     }
 }
 
