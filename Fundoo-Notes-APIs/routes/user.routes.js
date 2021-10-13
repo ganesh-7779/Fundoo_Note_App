@@ -6,6 +6,7 @@ const userController = require("../controllers/user.controller.js");
 const middleware = require("../helper/user.helper");
 const noteController = require("../controllers/notes.controller.js");
 const labelController = require("../controllers/label.controller");
+// const { validateToken } = require("../helper/user.helper");
 
 module.exports = (app) => {
   // Create a new Note
@@ -43,4 +44,6 @@ module.exports = (app) => {
   app.get("/getLabelbyID/:labelID", middleware.validateToken, labelController.getLabelById);
   app.put("/updateLabelById/:labelID", middleware.validateToken, labelController.updateLabel);
   app.delete("/deleteLabelById/:labelID", middleware.validateToken, labelController.deleteById);
+  app.post("/addLabel/:noteId", middleware.validateToken, noteController.addLabeltoNote);
+  app.post("/deleteLabelFromNote/:noteID", middleware.validateToken, noteController.deleteLabel);
 };

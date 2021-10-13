@@ -54,14 +54,21 @@ deleteById = async (id) => {
     return err;
   }
 }
+
+async addNoteIdtoLabel (noteInfo, id) {
+  try {
+    return await labelModel.addNoteIdtoLabel(noteInfo, id);
+  } catch (err) {
+    return err;
+  }
 }
-// deleteById = async (labelInfo) => {
+// addNoteIdTolabel = async (noteInfo, id) => {
 //   try {
-//     return await labelModel.deleteById(labelInfo);
-//     // if (label) { return label; }
-//     // console.log(label + " service");
-//     // return label;
-//   } catch (error) { return error; }
+//     return await labelModel.addNoteIdTolabel(noteInfo, id);
+//   } catch (err) {
+//     return err;
+//   }
 // }
+}
 
 module.exports = new LabelService();

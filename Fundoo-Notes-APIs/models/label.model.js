@@ -3,6 +3,10 @@ const mongoose = require("mongoose");
 const LabelSchema = new mongoose.Schema({
 
   userId: { type: mongoose.Schema.Types.ObjectId, ref: "Register" },
+  // noteId: { type: mongoose.Schema.Types.ObjectId, ref: "NoteRegister" },
+  noteId: {
+    type: [{ type: mongoose.Schema.Types.ObjectId, ref: "NoteRegister" }]
+  },
 
   labelName: {
     type: String,
@@ -56,6 +60,11 @@ class LabelModel {
       } catch (error) { return error; }
     }
 
+    // getLabelById = async (id) => {
+    //   const label = await ModelForLabel.find({ _id: id.labelID });
+    //   for( let i = 0, i<label.)
+    // }
+
     updateLabel = async (labelInput, error) => {
       try {
         const updatedLabel = await ModelForLabel.findByIdAndUpdate(labelInput.labelID, { labelName: labelInput.labelName }, { new: true });
@@ -70,6 +79,15 @@ class LabelModel {
         return await ModelForLabel.findOneAndDelete({ $and: [{ _id: id.labelID }, { userId: id.userId }] }, { new: true });
       } catch (error) {
         return error;
+      }
+    }
+
+    async addNoteIdtoLabel (noteInfo, id) {
+      try {
+        const data = await ModelForLabel.findByIdAndUpdate(id.labelId, { $push: { noteId: noteInfo.noteId } }, { new: true });
+        console.log(data);
+      } catch (err) {
+        return err;
       }
     }
 }

@@ -86,5 +86,22 @@ class Service {
         }
       });
     }
+
+    addLabeltoNote = async (noteInfo, id) => {
+      try {
+        return await noteModel.addLabeltoNote(noteInfo, id);
+      } catch (error) {
+        return error;
+      }
+    }
+
+    deleteLabel = async (id) => {
+      try {
+        const data = await noteModel.deleteLabel(id);
+        return data;
+      } catch (error) {
+        return error;
+      }
+    }
 }
 module.exports = new Service();

@@ -7,6 +7,9 @@
  * ***************************************************************/
 const noteService = require("../service/note.service");
 const logger = require("../logger/logger");
+const validation = require("../helper/user.validation");
+const labelController = require("../controllers/label.controller");
+
 class Note {
   /**
    * @description createNote function is for create notes into the database
@@ -27,6 +30,15 @@ class Note {
         title: req.body.title,
         description: req.body.description,
       };
+      const loginValidation = validation.noteValidation.validate(note);
+      if (loginValidation.error) {
+        logger.error(loginValidation.error);
+        res.status(422).send({
+          success: false,
+          message: "invalid label input"
+        });
+        return;
+      }
       console.log(note);
       noteService.createNote(note, (err, data) => {
         if (err) {
@@ -194,6 +206,53 @@ class Note {
       return error;
     }
   };
+
+  addLabeltoNote = async (req, res) => {
+    try {
+      const noteInfo = {
+        userId: req.user.dataForToken.id,
+        noteId: req.params.noteId
+      };
+      // console.log(noteInfo);
+      const id = {
+        labelId: [req.body.labelId]
+      };
+      // console.log(id);
+      await noteService.addLabeltoNote(noteInfo, id);
+      await labelController.addNoteIdtoLabel(noteInfo, id);
+
+      return res.status(200).json({
+        message: "label Added succesfully",
+        success: true
+      });
+    } catch (err) {
+      return res.status(500).json({
+        message: "error occurs",
+        success: false,
+        data: err
+      });
+    }
+  }
+
+  deleteLabel = async (req, res) => {
+    try {
+      const id = {
+        labelId: req.body.labelId,
+        noteID: req.params.noteID
+      };
+      await noteService.deleteLabel(id);
+      res.status(201).send({
+        message: "Label deleted sucessfully",
+        success: true
+      });
+    } catch (error) {
+      res.status(500).send({
+        message: "error occurs",
+        success: false,
+        error: error
+      });
+    }
+  }
 }
 
 module.exports = new Note();

@@ -607,7 +607,7 @@
         }
       }
     },
-    "//deleteLabelById/{labelID}": {
+    "/deleteLabelById/{labelID}": {
       "delete": {
         "tags": ["Delete Label By ID"],
         "description": "You will able to delete your Label !!",
