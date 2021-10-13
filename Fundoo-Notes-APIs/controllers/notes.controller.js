@@ -8,7 +8,7 @@
 const noteService = require("../service/note.service");
 const logger = require("../logger/logger");
 const validation = require("../helper/user.validation");
-// const labelController = require("../controllers/label.controller");
+const labelController = require("../controllers/label.controller");
 
 class Note {
   /**
@@ -213,19 +213,14 @@ class Note {
         userId: req.user.dataForToken.id,
         noteId: req.params.noteId
       };
-      console.log(noteInfo);
+      // console.log(noteInfo);
       const id = {
         labelId: [req.body.labelId]
       };
-      console.log(id);
-      const addLabel = await noteService.addLabeltoNote(noteInfo, id);
-      // await labelController.addNoteIdTolabel(noteInfo, id);
-      if (!addLabel) {
-        return res.status(404).json({
-          message: "fail to add label..!",
-          success: true
-        });
-      }
+      // console.log(id);
+      await noteService.addLabeltoNote(noteInfo, id);
+      await labelController.addNoteIdtoLabel(noteInfo, id);
+
       return res.status(200).json({
         message: "label Added succesfully",
         success: true

@@ -55,9 +55,16 @@ deleteById = async (id) => {
   }
 }
 
-// async addNoteIdTolabel (noteInfo) {
+async addNoteIdtoLabel (noteInfo, id) {
+  try {
+    return await labelModel.addNoteIdtoLabel(noteInfo, id);
+  } catch (err) {
+    return err;
+  }
+}
+// addNoteIdTolabel = async (noteInfo, id) => {
 //   try {
-//     return await labelModel.addNoteIdTolabel(noteInfo);
+//     return await labelModel.addNoteIdTolabel(noteInfo, id);
 //   } catch (err) {
 //     return err;
 //   }

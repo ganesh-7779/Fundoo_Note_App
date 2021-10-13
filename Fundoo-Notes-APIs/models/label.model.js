@@ -3,10 +3,10 @@ const mongoose = require("mongoose");
 const LabelSchema = new mongoose.Schema({
 
   userId: { type: mongoose.Schema.Types.ObjectId, ref: "Register" },
-  noteId: { type: mongoose.Schema.Types.ObjectId, ref: "NoteRegister" },
-  // noteId: {
-  //   type: [{ type: mongoose.Schema.Types.ObjectId, ref: "NoteRegister" }]
-  // },
+  // noteId: { type: mongoose.Schema.Types.ObjectId, ref: "NoteRegister" },
+  noteId: {
+    type: [{ type: mongoose.Schema.Types.ObjectId, ref: "NoteRegister" }]
+  },
 
   labelName: {
     type: String,
@@ -82,16 +82,13 @@ class LabelModel {
       }
     }
 
-  // async addNoteIdTolabel (id) {
-  //   try {
-  //     const data = await ModelForLabel.findByIdAndUpdate(id.labelId, { $push: { noteId: id.noteId } }, { new: true });
-  //     console.log(data);
-  //   } catch (err) {
-  //     return err;
-  //   }
-  // }
-  addLabeltoNote = async (noteInfo, id) => {
-    return await ModelForLabel.findOneAndUpdate({ $and: [{ _id: id.labelId }, { userId: noteInfo.userId }] }, { $push: { noteId: { $each: noteInfo.userId } } }, { new: true });
-  }
+    async addNoteIdtoLabel (noteInfo, id) {
+      try {
+        const data = await ModelForLabel.findByIdAndUpdate(id.labelId, { $push: { noteId: noteInfo.noteId } }, { new: true });
+        console.log(data);
+      } catch (err) {
+        return err;
+      }
+    }
 }
 module.exports = new LabelModel();

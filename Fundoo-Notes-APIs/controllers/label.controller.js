@@ -120,12 +120,20 @@ class LabelController {
     }
   }
 
-  addNoteIdTolabel = async (noteInfo) => {
+  addNoteIdtoLabel= async (noteInfo, id) => {
     try {
-      return await labelService.addNoteIdTolabel(noteInfo);
+      await labelService.addNoteIdtoLabel(noteInfo, id);
+      return;
     } catch (err) {
       return err;
     }
   }
+  // addNoteIdTolabel = async (noteInfo, id) => {
+  //   try {
+  //     return await labelService.addNoteIdTolabel(noteInfo, id);
+  //   } catch (err) {
+  //     return err;
+  //   }
+  // }
 }
 module.exports = new LabelController();
