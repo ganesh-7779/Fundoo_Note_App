@@ -113,8 +113,19 @@ class Model {
     }
 
     addLabeltoNote = async (noteInfo, id) => {
-      const data = await NoteRegister.findOneAndUpdate({ $and: [{ _id: noteInfo.noteId }, { userId: noteInfo.userId }] }, { $push: { labelId: { $each: id.labelId } } }, { new: true });
+      const data = await NoteRegister.findOneAndUpdate({ $and: [{ _id: noteInfo.noteId }, { userId: noteInfo.userId }] }, { $push: { labelId: id.labelId } }, { new: true });
       console.log(data);
+    }
+
+    deleteLabel = async (id) => {
+      try {
+        const data = await NoteRegister.findByIdAndUpdate(id.noteID,
+          { $pull: { labelId: id.labelId } }, { new: true });
+        console.log(data);
+        return data;
+      } catch (error) {
+        return error;
+      }
     }
 }
 

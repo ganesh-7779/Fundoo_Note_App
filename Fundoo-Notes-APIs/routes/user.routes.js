@@ -45,4 +45,5 @@ module.exports = (app) => {
   app.put("/updateLabelById/:labelID", middleware.validateToken, labelController.updateLabel);
   app.delete("/deleteLabelById/:labelID", middleware.validateToken, labelController.deleteById);
   app.post("/addLabel/:noteId", middleware.validateToken, noteController.addLabeltoNote);
+  app.post("/deleteLabelFromNote/:noteID", middleware.validateToken, noteController.deleteLabel);
 };
