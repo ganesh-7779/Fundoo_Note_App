@@ -241,13 +241,13 @@ class Note {
         noteID: req.params.noteID
       };
       await noteService.deleteLabel(id);
-      res.status(201).send({
+      res.status(200).send({
         message: "Label deleted sucessfully",
         success: true
       });
     } catch (error) {
       res.status(500).send({
-        message: "error occurs",
+        message: "internal error occurs",
         success: false,
         error: error
       });
