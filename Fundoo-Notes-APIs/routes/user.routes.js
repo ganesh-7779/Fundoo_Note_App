@@ -6,6 +6,7 @@ const userController = require("../controllers/user.controller.js");
 const middleware = require("../helper/user.helper");
 const noteController = require("../controllers/notes.controller.js");
 const labelController = require("../controllers/label.controller");
+const redisMiddleware = require("../helper/redis");
 // const { validateToken } = require("../helper/user.helper");
 
 module.exports = (app) => {
@@ -23,7 +24,7 @@ module.exports = (app) => {
   app.post("/createnotes", middleware.validateToken, noteController.createNote);
 
   // Get all note API
-  app.get("/getAllNotes", middleware.validateToken, noteController.getAllNotes);
+  app.get("/getAllNotes", middleware.validateToken, redisMiddleware.redis, noteController.getAllNotes);
 
   // get note by id
   app.get("/getByID/:noteID", middleware.validateToken, noteController.getById);
