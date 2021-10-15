@@ -254,5 +254,4 @@ class Note {
     }
   }
 }
-
 module.exports = new Note();
