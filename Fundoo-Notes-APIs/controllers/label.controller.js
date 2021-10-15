@@ -11,19 +11,19 @@ const validation = require("../helper/user.validation.js");
 class LabelController {
   createLabel = async (req, res) => {
     try {
-      const loginValidation = validation.labelValidation.validate(req.body);
-      if (loginValidation.error) {
-        logger.error(loginValidation.error);
+      const labelInput = {
+        userId: req.user.dataForToken.id,
+        labelName: req.body.labelName
+      };
+      const labelValidation = validation.labelValidation.validate(req.body);
+      if (labelValidation.error) {
+        logger.error(labelValidation.error);
         res.status(422).send({
           success: false,
           message: "invalid label input"
         });
         return;
       }
-      const labelInput = {
-        userId: req.user.dataForToken.id,
-        labelName: req.body.labelName
-      };
       // console.log(labelInput);
       const label = await labelService.createLabel(labelInput);
       // console.log(label);
@@ -78,6 +78,15 @@ class LabelController {
         labelName: req.body.labelName,
         labelID: req.params.labelID
       };
+      const labelValidation = validation.labelValidation.validate(req.body);
+      if (labelValidation.error) {
+        logger.error(labelValidation.error);
+        res.status(422).send({
+          success: false,
+          message: "invalid label input"
+        });
+        return;
+      }
       // console.log(labelInput);
       const label = await labelService.updateLabel(labelInput);
       // console.log(label);
