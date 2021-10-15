@@ -32,6 +32,7 @@
     "mongoose": "^6.0.5",
     "nodemailer": "^6.6.5",
     "nodemon": "^2.0.12",
+    "sinon": "^11.1.2",
     "swagger-jsdoc": "^6.0.0",
     "swagger-ui-express": "^4.1.6",
     "underscore": "^1.13.1",

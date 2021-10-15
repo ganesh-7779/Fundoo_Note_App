@@ -85,8 +85,7 @@ class Validation {
      title: Joi.string().min(2)
        .required(),
      description: Joi.string().min(2)
-       .required(),
-     userId: Joi.string().required()
+       .required()
    });
 }
 

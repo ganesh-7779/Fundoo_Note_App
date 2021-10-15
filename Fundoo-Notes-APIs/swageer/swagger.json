@@ -94,6 +94,17 @@
       "example": {
         "labelName": "What whould you like for label Name ?....."
       }
+    },
+    "labelId": {
+      "type": "object",
+      "properties": {
+        "labelId": {
+          "type": "string"
+        }
+      },
+      "example": {
+        "labelId": ""
+      }
     }
   },
   "info": {
@@ -642,6 +653,103 @@
           },
           "404": {
             "description": "Unable to Delete label😒"
+          },
+          "500": {
+            "description": "Some internal error occurred 🌍"
+          }
+        }
+      }
+    },
+    "/addLabel/{noteId}": {
+      "put": {
+        "tags": [" upadate label To Note "],
+        "description": "Update label To Note That You Want..! !!",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Token for vaidation..! Please Enter a string before puting token..!",
+            "schema": {
+              "type": "string",
+              "required": true
+            }
+          },
+          {
+            "in": "path",
+            "name": "noteId",
+            "description": "Enter Note ID",
+            "schema": {
+              "type": "string",
+              "required": true
+            }
+          },
+          {
+            "name": "Update Label to note",
+            "in": "body",
+            "description": "Label ID body",
+            "schema": {
+              "$ref": "#/definitions/labelId"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+
+        "responses": {
+          "200": {
+            "description": "label Added succesfully 🤞😉!!"
+          },
+          "400": {
+            "description": "Please enter Valid Token🤪"
+          },
+          "404": {
+            "description": "Unable to update label😒"
+          },
+          "500": {
+            "description": "Some internal error occurred 🌍"
+          }
+        }
+      }
+    },
+    "/deleteLabelFromNote/{noteID}": {
+      "delete": {
+        "tags": [" Delete label From Note "],
+        "description": "Delete label From Note That You Want..! !!",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Token for vaidation..! Please Enter a string before puting token..!",
+            "schema": {
+              "type": "string",
+              "required": true
+            }
+          },
+          {
+            "in": "path",
+            "name": "noteID",
+            "description": "Enter Note ID",
+            "schema": {
+              "type": "string",
+              "required": true
+            }
+          },
+          {
+            "name": "Update Label to note",
+            "in": "body",
+            "description": "Label ID body",
+            "schema": {
+              "$ref": "#/definitions/labelId"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+
+        "responses": {
+          "200": {
+            "description": "Label Deleted succesfully 🤞😉!!"
+          },
+          "400": {
+            "description": "Please enter Valid Token🤪"
           },
           "500": {
             "description": "Some internal error occurred 🌍"

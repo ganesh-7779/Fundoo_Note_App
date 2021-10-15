@@ -146,8 +146,19 @@ class Note {
         userId: req.user.dataForToken.id,
         noteID: req.params.noteID,
         title: req.body.title,
-        description: req.body.description,
+        description: req.body.description
       };
+      const loginValidation = validation.noteValidation.validate(req.body);
+      console.log(loginValidation);
+      if (loginValidation.error) {
+        logger.error(loginValidation.error);
+        res.status(422).send({
+          success: false,
+          message: "invalid label input"
+        });
+        return;
+      }
+
       noteService.serUpdateNote(id, (error, data) => {
         if (error) {
           logger.error(error);
@@ -241,18 +252,17 @@ class Note {
         noteID: req.params.noteID
       };
       await noteService.deleteLabel(id);
-      res.status(201).send({
+      res.status(200).send({
         message: "Label deleted sucessfully",
         success: true
       });
     } catch (error) {
       res.status(500).send({
-        message: "error occurs",
+        message: "internal error occurs",
         success: false,
         error: error
       });
     }
   }
 }
-
 module.exports = new Note();

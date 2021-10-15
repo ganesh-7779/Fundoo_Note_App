@@ -13,6 +13,7 @@ const chaiHttp = require("chai-http");
 const noteDB = require("./note.json");
 const faker = require("faker");
 const server = require("../server");
+// const sinon = require("sinon");
 
 chai.should();
 chai.use(chaiHttp);
@@ -363,13 +364,75 @@ describe("Delete Note By ID API", () => {
   });
   it("when_TokenAndID_isValid_Should_return_DeleteNote_Sucessfully", (done) => {
     const token = noteDB.getById.token;
+    //
     chai.request(server)
-      .delete("/deleteByID/61648f6cdb902baac2610163")
+
+      .delete("/deleteByID/id")
       .set({ authorization: token })
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.have.property("success").eql(true);
         res.body.should.have.property("message").eql("Note Deleted successfully");
+        done();
+      });
+  });
+});
+
+describe("Add Label To  Note API", () => {
+  it("when_Token_isInValid_Should_returnInvalidToken", (done) => {
+    const token = noteDB.getById.Intoken;
+    const lebeiId = noteDB.label;
+    chai.request(server)
+      .post("/addLabel/6162e8dd4e32c8f025d5eed5")
+      .set({ authorization: token })
+      .send(lebeiId)
+      .end((err, res) => {
+        res.should.have.status(400);
+        res.body.should.have.property("success").eql(false);
+        res.body.should.have.property("message").eql("Invalid Token");
+        done();
+      });
+  });
+  it("when_TokenAndID_isValid_Should_return_addlabel_Sucessfully", (done) => {
+    const token = noteDB.getById.token;
+    const lebeiId = noteDB.label;
+    console.log(lebeiId);
+    chai.request(server)
+      .post("/addLabel/6162e8dd4e32c8f025d5eed5")
+      .set({ authorization: token })
+      .send(lebeiId)
+      .end((err, res) => {
+        res.should.have.status(200);
+        done();
+      });
+  });
+});
+
+describe("Delete Label Fron  Note API", () => {
+  it("when_Token_isInValid_Should_returnInvalidToken", (done) => {
+    const token = noteDB.getById.Intoken;
+    const lebeiId = noteDB.label;
+    chai.request(server)
+      .delete("/deleteLabelFromNote/6162e8dd4e32c8f025d5eed5")
+      .set({ authorization: token })
+      .send(lebeiId)
+      .end((err, res) => {
+        res.should.have.status(400);
+        res.body.should.have.property("success").eql(false);
+        res.body.should.have.property("message").eql("Invalid Token");
+        done();
+      });
+  });
+  it("when_TokenAndID_isValid_Should_return_addlabel_Sucessfully", (done) => {
+    const token = noteDB.getById.token;
+    const lebeiId = noteDB.label;
+    console.log(lebeiId);
+    chai.request(server)
+      .delete("/deleteLabelFromNote/6162e8dd4e32c8f025d5eed5")
+      .set({ authorization: token })
+      .send(lebeiId)
+      .end((err, res) => {
+        res.should.have.status(200);
         done();
       });
   });
