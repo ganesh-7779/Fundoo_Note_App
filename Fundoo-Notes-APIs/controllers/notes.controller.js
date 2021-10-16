@@ -38,7 +38,7 @@ class Note {
         logger.error(loginValidation.error);
         res.status(422).send({
           success: false,
-          message: "invalid label input"
+          message: "invalid label input",
         });
         return;
       }
@@ -119,7 +119,7 @@ class Note {
         logger.error(noteValidation.error);
         res.status(422).send({
           success: false,
-          message: "invalid note input"
+          message: "invalid note input",
         });
         return;
       }
@@ -134,6 +134,7 @@ class Note {
         } else {
           logger.info("Here is your Note");
           console.log(note);
+          client.setex("data", 60, JSON.stringify(note));
           res.status(200).send({
             success: true,
             message: "Here is your Note",
@@ -158,7 +159,7 @@ class Note {
         userId: req.user.dataForToken.id,
         noteID: req.params.noteID,
         title: req.body.title,
-        description: req.body.description
+        description: req.body.description,
       };
       const loginValidation = validation.noteValidation.validate(req.body);
       console.log(loginValidation);
@@ -167,7 +168,7 @@ class Note {
 
         res.status(422).send({
           success: false,
-          message: "invalid label input"
+          message: "invalid label input",
         });
         return;
       }
@@ -210,7 +211,7 @@ class Note {
     try {
       const id = {
         userId: req.user.dataForToken.id,
-        noteID: req.params.noteID
+        noteID: req.params.noteID,
       };
       // console.log(id);
       const noteValidation = validation.getNoteValidation.validate(id);
@@ -218,14 +219,16 @@ class Note {
         logger.error(noteValidation.error);
         res.status(422).send({
           success: false,
-          message: "invalid note input"
+          message: "invalid note input",
         });
         return;
       }
       noteService.serDeleteById(id, (error, note) => {
         if (error) {
           logger.error(error);
-          res.status(400).send({ message: "Some error occurred while retrieving note." });
+          res
+            .status(400)
+            .send({ message: "Some error occurred while retrieving note." });
         } else {
           logger.info("Note Deleted successfully");
           res.status(200).json({
@@ -240,15 +243,20 @@ class Note {
     }
   };
 
+  /**
+   * @description function written to add label to note
+   * @param {*} a valid noteId is expected
+   * @param {*} a valid labelData is expecte
+   */
   addLabeltoNote = async (req, res) => {
     try {
       const noteInfo = {
         userId: req.user.dataForToken.id,
-        noteId: req.params.noteId
+        noteId: req.params.noteId,
       };
       // console.log(noteInfo);
       const id = {
-        labelId: [req.body.labelId]
+        labelId: [req.body.labelId],
       };
       // console.log(id);
       await noteService.addLabeltoNote(noteInfo, id);
@@ -256,44 +264,51 @@ class Note {
 
       return res.status(200).json({
         message: "label Added succesfully",
-        success: true
+        success: true,
       });
     } catch (err) {
       return res.status(500).json({
         message: "error occurs",
         success: false,
-        data: err
+        data: err,
       });
     }
-  }
+  };
+
+  /**
+   * @description function written to delete label from note
+   * @param {*} a valid noteId is expected
+   * @param {*} a valid labelData is expected
+   * @returns
+   */
 
   deleteLabel = async (req, res) => {
     try {
       const id = {
         labelId: req.body.labelId,
-        noteID: req.params.noteID
+        noteID: req.params.noteID,
       };
       const noteValidation = validation.deleteLabelValidation.validate(id);
       if (noteValidation.error) {
         logger.error(noteValidation.error);
         res.status(422).send({
           success: false,
-          message: "invalid label input"
+          message: "invalid label input",
         });
         return;
       }
       await noteService.deleteLabel(id);
       res.status(200).send({
         message: "Label deleted sucessfully",
-        success: true
+        success: true,
       });
     } catch (error) {
       res.status(500).send({
         message: "internal error occurs",
         success: false,
-        error: error
+        error: error,
       });
     }
-  }
+  };
 }
 module.exports = new Note();

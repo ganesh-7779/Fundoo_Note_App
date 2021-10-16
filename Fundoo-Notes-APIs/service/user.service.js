@@ -5,7 +5,7 @@
  * @description  UserService class for invoking  the callback method for controller
  * @author       Ganesh Gavhad
  * @since        17/09/2021
-*************************************************************************************/
+ *************************************************************************************/
 
 const userModel = require("../models/user.model.js");
 const helper = require("../helper/user.helper.js");
@@ -13,6 +13,11 @@ const bcrypt = require("bcrypt");
 const logger = require("../logger/logger.js");
 const nodemailer = require("../helper/nodemailer");
 class UserService {
+  /**
+   * @description Create and save user ,then send response to controller
+   * @method registerUser to save the user
+   * @param callback callback for controller
+   **/
   registerUser = (user, callback) => {
     userModel.registerUser(user, (error, data) => {
       if (error) {
@@ -25,6 +30,11 @@ class UserService {
     });
   };
 
+  /**
+   * @description sends the data to loginApi in the controller
+   * @method userLogin to login user and make pass into hash form
+   * @param callback for controller
+   */
   userLogin = (InfoLogin, callback) => {
     userModel.loginModel(InfoLogin, (error, data) => {
       if (data) {
@@ -46,8 +56,14 @@ class UserService {
         return callback(error);
       }
     });
-  }
+  };
 
+  /**
+   * @description it acts as a middleware between controller and model for reset password
+   * @param {*} email
+   * @param {*} callback
+   * @returns
+   */
   forgotPass = (email, callback) => {
     userModel.forgotPass(email, (error, data) => {
       if (error) {
@@ -57,8 +73,14 @@ class UserService {
         return callback(null, nodemailer.sendEmail(data));
       }
     });
-  }
+  };
 
+  /**
+   * @description it acts as a middleware between controller and model for reset password
+   * @param {*} inputData
+   * @param {*} callback use to call controller
+   * @returns
+   */
   resetPass = (inputData, callback) => {
     userModel.resetPass(inputData, (error, data) => {
       if (error) {
@@ -69,7 +91,7 @@ class UserService {
         return callback(null, data);
       }
     });
-  }
+  };
 }
 
 module.exports = new UserService();
