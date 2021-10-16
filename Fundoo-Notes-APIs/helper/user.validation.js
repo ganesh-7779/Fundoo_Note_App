@@ -87,6 +87,27 @@ class Validation {
      description: Joi.string().min(2)
        .required()
    });
+
+   getlabelValidation =Joi.object({
+     userId: Joi.string().min(24)
+       .required(),
+     labelID: Joi.string().min(24)
+       .required()
+   });
+
+   getNoteValidation =Joi.object({
+     userId: Joi.string().min(24)
+       .required(),
+     noteID: Joi.string().min(24)
+       .required()
+   });
+
+   deleteLabelValidation =Joi.object({
+     labelId: Joi.string().min(24)
+       .required(),
+     noteID: Joi.string().min(20)
+       .required()
+   });
 }
 
 module.exports = new Validation();

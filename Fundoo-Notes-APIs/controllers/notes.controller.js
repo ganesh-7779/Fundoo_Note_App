@@ -114,7 +114,15 @@ class Note {
         noteID: req.params.noteID,
       };
       // console.log(id);
-
+      const noteValidation = validation.getNoteValidation.validate(id);
+      if (noteValidation.error) {
+        logger.error(noteValidation.error);
+        res.status(422).send({
+          success: false,
+          message: "invalid note input"
+        });
+        return;
+      }
       noteService.getById(id, (error, note) => {
         if (error) {
           // logger.error(error);
@@ -204,8 +212,16 @@ class Note {
         userId: req.user.dataForToken.id,
         noteID: req.params.noteID
       };
-      console.log(id);
-
+      // console.log(id);
+      const noteValidation = validation.getNoteValidation.validate(id);
+      if (noteValidation.error) {
+        logger.error(noteValidation.error);
+        res.status(422).send({
+          success: false,
+          message: "invalid note input"
+        });
+        return;
+      }
       noteService.serDeleteById(id, (error, note) => {
         if (error) {
           logger.error(error);
@@ -257,6 +273,15 @@ class Note {
         labelId: req.body.labelId,
         noteID: req.params.noteID
       };
+      const noteValidation = validation.deleteLabelValidation.validate(id);
+      if (noteValidation.error) {
+        logger.error(noteValidation.error);
+        res.status(422).send({
+          success: false,
+          message: "invalid label input"
+        });
+        return;
+      }
       await noteService.deleteLabel(id);
       res.status(200).send({
         message: "Label deleted sucessfully",
