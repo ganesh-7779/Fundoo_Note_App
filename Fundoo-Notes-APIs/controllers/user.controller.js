@@ -8,6 +8,11 @@ const validation = require("../helper/user.validation.js");
 const logger = require("../logger/logger.js");
 
 class UserController {
+  /**
+   * @description Create and save user and sending response to service
+   * @method registration to save the user into database
+   * @param req,res for service
+   */
   registration = (req, res) => {
     try {
       const user = {
@@ -52,6 +57,11 @@ class UserController {
     }
   };
 
+  /**
+   * @description retrieving login info from user by email and password
+   * @method loginReq
+   * @param req,res for service
+   */
   loginReq = (req, res) => {
     try {
       const userLoginInfo = {
@@ -91,6 +101,11 @@ class UserController {
     }
   };
 
+  /**
+   * description controller function for forgot password
+   * @param {*} req body will take email
+   * @param {*} res should have generated token to send user
+   */
   // forgot password
   forgotPass = (req, res) => {
     try {
@@ -124,6 +139,13 @@ class UserController {
       });
     }
   };
+
+  /**
+   * description controller function for forgot password
+   * @param {*} req will take email from decode token data and password wiil get from req body
+   * @param {*} res should have pass reset succefully
+   * @returns
+   */
 
   // reset password
   resetPass = (req, res) => {

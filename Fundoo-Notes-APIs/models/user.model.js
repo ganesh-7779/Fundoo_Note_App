@@ -6,7 +6,7 @@
  * @description  user.model is for collection structure of database and fuction regarding DB
  * @author       Ganesh Gavhad
  * @since        17/09/2021
-*************************************************************************************/
+ *************************************************************************************/
 
 const mongoose = require("mongoose");
 const helper = require("../helper/user.helper.js");
@@ -45,6 +45,11 @@ const Register = new mongoose.model("Register", userSchema);
 module.exports = Register;
 
 class UserModel {
+  /**
+   * @description register user in the database
+   * @param userDetails object has user details
+   * @param callback help to get back in service
+   */
   registerUser = (userDetails, callback) => {
     const newUser = new Register({
       firstName: userDetails.firstName,
@@ -72,8 +77,13 @@ class UserModel {
       logger.error(error);
       return callback("Internal error", null);
     }
-  }
+  };
 
+  /**
+   * @description login user from the database
+   * @param loginInfo object will contain login info of user
+   * @param callback to get back into service with data and error
+   */
   loginModel = (loginInfo, callback) => {
     try {
       Register.findOne({ email: loginInfo.email }, (error, data) => {
@@ -89,8 +99,13 @@ class UserModel {
     } catch (error) {
       callback("Internal error", null);
     }
-  }
+  };
 
+  /**
+   * @description mongoose function for forgot password
+   * @param {*} data will contain email of user
+   * @param {*} callback
+   */
   forgotPass = (data, callback) => {
     Register.findOne({ email: data.email }, (err, data) => {
       if (err) {
@@ -102,17 +117,32 @@ class UserModel {
     });
   };
 
+  /**
+   * @description mongooose method for reseting the password
+   * @param {*} inputData has email of user to find user and reset password in database
+   * @param {*} callback to get back into service
+   * @returns
+   */
   resetPass = async (inputData, callback) => {
     const hashPass = bcrypt.hashSync(inputData.password, 10);
     const data = await Register.findOne({ email: inputData.email });
-    Register.findByIdAndUpdate(data.id, { firstName: data.firstName, lastName: data.lastName, password: hashPass }, { new: true }, (error, data) => {
-      if (error) {
-        logger.error(error);
-        return callback(error, null);
-      } else {
-        return callback(null, data);
+    Register.findByIdAndUpdate(
+      data.id,
+      {
+        firstName: data.firstName,
+        lastName: data.lastName,
+        password: hashPass
+      },
+      { new: true },
+      (error, data) => {
+        if (error) {
+          logger.error(error);
+          return callback(error, null);
+        } else {
+          return callback(null, data);
+        }
       }
-    });
+    );
   };
 }
 module.exports = new UserModel();

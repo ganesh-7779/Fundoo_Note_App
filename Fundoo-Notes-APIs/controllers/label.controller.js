@@ -9,6 +9,11 @@ const logger = require("../logger/logger");
 const validation = require("../helper/user.validation.js");
 
 class LabelController {
+  /**
+   * @description function written to create label into database
+   * @param {*} a valid req body is expected
+   * @param {*} res should be 200 status code for label added suuccefully
+   */
   createLabel = async (req, res) => {
     try {
       const labelInput = {
@@ -41,6 +46,11 @@ class LabelController {
     }
   };
 
+  /**
+   * @description function written to get all labels
+   * @param {*} req will take userId from middeleware by decoding token
+   * @param {*} res should have all note of user
+   */
   getAllLabel = async (req, res) => {
     const userId = { id: req.user.dataForToken.id };
 
@@ -57,13 +67,20 @@ class LabelController {
       .send({ success: true, message: "All Label Retrieved..!", data: label });
   };
 
+  /**
+   * @description function written with redis to get label by ID
+   * @param {*} req will take userId from middeleware by decoding token
+   *             and label id from params
+   * @param {*} res should have label of particular id
+   */
   getLabelById = async (req, res) => {
     try {
       const labelInput = {
         userId: req.user.dataForToken.id,
         labelID: req.params.labelID
       };
-      const labelValidation = validation.getlabelValidation.validate(labelInput);
+      const labelValidation =
+        validation.getlabelValidation.validate(labelInput);
       if (labelValidation.error) {
         logger.error(labelValidation.error);
         res.status(422).send({
@@ -77,9 +94,16 @@ class LabelController {
         .status(200)
         .send({ success: true, message: "Label Got..!", data: label });
     } catch (error) {
-      return res.status(500).send({ success: false, message: "error occorred" });
+      return res
+        .status(500)
+        .send({ success: false, message: "error occorred" });
     }
-  }
+  };
+  /**
+   * @description function written to update label
+   * @param {*} a valid req body is expected
+   * @param {*} res shoul have update label of user
+   */
 
   updateLabel = async (req, res) => {
     try {
@@ -112,11 +136,20 @@ class LabelController {
     } catch (error) {
       res.status(500).send({ success: false, message: "error occorred" });
     }
-  }
+  };
 
-  deleteById= async (req, res) => {
+  /**
+   * @description function written to delete label by ID
+   * @param {*} req will take userId from middeleware by decoding token
+   *             and label id from params
+   * @param {*} res should have null data and status code 204
+   */
+  deleteById = async (req, res) => {
     try {
-      const id = { userId: req.user.dataForToken.id, labelID: req.params.labelID };
+      const id = {
+        userId: req.user.dataForToken.id,
+        labelID: req.params.labelID
+      };
       console.log(id);
       const labelValidation = validation.getlabelValidation.validate(id);
       if (labelValidation.error) {
@@ -146,15 +179,18 @@ class LabelController {
         data: err
       });
     }
-  }
+  };
 
-  addNoteIdtoLabel= async (noteInfo, id) => {
+  /**
+   * @description function written to Add note id into label
+   */
+  addNoteIdtoLabel = async (noteInfo, id) => {
     try {
       await labelService.addNoteIdtoLabel(noteInfo, id);
       return;
     } catch (err) {
       return err;
     }
-  }
+  };
 }
 module.exports = new LabelController();

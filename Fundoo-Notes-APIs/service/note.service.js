@@ -1,107 +1,119 @@
 /***********************************************************************************************
-* @description   : It is work as a service logic  between models and controller
-* @file          : note.service.js
-* @author        : Ganesh
-*************************************************************************************************/
+ * @description   : It is work as a service logic  between models and controller
+ * @file          : note.service.js
+ * @author        : Ganesh
+ *************************************************************************************************/
 // const { error } = require("../logger/logger");
 const noteModel = require("../models/note.model");
 
 class Service {
   /*
-  * @description : this function is written to send data models
-  * @param       : A valid notes data is expected from service
-  * @returns     : if note get reated in DB return data else error
-  */
-    createNote = (note, callback) => {
-      noteModel.createNote(note, (err, data) => {
-        if (err) {
-          return callback(err, null);
-        } else {
-          return callback(null, data);
-        }
-      });
-    }
+   * @description : this function is written to send data models
+   * @param       : A valid notes data is expected from service
+   * @returns     : if note get reated in DB return data else error
+   */
+  createNote = (note, callback) => {
+    noteModel.createNote(note, (err, data) => {
+      if (err) {
+        return callback(err, null);
+      } else {
+        return callback(null, data);
+      }
+    });
+  };
 
-    /**
-     * @description this function is written to trigger or call the models function
-     * @returns error if it has error else data
-     */
-    serGetAllNotes = (userId, callback) => {
-      noteModel.getAllNotesDB(userId, (error, notes) => {
-        if (error) {
-          return callback(error, null);
-        } else {
-          return callback(null, notes);
-        }
-      });
-    }
+  /**
+   * @description this function is written to trigger or call the models function
+   * @returns error if it has error else data
+   */
+  serGetAllNotes = (userId, callback) => {
+    noteModel.getAllNotesDB(userId, (error, notes) => {
+      if (error) {
+        return callback(error, null);
+      } else {
+        return callback(null, notes);
+      }
+    });
+  };
 
-    /**
-     * @description @getById this function written for get notes using note id and userid
-     * @param {*} req shoild contain note id and userID
-     * @param {*} res
-     * @returns response
-     */
-    getById = (noteId, callback) => {
-      console.log(noteId);
-      noteModel.getById(noteId, (error, note) => {
-        if (error) {
-          return callback(error, null);
-        } else {
-          return callback(null, note);
-        }
-      });
-    }
+  /**
+   * @description @getById this function written for get notes using note id and userid
+   * @param {*} req shoild contain note id and userID
+   * @param {*} res
+   * @returns response
+   */
+  getById = (noteId, callback) => {
+    console.log(noteId);
+    noteModel.getById(noteId, (error, note) => {
+      if (error) {
+        return callback(error, null);
+      } else {
+        return callback(null, note);
+      }
+    });
+  };
 
-    /**
-     * @description serUpdateNote this function written for update notes using ID note id
-     * @param {*} req shoild contain note id and title an description of note
-     * @param {*} res
-     * @returns response
-     */
-    serUpdateNote = (noteId, callback) => {
+  /**
+   * @description serUpdateNote this function written for update notes using ID note id
+   * @param {*} req shoild contain note id and title an description of note
+   * @param {*} res
+   * @returns response
+   */
+  serUpdateNote = (noteId, callback) => {
     //  console.log(noteId);
-      noteModel.modUpdateNote(noteId, (error, note) => {
-        if (error) {
-          return callback(error, null);
-        } else {
-          return callback(null, note);
-        }
-      });
-    }
-
-    /**
-     * @description serDeleteById this function written for Delete notes using note id
-     * @param {*} req params shoild contain note id
-     * @param {*} res
-     * @returns response
-     */
-    serDeleteById = (noteId, callback) => {
-      console.log(noteId);
-      noteModel.modDeleteByID(noteId, (error, note) => {
-        if (error) {
-          return callback(error, null);
-        } else {
-          return callback(null, note);
-        }
-      });
-    }
-
-    addLabeltoNote = async (noteInfo, id) => {
-      try {
-        return await noteModel.addLabeltoNote(noteInfo, id);
-      } catch (error) {
-        return error;
+    noteModel.modUpdateNote(noteId, (error, note) => {
+      if (error) {
+        return callback(error, null);
+      } else {
+        return callback(null, note);
       }
-    }
+    });
+  };
 
-    deleteLabel = async (id) => {
-      try {
-        const data = await noteModel.deleteLabel(id);
-        return data;
-      } catch (error) {
-        return error;
+  /**
+   * @description serDeleteById this function written for Delete notes using note id
+   * @param {*} req params shoild contain note id
+   * @param {*} res
+   * @returns response
+   */
+  serDeleteById = (noteId, callback) => {
+    console.log(noteId);
+    noteModel.modDeleteByID(noteId, (error, note) => {
+      if (error) {
+        return callback(error, null);
+      } else {
+        return callback(null, note);
       }
+    });
+  };
+
+  /**
+   * @description function written to add label to note
+   * @param {*} a valid noteId is expected
+   * @param {*} a valid labelData is expected
+   * @returns
+   */
+  addLabeltoNote = async (noteInfo, id) => {
+    try {
+      return await noteModel.addLabeltoNote(noteInfo, id);
+    } catch (error) {
+      return error;
     }
+  };
+
+  /**
+   * @description function written to delete label from note
+   * @param {*} a valid noteId is expected
+   * @param {*} a valid labelData is expected
+   * @returns
+   */
+  deleteLabel = async (id) => {
+    try {
+      const data = await noteModel.deleteLabel(id);
+      return data;
+    } catch (error) {
+      return error;
+    }
+  };
 }
 module.exports = new Service();
