@@ -6,7 +6,7 @@ const userController = require("../controllers/user.controller.js");
 const middleware = require("../helper/user.helper");
 const noteController = require("../controllers/notes.controller.js");
 const labelController = require("../controllers/label.controller");
-// const { validateToken } = require("../helper/user.helper");
+const redisMiddleware = require("../helper/redis");
 
 module.exports = (app) => {
   // Create a new Note
@@ -23,7 +23,7 @@ module.exports = (app) => {
   app.post("/createnotes", middleware.validateToken, noteController.createNote);
 
   // Get all note API
-  app.get("/getAllNotes", middleware.validateToken, noteController.getAllNotes);
+  app.get("/getAllNotes", middleware.validateToken, redisMiddleware.redis, noteController.getAllNotes);
 
   // get note by id
   app.get("/getByID/:noteID", middleware.validateToken, noteController.getById);
@@ -40,10 +40,16 @@ module.exports = (app) => {
 
   // Create label APIs
   app.post("/createLabel", middleware.validateToken, labelController.createLabel);
+
   app.get("/getAllLabel", middleware.validateToken, labelController.getAllLabel);
+
   app.get("/getLabelbyID/:labelID", middleware.validateToken, labelController.getLabelById);
+
   app.put("/updateLabelById/:labelID", middleware.validateToken, labelController.updateLabel);
+
   app.delete("/deleteLabelById/:labelID", middleware.validateToken, labelController.deleteById);
+
   app.post("/addLabel/:noteId", middleware.validateToken, noteController.addLabeltoNote);
+
   app.delete("/deleteLabelFromNote/:noteID", middleware.validateToken, noteController.deleteLabel);
 };

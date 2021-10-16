@@ -43,6 +43,7 @@ class LabelController {
 
   getAllLabel = async (req, res) => {
     const userId = { id: req.user.dataForToken.id };
+
     const label = await labelService.getAllLabel(userId);
     if (!label) {
       return res.status(404).send({
@@ -62,6 +63,15 @@ class LabelController {
         userId: req.user.dataForToken.id,
         labelID: req.params.labelID
       };
+      const labelValidation = validation.getlabelValidation.validate(labelInput);
+      if (labelValidation.error) {
+        logger.error(labelValidation.error);
+        res.status(422).send({
+          success: false,
+          message: "invalid label and user id"
+        });
+        return;
+      }
       const label = await labelService.getLabelById(labelInput);
       return res
         .status(200)
@@ -108,14 +118,23 @@ class LabelController {
     try {
       const id = { userId: req.user.dataForToken.id, labelID: req.params.labelID };
       console.log(id);
+      const labelValidation = validation.getlabelValidation.validate(id);
+      if (labelValidation.error) {
+        logger.error(labelValidation.error);
+        res.status(422).send({
+          success: false,
+          message: "invalid label and user id"
+        });
+        return;
+      }
       const data = await labelService.deleteById(id);
       console.log(data);
-      if (!data) {
-        return res.status(404).json({
-          message: "label not found",
-          success: true
-        });
-      }
+      // if (!data) {
+      //   return res.status(404).json({
+      //     message: "label not found",
+      //     success: true
+      //   });
+      // }
       return res.status(200).json({
         message: "label Delete succesfully",
         success: true
@@ -137,12 +156,5 @@ class LabelController {
       return err;
     }
   }
-  // addNoteIdTolabel = async (noteInfo, id) => {
-  //   try {
-  //     return await labelService.addNoteIdTolabel(noteInfo, id);
-  //   } catch (err) {
-  //     return err;
-  //   }
-  // }
 }
 module.exports = new LabelController();

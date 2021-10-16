@@ -9,6 +9,9 @@ const noteService = require("../service/note.service");
 const logger = require("../logger/logger");
 const validation = require("../helper/user.validation");
 const labelController = require("../controllers/label.controller");
+const redis = require("redis");
+const client = redis.createClient();
+const clearRedis = require("../helper/redis");
 
 class Note {
   /**
@@ -83,6 +86,7 @@ class Note {
           });
         } else {
           logger.info("Here is your all Note");
+          client.setex("data", 60, JSON.stringify(userNotes));
           res.status(200).send({
             success: true,
             message: "Here is your all Notes",
@@ -110,7 +114,15 @@ class Note {
         noteID: req.params.noteID,
       };
       // console.log(id);
-
+      const noteValidation = validation.getNoteValidation.validate(id);
+      if (noteValidation.error) {
+        logger.error(noteValidation.error);
+        res.status(422).send({
+          success: false,
+          message: "invalid note input"
+        });
+        return;
+      }
       noteService.getById(id, (error, note) => {
         if (error) {
           // logger.error(error);
@@ -152,6 +164,7 @@ class Note {
       console.log(loginValidation);
       if (loginValidation.error) {
         logger.error(loginValidation.error);
+
         res.status(422).send({
           success: false,
           message: "invalid label input"
@@ -168,6 +181,7 @@ class Note {
           });
         } else {
           logger.info("Note is upadated Successfully");
+          clearRedis.clearCache();
           return res.status(201).send({
             message: " Note is upadated Successfully",
             success: true,
@@ -198,8 +212,16 @@ class Note {
         userId: req.user.dataForToken.id,
         noteID: req.params.noteID
       };
-      console.log(id);
-
+      // console.log(id);
+      const noteValidation = validation.getNoteValidation.validate(id);
+      if (noteValidation.error) {
+        logger.error(noteValidation.error);
+        res.status(422).send({
+          success: false,
+          message: "invalid note input"
+        });
+        return;
+      }
       noteService.serDeleteById(id, (error, note) => {
         if (error) {
           logger.error(error);
@@ -251,6 +273,15 @@ class Note {
         labelId: req.body.labelId,
         noteID: req.params.noteID
       };
+      const noteValidation = validation.deleteLabelValidation.validate(id);
+      if (noteValidation.error) {
+        logger.error(noteValidation.error);
+        res.status(422).send({
+          success: false,
+          message: "invalid label input"
+        });
+        return;
+      }
       await noteService.deleteLabel(id);
       res.status(200).send({
         message: "Label deleted sucessfully",
