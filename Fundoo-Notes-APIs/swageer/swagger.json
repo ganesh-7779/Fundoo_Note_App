@@ -660,8 +660,8 @@
         }
       }
     },
-    "/addLabel/{noteId}": {
-      "put": {
+    "/addLabel/{noteID}": {
+      "post": {
         "tags": [" upadate label To Note "],
         "description": "Update label To Note That You Want..! !!",
         "parameters": [
@@ -676,7 +676,7 @@
           },
           {
             "in": "path",
-            "name": "noteId",
+            "name": "noteID",
             "description": "Enter Note ID",
             "schema": {
               "type": "string",
@@ -750,6 +750,57 @@
           },
           "400": {
             "description": "Please enter Valid Token🤪"
+          },
+          "500": {
+            "description": "Some internal error occurred 🌍"
+          }
+        }
+      }
+    },
+    "/shareNote/{noteID}": {
+      "post": {
+        "tags": [" Share Note "],
+        "description": "Share Note By Email !",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Token for vaidation..! Please Enter a string before puting token..!",
+            "schema": {
+              "type": "string",
+              "required": true
+            }
+          },
+          {
+            "in": "path",
+            "name": "noteID",
+            "description": "Enter Note ID",
+            "schema": {
+              "type": "string",
+              "required": true
+            }
+          },
+          {
+            "name": "Add Email To Share Note",
+            "in": "body",
+            "description": "Email ID body",
+            "schema": {
+              "$ref": "#/definitions/forgetPass"
+      
+            }
+          }
+        ],
+        "produces": ["application/json"],
+
+        "responses": {
+          "200": {
+            "description": "Note share succesfully"
+          },
+          "400": {
+            "description": "Please enter Valid Token🤪"
+          },
+          "422": {
+            "description": "Unable to Add eamil😒"
           },
           "500": {
             "description": "Some internal error occurred 🌍"

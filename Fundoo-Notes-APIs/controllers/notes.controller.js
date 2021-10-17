@@ -252,12 +252,22 @@ class Note {
     try {
       const noteInfo = {
         userId: req.user.dataForToken.id,
-        noteId: req.params.noteId,
+        noteID: req.params.noteID,
       };
-      // console.log(noteInfo);
+      console.log(noteInfo);
       const id = {
         labelId: [req.body.labelId],
       };
+      console.log(id);
+      const noteValidation = validation.getNoteValidation.validate(noteInfo);
+      if (noteValidation.error) {
+        logger.error(noteValidation.error);
+        res.status(422).send({
+          success: false,
+          message: "invalid note input",
+        });
+        return;
+      }
       // console.log(id);
       await noteService.addLabeltoNote(noteInfo, id);
       await labelController.addNoteIdtoLabel(noteInfo, id);
@@ -327,6 +337,13 @@ class Note {
       const userEmail = {
         email: [req.body.email],
       };
+      const emailValidation = validation.forgetSchema.validate(req.body);
+      if (emailValidation.error) {
+        res.status(422).send({
+          success: false,
+          message: emailValidation.error.message
+        });
+      }
       await noteService.shareNote(noteInfo, userEmail);
       return res.status(200).json({
         message: "Note share  succesfully",
