@@ -86,6 +86,7 @@ class Validation {
        .required(),
      description: Joi.string().min(2)
        .required()
+
    });
 
    getlabelValidation =Joi.object({

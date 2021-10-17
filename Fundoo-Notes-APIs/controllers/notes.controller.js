@@ -33,7 +33,7 @@ class Note {
         title: req.body.title,
         description: req.body.description,
       };
-      const loginValidation = validation.noteValidation.validate(note);
+      const loginValidation = validation.noteValidation.validate(req.body);
       if (loginValidation.error) {
         logger.error(loginValidation.error);
         res.status(422).send({
