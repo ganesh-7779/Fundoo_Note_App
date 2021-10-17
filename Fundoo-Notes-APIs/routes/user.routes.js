@@ -34,6 +34,8 @@ module.exports = (app) => {
   // Delete note by id API
   app.delete("/deleteById/:noteID", middleware.validateToken, noteController.deleteById);
 
+  app.post("/shareNote/:noteID", middleware.validateToken, noteController.shareNote);
+
   /*
    *CRUD operation APIs For label
    */

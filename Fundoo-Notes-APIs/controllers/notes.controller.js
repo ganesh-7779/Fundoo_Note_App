@@ -310,5 +310,35 @@ class Note {
       });
     }
   };
+
+  /**
+   * @description function written to share note by email to a user
+   * @param {*} a valid noteId is expected
+   * @param {*} a valid note is expected
+   * @returns
+   */
+  shareNote = async (req, res) => {
+    try {
+      const noteInfo = {
+        userId: req.user.dataForToken.id,
+        noteID: req.params.noteID,
+      };
+      // console.log(noteInfo);
+      const userEmail = {
+        email: [req.body.email],
+      };
+      await noteService.shareNote(noteInfo, userEmail);
+      return res.status(200).json({
+        message: "Note share  succesfully",
+        success: true,
+      });
+    } catch (err) {
+      return res.status(500).json({
+        message: "error occurs",
+        success: false,
+        data: err,
+      });
+    }
+  }
 }
 module.exports = new Note();
