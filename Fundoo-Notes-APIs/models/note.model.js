@@ -149,7 +149,7 @@ class Model {
    */
   addLabeltoNote = async (noteInfo, id) => {
     const data = await NoteRegister.findOneAndUpdate(
-      { $and: [{ _id: noteInfo.noteId }, { userId: noteInfo.userId }] },
+      { $and: [{ _id: noteInfo.noteID }, { userId: noteInfo.userId }] },
       { $push: { labelId: id.labelId } },
       { new: true }
     );
