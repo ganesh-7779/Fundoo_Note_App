@@ -8,12 +8,19 @@ const mongoose = require("mongoose");
 const noteSchema = mongoose.Schema(
   {
     userId: { type: mongoose.Schema.Types.ObjectId, ref: "Register" },
+
     labelId: {
       type: [{ type: mongoose.Schema.Types.ObjectId, ref: "ModelForLabel" }]
     },
+
+    email: {
+      type: [{ type: mongoose.Schema.Types.String, ref: "Register" }]
+    },
+
     title: {
       type: String
     },
+
     description: {
       type: String,
       required: true,
@@ -167,6 +174,21 @@ class Model {
     } catch (error) {
       return error;
     }
+  };
+
+  /**
+   * @description function written to share note by email
+   * @param {*} a valid noteId is expected to find note in database
+   * @param {*} a valid userId is expected to find note in data base
+   * @returns
+   */
+  shareNote = async (noteInfo, userEmail) => {
+    const data = await NoteRegister.findOneAndUpdate(
+      { $and: [{ _id: noteInfo.noteID }, { userId: noteInfo.userId }] },
+      { $push: { email: userEmail.email } },
+      { new: true }
+    );
+    console.log(data);
   };
 }
 

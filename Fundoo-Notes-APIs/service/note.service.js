@@ -115,5 +115,20 @@ class Service {
       return error;
     }
   };
+
+  /**
+   * @description function written to share note by email
+   * @param {*} a valid noteId is expected
+   * @param {*} a valid labelData is expected
+   * @returns
+   */
+
+  shareNote = async (noteInfo, email) => {
+    try {
+      return await noteModel.shareNote(noteInfo, email);
+    } catch (error) {
+      return error;
+    }
+  };
 }
 module.exports = new Service();
