@@ -57,6 +57,18 @@
         "email": "dattagavhad121@gmail.com"
       }
     },
+    "collab": {
+      "type": "object",
+      "properties": {
+        "collabUI": {
+          "type": "string",
+          "description": "collaborator user ID "
+        }
+      },
+      "example": {
+        "collabUI": " "
+      }
+    },
     "ResetPass": {
       "type": "object",
       "properties": {
@@ -781,11 +793,11 @@
             }
           },
           {
-            "name": "Add Email To Share Note",
+            "name": "Collaborator User ID",
             "in": "body",
-            "description": "Email ID body",
+            "description": " Collab User ID ",
             "schema": {
-              "$ref": "#/definitions/forgetPass"
+              "$ref": "#/definitions/collab"
       
             }
           }
@@ -794,13 +806,16 @@
 
         "responses": {
           "200": {
-            "description": "Note share succesfully"
+            "description": "Note share with collaborator succesfully"
           },
           "400": {
-            "description": "Please enter Valid Token🤪"
+            "description": " collaborator already Exist🤪"
+          },
+          "404": {
+            "description": "invalid collaborator, collaborator user id does not Exist🤪"
           },
           "422": {
-            "description": "Unable to Add eamil😒"
+            "description": "Invalid collaborator userID😒"
           },
           "500": {
             "description": "Some internal error occurred 🌍"
