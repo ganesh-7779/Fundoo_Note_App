@@ -15,6 +15,7 @@ const bcrypt = require("bcrypt");
 
 const userSchema = new mongoose.Schema(
   {
+    googleId: { type: String },
     firstName: {
       type: String,
       required: true
@@ -29,9 +30,10 @@ const userSchema = new mongoose.Schema(
       unique: true
     },
     password: {
-      type: String,
-      required: true
-    }
+      type: String
+
+    },
+    googleLogin: { type: Boolean }
   },
   {
     timestamps: true
@@ -145,20 +147,35 @@ class UserModel {
     );
   };
 
-  // userExists = async (collaborator) => {
-  //   const userID = { id: collaborator.collabUI };
-  //   return await new Promise((resolve, reject) => {
-  //     Register.findOne(userID).then((data) => {
-  //       resolve(data);
-  //     }).catch((err) => reject(err));
-  //   });
-  // }
   userExists = async (collabUI) => {
-    // const userID = { id: collabUI.collabUI };
-    // console.log(userID);
     const data = await Register.findOne({ _id: collabUI.collabUI });
     return data;
-    // return await Register.findOne(userID);
   };
+
+   socialLogin = async (userData) => {
+     return await Register.findOne({ email: userData.email }).then(data => {
+       if (data !== null) {
+         console.log(data);
+         return data;
+       } else {
+         const data = new Register({
+           firstName: userData.firstName,
+           lastName: userData.lastName,
+           email: userData.email,
+           password: userData.password,
+           googleId: userData.googleId,
+           googleLogin: userData.googleLogin
+         });
+         setTimeout(
+           function saveData () {
+             data.save();
+           }, 10000);
+         // console.log(data);
+         return data;
+       }
+     }).catch(err => {
+       return ("Something went wrong", err);
+     });
+   };
 }
 module.exports = new UserModel();

@@ -12,6 +12,7 @@ const helper = require("../helper/user.helper.js");
 const bcrypt = require("bcrypt");
 const logger = require("../logger/logger.js");
 const nodemailer = require("../helper/nodemailer");
+
 class UserService {
   /**
    * @description Create and save user ,then send response to controller
@@ -90,6 +91,17 @@ class UserService {
         logger.info("getting upadated password in data");
         return callback(null, data);
       }
+    });
+  };
+
+  socialLogin (googleInfo) {
+    return new Promise((resolve, reject) => {
+      userModel.socialLogin(googleInfo).then((data) => {
+        const token = helper.token(data);
+        resolve(token);
+      }).catch((err) => {
+        reject(err);
+      });
     });
   };
 }
