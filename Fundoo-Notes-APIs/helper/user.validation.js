@@ -103,6 +103,11 @@ class Validation {
        .required()
    });
 
+   shareNote =Joi.object({
+     collabUI: Joi.string().min(20)
+       .required()
+   });
+
    deleteLabelValidation =Joi.object({
      labelId: Joi.string().min(24)
        .required(),
