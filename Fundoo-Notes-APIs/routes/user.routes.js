@@ -7,6 +7,7 @@ const middleware = require("../helper/user.helper");
 const noteController = require("../controllers/notes.controller.js");
 const labelController = require("../controllers/label.controller");
 const redisMiddleware = require("../helper/redis");
+const passport = require("passport");
 
 module.exports = (app) => {
   // Create a new Note
@@ -54,4 +55,11 @@ module.exports = (app) => {
   app.post("/addLabel/:noteID", middleware.validateToken, noteController.addLabeltoNote);
 
   app.delete("/deleteLabelFromNote/:noteID", middleware.validateToken, noteController.deleteLabel);
+
+  app.get("/failed", (req, res) => res.send("You Have Failed To Login...!!!"));
+
+  app.get("/google", passport.authenticate("google", { scope: ["profile", "email"], prompt: "consent", includeGrantedScopes: true }));
+
+  app.get("/google/callback", passport.authenticate("google", { failureRedirect: "/failed" }), middleware.tokenAuthentication, userController.socialLogin);
 };
+// "profile",

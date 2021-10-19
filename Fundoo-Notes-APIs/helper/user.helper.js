@@ -47,5 +47,17 @@ class Helper {
           return res.status(500).send({ success: false, message: "Something went wrong!" });
         }
       }
+
+      tokenAuthentication = (req, res, next) => {
+        console.log(req.user.token);
+        if (req.user.token) {
+          next();
+        } else {
+          // const response = {};
+          // response.status = false;
+          // response.message = "Failed To Set Google Token...!";
+          return res.status(400).send({ success: false, message: "Failed To Set Google Token...!" });
+        }
+      };
 }
 module.exports = new Helper();

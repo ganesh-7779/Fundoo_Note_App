@@ -1,3 +1,4 @@
+/* eslint-disable node/handle-callback-err */
 /* eslint-disable quotes */
 /**
  * @description   : Controller class is use for taking HTTP request from the client or users and gives the response to client through DB
@@ -6,6 +7,7 @@
 const userService = require("../service/user.service.js");
 const validation = require("../helper/user.validation.js");
 const logger = require("../logger/logger.js");
+// const { token } = require("../helper/user.helper.js");
 
 class UserController {
   /**
@@ -184,6 +186,35 @@ class UserController {
         message: "Internal server error"
       });
     }
+  };
+
+  socialLogin = (req, res) => {
+    const googleProfile = req.user.profile;
+    // const response = {};
+    const googleInfo = {
+      firstName: googleProfile.name.givenName,
+      lastName: googleProfile.name.familyName,
+      email: googleProfile.emails[0].value,
+      password: null,
+      googleId: googleProfile.id,
+      googleLogin: true
+    };
+    // console.log(googleProfile.emails[0].value + "    google info");
+    userService.socialLogin(googleInfo).then((data) => {
+      return res
+        .status(200)
+        .send({
+          success: true,
+          message: "Login Successfully...!",
+          token: data
+        });
+    })
+      .catch((error) => {
+        return res.status(500).send({
+          success: false,
+          message: "Login Failed...!'"
+        });
+      });
   };
 }
 module.exports = new UserController();

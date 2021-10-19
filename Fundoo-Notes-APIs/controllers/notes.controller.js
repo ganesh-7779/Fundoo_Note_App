@@ -356,8 +356,8 @@ class Note {
           });
         }
       } else {
-        res.status(400).send({
-          message: "invalid collaborator",
+        res.status(404).send({
+          message: "invalid collaborator, collaborator user id does not Exist",
           success: false,
         });
       }
