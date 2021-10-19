@@ -1,9 +1,14 @@
+/* eslint-disable array-callback-return */
+
+/* eslint-disable eqeqeq */
 /***********************************************************************************************
  * @description   : It is work as a service logic  between models and controller
  * @file          : note.service.js
  * @author        : Ganesh
  *************************************************************************************************/
 // const { error } = require("../logger/logger");
+// const { object } = require("joi");
+// const { array } = require("joi");
 const noteModel = require("../models/note.model");
 
 class Service {
@@ -117,18 +122,40 @@ class Service {
   };
 
   /**
-   * @description function written to share note by email
+   * @description function written to share note by userID
    * @param {*} a valid noteId is expected
    * @param {*} a valid labelData is expected
    * @returns
    */
 
-  shareNote = async (noteInfo, email) => {
+  shareNote = async (noteInfo, collaborator) => {
     try {
-      return await noteModel.shareNote(noteInfo, email);
+      return await noteModel.shareNote(noteInfo, collaborator);
     } catch (error) {
       return error;
     }
   };
+
+  /**
+   * @description function written to check collaborator exists or not
+   * @param {*} a valid noteInfo is expected
+   * @param {*} a valid collaborator is expected
+   * @returns
+   */
+  collaboratorAdded = async (noteInfo, collaborator) => {
+    // console.log(collaborator);
+    const data = await noteModel.getByIdForColl(noteInfo, collaborator);
+    // console.log(data);
+    console.log(JSON.stringify(data.collaborator));
+    console.log(JSON.stringify(collaborator.collabUI));
+
+    for (let i = 0; i < data.collaborator.length; i++) {
+      if (JSON.stringify(data.collaborator[i]) === JSON.stringify(collaborator.collabUI)) {
+        return true;
+      }
+    }
+    return false;
+  }
 }
+
 module.exports = new Service();

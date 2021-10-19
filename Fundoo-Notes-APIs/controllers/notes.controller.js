@@ -9,6 +9,7 @@ const noteService = require("../service/note.service");
 const logger = require("../logger/logger");
 const validation = require("../helper/user.validation");
 const labelController = require("../controllers/label.controller");
+const UserModel = require("../models/user.model");
 const redis = require("redis");
 const client = redis.createClient();
 const clearRedis = require("../helper/redis");
@@ -33,7 +34,7 @@ class Note {
         title: req.body.title,
         description: req.body.description,
       };
-      const loginValidation = validation.noteValidation.validate(note);
+      const loginValidation = validation.noteValidation.validate(req.body);
       if (loginValidation.error) {
         logger.error(loginValidation.error);
         res.status(422).send({
@@ -329,26 +330,37 @@ class Note {
    */
   shareNote = async (req, res) => {
     try {
-      const noteInfo = {
-        userId: req.user.dataForToken.id,
-        noteID: req.params.noteID,
-      };
-      // console.log(noteInfo);
-      const userEmail = {
-        email: [req.body.email],
-      };
-      const emailValidation = validation.forgetSchema.validate(req.body);
-      if (emailValidation.error) {
+      const noteInfo = { userId: req.user.dataForToken.id, noteID: req.params.noteID, };
+      const collaborator = { collabUI: req.body.collabUI };
+
+      const collabUserIdValidate = validation.shareNote.validate(req.body);
+      if (collabUserIdValidate.error) {
         res.status(422).send({
           success: false,
-          message: emailValidation.error.message
+          message: collabUserIdValidate.error.message,
         });
       }
-      await noteService.shareNote(noteInfo, userEmail);
-      return res.status(200).json({
-        message: "Note share  succesfully",
-        success: true,
-      });
+      const CheckcollabUserExists = await UserModel.userExists(req.body);
+      if (CheckcollabUserExists !== null) {
+        const checkCollab = await noteService.collaboratorAdded(noteInfo, collaborator);
+        if (checkCollab) {
+          return res.status(400).send({
+            message: "collaborator already exists",
+            success: false,
+          });
+        } else {
+          await noteService.shareNote(noteInfo, collaborator);
+          return res.status(200).json({
+            message: "Note share with Collaborator succesfully",
+            success: true,
+          });
+        }
+      } else {
+        res.status(400).send({
+          message: "invalid collaborator",
+          success: false,
+        });
+      }
     } catch (err) {
       return res.status(500).json({
         message: "error occurs",
@@ -356,6 +368,6 @@ class Note {
         data: err,
       });
     }
-  }
+  };
 }
 module.exports = new Note();

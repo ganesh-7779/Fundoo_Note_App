@@ -13,8 +13,9 @@ const noteSchema = mongoose.Schema(
       type: [{ type: mongoose.Schema.Types.ObjectId, ref: "ModelForLabel" }]
     },
 
-    email: {
-      type: [{ type: mongoose.Schema.Types.String, ref: "Register" }]
+    collaborator: {
+      type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Register" }],
+      unique: true
     },
 
     title: {
@@ -182,14 +183,18 @@ class Model {
    * @param {*} a valid userId is expected to find note in data base
    * @returns
    */
-  shareNote = async (noteInfo, userEmail) => {
+  shareNote = async (noteInfo, collaborator) => {
     const data = await NoteRegister.findOneAndUpdate(
       { $and: [{ _id: noteInfo.noteID }, { userId: noteInfo.userId }] },
-      { $push: { email: userEmail.email } },
+      { $push: { collaborator: collaborator.collabUI } },
       { new: true }
     );
     console.log(data);
   };
-}
 
+  getByIdForColl = async (id, collab) => {
+    const noteData = await NoteRegister.findOne({ $and: [{ _id: id.noteID }, { userId: id.userId }] });
+    return noteData;
+  };
+}
 module.exports = new Model();

@@ -86,6 +86,7 @@ class Validation {
        .required(),
      description: Joi.string().min(2)
        .required()
+
    });
 
    getlabelValidation =Joi.object({
@@ -99,6 +100,11 @@ class Validation {
      userId: Joi.string().min(24)
        .required(),
      noteID: Joi.string().min(24)
+       .required()
+   });
+
+   shareNote =Joi.object({
+     collabUI: Joi.string().min(20)
        .required()
    });
 

@@ -144,5 +144,21 @@ class UserModel {
       }
     );
   };
+
+  // userExists = async (collaborator) => {
+  //   const userID = { id: collaborator.collabUI };
+  //   return await new Promise((resolve, reject) => {
+  //     Register.findOne(userID).then((data) => {
+  //       resolve(data);
+  //     }).catch((err) => reject(err));
+  //   });
+  // }
+  userExists = async (collabUI) => {
+    // const userID = { id: collabUI.collabUI };
+    // console.log(userID);
+    const data = await Register.findOne({ _id: collabUI.collabUI });
+    return data;
+    // return await Register.findOne(userID);
+  };
 }
 module.exports = new UserModel();
