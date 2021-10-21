@@ -155,7 +155,7 @@ class UserModel {
    socialLogin = async (userData) => {
      return await Register.findOne({ email: userData.email }).then(data => {
        if (data !== null) {
-         console.log(data);
+         // console.log(data);
          return data;
        } else {
          const data = new Register({
@@ -166,11 +166,16 @@ class UserModel {
            googleId: userData.googleId,
            googleLogin: userData.googleLogin
          });
-         setTimeout(
-           function saveData () {
-             data.save();
-           }, 10000);
-         // console.log(data);
+         const datauser = async () => {
+           await data.save();
+         };
+         datauser();
+         // data.save();
+         //  setTimeout(
+         //    function saveData () {
+         //      data.save();
+         //    }, 10000);
+         console.log(data);
          return data;
        }
      }).catch(err => {
