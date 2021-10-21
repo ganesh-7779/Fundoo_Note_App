@@ -19,6 +19,7 @@ const app = express();
 // extended false : allow req-body value as string or array only
 // app.use(cors);
 // app.use take two para 1)path(optional)2) middleware fuction
+app.use(require("cookie-parser")());
 app.use(express.urlencoded({ extended: true }));
 
 // parse requests of content-type - application/json
@@ -37,7 +38,16 @@ app.get("/", (req, res) => {
 });
 
 require("./passport");
+app.use(require("express-session")({
+  secret: "keyboard cat",
+  resave: true,
+  saveUninitialized: true
+}));
 app.use(passport.initialize());
+
+// This middleware is responsible for setting cookies to browsers and converts the cookies sent by browsers into req.session object.
+// PassportJS only uses that object to further deserialize the user.
+app.use(passport.session());
 // Require Notes routes
 
 require("./routes/user.routes.js")(app);
