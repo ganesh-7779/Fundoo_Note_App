@@ -104,7 +104,7 @@ class UserModel {
   };
 
   /**
-   * @description mongoose function for forgot password
+   * @description forgotPas function for forgot password
    * @param {*} data will contain email of user
    * @param {*} callback
    */
@@ -147,11 +147,22 @@ class UserModel {
     );
   };
 
+  /**
+   * @description userExists function for to check user is exist or not
+   * @param {*} collabUI will contain userId of collabortor
+   */
   userExists = async (collabUI) => {
     const data = await Register.findOne({ _id: collabUI.collabUI });
     return data;
   };
 
+  /**
+   * @description mongooose method for reseting the password
+   * @param {*} userData has email of user to find user and if user exist return data
+   *        elase register user using mongoose save function and then return data to service
+   *        to generate token
+   * @returns
+   */
    socialLogin = async (userData) => {
      return await Register.findOne({ email: userData.email }).then(data => {
        if (data !== null) {

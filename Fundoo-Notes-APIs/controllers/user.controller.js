@@ -108,7 +108,6 @@ class UserController {
    * @param {*} req body will take email
    * @param {*} res should have generated token to send user
    */
-  // forgot password
   forgotPass = (req, res) => {
     try {
       const email = req.body;
@@ -148,8 +147,6 @@ class UserController {
    * @param {*} res should have pass reset succefully
    * @returns
    */
-
-  // reset password
   resetPass = (req, res) => {
     try {
       const inputData = {
@@ -188,6 +185,12 @@ class UserController {
     }
   };
 
+  /**
+   * description socialLogin controller function for login user using google
+   * @param {*} req req shoul have req.user
+   * @param {*} res should have user log in succefully
+   * @returns
+   */
   socialLogin = (req, res) => {
     const googleProfile = req.user.profile;
     // const response = {};
